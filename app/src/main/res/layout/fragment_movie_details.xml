@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parent"
+    android:visibility="visible">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/movie_image_height"
+            android:id="@+id/movie_image_detail"
+            android:scaleType="centerCrop"
+            android:elevation="20dp"
+            />
+
+        <TextView
+            android:id="@+id/movie_title_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/movie_title_text_size"
+            android:textColor="#000"
+            android:padding="7dp"
+            android:layout_below="@+id/movie_image_detail"
+            android:text="Some Movie title"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:layout_below="@+id/movie_title_detail"
+            android:id="@+id/container"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/overview_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="90"
+                android:textSize="@dimen/movie_popularity_size"
+                android:textStyle="bold"
+                android:layout_below="@+id/movie_title_detail"
+                android:text="overview"/>
+
+            <TextView
+                android:id="@+id/movie_vote"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:textSize="@dimen/movie_popularity_size"
+                android:textColor="@color/red"
+                android:gravity="center"
+                android:text=""/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:layout_below="@+id/container"
+            android:id="@+id/company"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/genres"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="90"
+                android:textSize="@dimen/movie_popularity_size"
+                android:textStyle="bold"
+                android:layout_below="@+id/overview_title"
+                android:text="genres"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/container"
+            android:id="@+id/ingredients_container">
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>
