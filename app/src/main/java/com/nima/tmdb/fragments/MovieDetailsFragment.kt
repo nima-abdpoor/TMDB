@@ -1,7 +1,6 @@
 package com.nima.tmdb.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.chinachino.mvvm.viewModels.MovieDetailsViewModel
 import com.nima.tmdb.R
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.uiHelpers.DrawGlide
 import com.nima.tmdb.utils.Constants
+import com.nima.tmdb.viewModels.MovieDetailsViewModel
 
 
+@Suppress("NAME_SHADOWING")
 class MovieDetailsFragment : Fragment() {
     //UI
     var imageView: AppCompatImageView? = null
@@ -25,57 +25,44 @@ class MovieDetailsFragment : Fragment() {
     var rank: TextView? = null
     var genres: TextView? = null
     var scrollView: ScrollView? = null
-    var viewModel: MovieDetailsViewModel? = null
+    private lateinit var viewModel: MovieDetailsViewModel
 
     //image
     private var drawGlide: DrawGlide? = null
     private val TAG = "MovieDetailsActivity"
-    var movieID = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        init()
         viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
-        movieID = requireArguments().getInt("movieID")
-        instance()
-        searchMovieDetails()
+        val movieID = requireArguments().getInt("movieID")
+        setMovieID(movieID)
         subscribeOnObservers()
     }
 
-    private fun instance() {
+    private fun subscribeOnObservers() {
+        viewModel.searchMovieAPI.observe(this, { details ->
+            details?.let { details ->
+                initViewItems(details)
+            }
+        })
+    }
+
+    private fun setMovieID(movieID: Int) {
+        viewModel.setMovieID(movieID)
+    }
+
+
+    private fun init() {
         drawGlide = DrawGlide()
     }
 
-    private fun searchMovieDetails() {
-        viewModel!!.searchMovieDetails(movieID)
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_movie_details, container, false)
-    }
-
-    private fun subscribeOnObservers() {
-        Log.d(TAG, "SubscribeOnObservers: ")
-        viewModel!!.movieDetails.observe(this, { details: Details? ->
-            if (details != null) {
-                details.error?.let {error ->
-                    //error happened
-                    Log.d(TAG, "subscribeOnObservers: $error")
-
-                } ?: let {
-                    initViewItems(details)
-                    viewModel!!.isMovieRetrieved = true
-                    Log.d(TAG, "subscribeOnObservers: $it")
-                }
-            } else {
-                Log.d(TAG, "onChanged: detail is null")
-            }
-        })
-        viewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
-            if (aBoolean && !viewModel!!.isMovieRetrieved) {
-                Log.d(TAG, "onChanged: Connection Timed Out... ")
-                showErrorMessage("ConnectionTimedOut!")
-            }
-        })
     }
 
     private fun showErrorMessage(error: String) {
@@ -84,7 +71,12 @@ class MovieDetailsFragment : Fragment() {
         overview!!.text = ""
         rank!!.text = ""
         genres!!.text = ""
-        drawGlide!!.draw(context, Constants.DEFAULT_IMAGE_REQUEST, Constants.DEFAULT_IMAGE, imageView)
+        drawGlide!!.draw(
+            context,
+            Constants.DEFAULT_IMAGE_REQUEST,
+            Constants.DEFAULT_IMAGE,
+            imageView
+        )
     }
 
     private fun initViewItems(details: Details) {
@@ -94,13 +86,14 @@ class MovieDetailsFragment : Fragment() {
         overview!!.text = details.overview
         rank!!.text = details.voteAverage.toString()
         for (s in details.genres!!) genre += """
- - ${s.name}"""
+ -          ${s.name}"""
         genres!!.text = genre
         drawGlide!!.draw(
-                context,
-                Constants.DEFAULT_IMAGE_REQUEST,
-                Constants.IMAGE_BASE_URL + details.backdropPath,
-                imageView)
+            context,
+            Constants.DEFAULT_IMAGE_REQUEST,
+            Constants.IMAGE_BASE_URL + details.backdropPath,
+            imageView
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

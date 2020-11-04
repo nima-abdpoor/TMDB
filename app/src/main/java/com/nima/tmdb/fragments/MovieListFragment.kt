@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.MovieRecyclerAdapter
 import com.nima.tmdb.adapters.OnMovieListener
-import com.nima.tmdb.models.Result
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.viewModels.MovieListViewModel
 import java.util.*
@@ -32,6 +32,16 @@ class MovieListFragment : Fragment(), OnMovieListener {
         initSearchView()
     }
 
+    private fun subscribeObservers() {
+        mviewModel.searchMovieAPI.observe(this, Observer { example ->
+            example?.let {
+                mviewModel!!.isMovieRetrieved = true
+                adapter!!.setResults(example.results)
+            }
+
+        })
+    }
+
     private fun initRecyclerView() {
         adapter = MovieRecyclerAdapter(this)
         recyclerView!!.adapter = adapter
@@ -46,35 +56,9 @@ class MovieListFragment : Fragment(), OnMovieListener {
     }
 
     private fun initSearchView() {}
-    private fun subscribeObservers() {
-        Log.d(TAG, "subscribeObservers: salam")
-        mviewModel!!.movies.observe(this, { results: List<Result> ->
-            Log.d(TAG, "subscribeObservers: $results")
-            results?.let {results ->
-                Log.d(TAG, "subscribeObservers: salam2")
-                results[0].error?.let {error ->
-                    Log.d(TAG, "subscribeObservers: $error")
-                    adapter!!.ShowErrorResult(context,error)
-                } ?: let {
-                    Log.d(TAG, "subscribeObservers: salam3")
-                    //Testing.Test(results, TAG)
-                    mviewModel!!.isMovieRetrieved = true
-                    adapter!!.setResults(results)
-                }
-            }?:let {
-                mviewModel!!.isMovieRetrieved = false
-            }
-        })
-        mviewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
-            if (aBoolean && !mviewModel!!.isMovieRetrieved) {
-                Log.d(TAG, "onChanged: Connection Timed Out!")
-                adapter!!.ShowErrorResult(context,"Connection Timed Out!")
-            }
-        })
-    }
 
     private fun searchMovieAPI(query: String, page: Int, onResume: Boolean) {
-        if (onResume) loadFirstPage() else mviewModel!!.searchMovieAPI(query, page)
+        if (onResume) loadFirstPage() else mviewModel.setMovie(query,page)
     }
 
     private fun loadFirstPage() {
@@ -82,7 +66,7 @@ class MovieListFragment : Fragment(), OnMovieListener {
         val number = random.nextInt(9)
         Log.d(TAG, "RandomNumber: $number")
         try {
-            mviewModel!!.searchMovieAPI(Constants.DEFAULT_MOVIE_LIST_NAME[number], Constants.DEFAULT_PAGE)
+            mviewModel!!.setMovie(Constants.DEFAULT_MOVIE_LIST_NAME[number], Constants.DEFAULT_PAGE)
         } catch (e: ArrayIndexOutOfBoundsException) {
             searchMovieAPI("error", Constants.DEFAULT_PAGE, false)
             Log.e(TAG, "SearchMovieAPI: searchOnResume", e)
@@ -128,5 +112,10 @@ class MovieListFragment : Fragment(), OnMovieListener {
 
     companion object {
         private const val TAG = "MovieListFragment"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mviewModel.cancelJob("context destroyed!")
     }
 }

@@ -1,35 +1,36 @@
 package com.nima.tmdb.repositories
 
 import androidx.lifecycle.LiveData
-import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
+//import com.nima.tmdb.requests.MovieAPIClient
 import com.nima.tmdb.requests.ServiceGenerator
 import com.nima.tmdb.utils.Constants
 import kotlinx.coroutines.*
 
-
-object MovieDetailsRepository  {
-
+object MovieListRepository {
     var job: CompletableJob? = null
 
-    private var movieID : Int = 0
+    private var query = ""
     private var pageNumber = 0
 
-    fun searchMovieAPI(movieID : Int): LiveData<Details> {
+    fun searchMovieAPI(query: String, page: Int): LiveData<Example> {
         job = Job()
-        this.movieID =movieID
-        return object : LiveData<Details>() {
+        this.query = query
+        pageNumber = page
+        return object : LiveData<Example>() {
             override fun onActive() {
                 super.onActive()
                 job?.let { theJob ->
                     CoroutineScope(Dispatchers.IO + theJob).launch {
-                       val details = ServiceGenerator.apiService().getMovieDetails(
-                           movieID,
-                           Constants.API_KEY,
-                           Constants.DEFAULT_LANGUAGE
-                       )
+                        val result = ServiceGenerator.apiService().searchMovieList(
+                            Constants.API_KEY,
+                            Constants.DEFAULT_LANGUAGE,
+                            query,
+                            page,
+                            Constants.DEFAULT_ADULT
+                        )
                         withContext(Dispatchers.Main) {
-                            value = details
+                            value = result
                             theJob.complete()
                         }
                     }
@@ -41,4 +42,9 @@ object MovieDetailsRepository  {
     fun cancelJob(message : String = "job is canceled!!"){
         job?.cancel(message)
     }
+
+    fun searchNextQuery() {
+       // movieAPIClient.searchMovieAPI(query, pageNumber + 1)
+    }
+
 }
