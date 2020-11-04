@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface TheMovieDataBaseAPI {
     @GET("search/movie")
-    suspend fun searchResponse(
+    suspend fun searchMovieList(
             @Query("api_key") key: String?,
             @Query("language") language: String?,
             @Query("query") query: String?,
@@ -24,5 +24,5 @@ interface TheMovieDataBaseAPI {
             @Path("movieID") movieID: Int,
             @Query("api_key") key: String?,
             @Query("language") language: String?
-    ): Call<Details>
+    ): Details
 }

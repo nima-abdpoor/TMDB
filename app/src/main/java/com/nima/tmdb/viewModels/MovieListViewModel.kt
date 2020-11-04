@@ -5,13 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.nima.tmdb.models.Example
-import com.nima.tmdb.models.Result
-import com.nima.tmdb.repositories.MovieRepository
+import com.nima.tmdb.repositories.MovieListRepository
 
 
 
 class MovieListViewModel : ViewModel() {
-    private val movieRepository: MovieRepository = MovieRepository
+    private val movieRepository: MovieListRepository = MovieListRepository
     private val _query :MutableLiveData<String> = MutableLiveData()
     private var _page : Int = 1
 
@@ -35,12 +34,6 @@ class MovieListViewModel : ViewModel() {
         _page = page
 
     }
-//    fun searchMovieAPI() : LiveData<List<Result>> {
-//        return movieRepository.searchMovieAPI(query, page)
-//    }
-
-//    val isRequestTimedOut: LiveData<Boolean>
-//        get() = movieRepository.isRequestTimedOut
 
     fun cancelJob(message : String){
         movieRepository.cancelJob(message)

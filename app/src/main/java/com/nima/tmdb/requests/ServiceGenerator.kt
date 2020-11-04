@@ -17,7 +17,7 @@ object ServiceGenerator {
         .create(TheMovieDataBaseAPI::class.java)
 
 
-    fun getMovies(): TheMovieDataBaseAPI {
+    fun apiService(): TheMovieDataBaseAPI {
         return retrofit
     }
 }
