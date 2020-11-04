@@ -50,18 +50,25 @@ class MovieListFragment : Fragment(), OnMovieListener {
         Log.d(TAG, "subscribeObservers: salam")
         mviewModel!!.movies.observe(this, { results: List<Result> ->
             Log.d(TAG, "subscribeObservers: $results")
-            if (results != null) {
-                //Testing.Test(results, TAG)
+            results?.let {results ->
+                Log.d(TAG, "subscribeObservers: salam2")
+                results[0].error?.let {error ->
+                    Log.d(TAG, "subscribeObservers: $error")
+                    adapter!!.ShowErrorResult(context,error)
+                } ?: let {
+                    Log.d(TAG, "subscribeObservers: salam3")
+                    //Testing.Test(results, TAG)
                     mviewModel!!.isMovieRetrieved = true
                     adapter!!.setResults(results)
-            } else {
+                }
+            }?:let {
                 mviewModel!!.isMovieRetrieved = false
             }
         })
         mviewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
             if (aBoolean && !mviewModel!!.isMovieRetrieved) {
                 Log.d(TAG, "onChanged: Connection Timed Out!")
-                adapter!!.ShowErrorResult(context)
+                adapter!!.ShowErrorResult(context,"Connection Timed Out!")
             }
         })
     }

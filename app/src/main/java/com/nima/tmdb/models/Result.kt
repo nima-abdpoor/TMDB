@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class Result {
     var error : String? = null
-    get() = error
+
     @SerializedName("popularity")
     @Expose
     var popularity: Double? = null

@@ -71,16 +71,20 @@ class MovieAPIClient {
                     listMutableLiveData.postValue(results)
                 } else {
                     val error = response.errorBody().toString()
-                    Log.d(TAG, "run: $error")
+                    Log.d(TAG, "run:error $error")
                     val result = Result()
                     result.setErrorMessage(error)
                     results = listOf(result)
                     listMutableLiveData.postValue(results)
                 }
             } catch (e: IOException) {
-                Log.d(TAG, "run: " + e.message)
+                val error = e.message.toString()
+                val result = Result()
+                Log.d(TAG, "run:error " + e.message)
                 e.printStackTrace()
-                listMutableLiveData.postValue(null)
+                result.setErrorMessage(error)
+                results = listOf(result)
+                listMutableLiveData.postValue(results)
             }
         }
 

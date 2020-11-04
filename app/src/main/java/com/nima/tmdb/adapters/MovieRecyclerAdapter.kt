@@ -45,8 +45,8 @@ class MovieRecyclerAdapter(private val onMovieListener: OnMovieListener) : Recyc
         }
     }
 
-    fun ShowErrorResult(context: Context?) {
-        Toast.makeText(context, "check Internet Connection", Toast.LENGTH_SHORT).show()
+    fun ShowErrorResult(context: Context? , message : String ) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         error = true
         notifyDataSetChanged()
         Log.d(TAG, "ShowErrorResult: err")
@@ -132,7 +132,7 @@ class MovieRecyclerAdapter(private val onMovieListener: OnMovieListener) : Recyc
     private val isLoading: Boolean
         private get() {
             if (results != null) {
-                if (results!!.size > 0) {
+                if (results!!.isNotEmpty()) {
                     if (results!![results!!.size - 1].title == "LOADING ...") {
                         return true
                     }
