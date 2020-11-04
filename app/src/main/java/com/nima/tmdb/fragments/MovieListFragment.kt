@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -15,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.MovieRecyclerAdapter
 import com.nima.tmdb.adapters.OnMovieListener
-import com.nima.tmdb.models.Result
 import com.nima.tmdb.utils.Constants
-import androidx.lifecycle.Observer
-import com.nima.tmdb.models.Example
 import com.nima.tmdb.viewModels.MovieListViewModel
 import java.util.*
 
@@ -58,32 +56,6 @@ class MovieListFragment : Fragment(), OnMovieListener {
     }
 
     private fun initSearchView() {}
-//    private fun subscribeObservers() {
-//        Log.d(TAG, "subscribeObservers: salam")
-//        mviewModel!!.movies.observe(this, { results: List<Result> ->
-//            Log.d(TAG, "subscribeObservers: $results")
-//            results?.let {results ->
-//                Log.d(TAG, "subscribeObservers: salam2")
-//                results[0].error?.let {error ->
-//                    Log.d(TAG, "subscribeObservers: $error")
-//                    adapter!!.ShowErrorResult(context,error)
-//                } ?: let {
-//                    Log.d(TAG, "subscribeObservers: salam3")
-//                    //Testing.Test(results, TAG)
-//                    mviewModel!!.isMovieRetrieved = true
-//                    adapter!!.setResults(results)
-//                }
-//            }?:let {
-//                mviewModel!!.isMovieRetrieved = false
-//            }
-//        })
-//        mviewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
-//            if (aBoolean && !mviewModel!!.isMovieRetrieved) {
-//                Log.d(TAG, "onChanged: Connection Timed Out!")
-//                adapter!!.ShowErrorResult(context,"Connection Timed Out!")
-//            }
-//        })
-//    }
 
     private fun searchMovieAPI(query: String, page: Int, onResume: Boolean) {
         if (onResume) loadFirstPage() else mviewModel.setMovie(query,page)

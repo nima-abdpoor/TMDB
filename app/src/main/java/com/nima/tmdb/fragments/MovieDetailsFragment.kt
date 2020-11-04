@@ -8,7 +8,6 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.nima.tmdb.R
 import com.nima.tmdb.models.Details
@@ -66,31 +65,6 @@ class MovieDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_movie_details, container, false)
     }
 
-//    private fun subscribeOnObservers() {
-//        Log.d(TAG, "SubscribeOnObservers: ")
-//        viewModel!!.movieDetails.observe(this, { details: Details? ->
-//            if (details != null) {
-//                details.error?.let {error ->
-//                    //error happened
-//                    Log.d(TAG, "subscribeOnObservers: $error")
-//
-//                } ?: let {
-//                    initViewItems(details)
-//                    viewModel!!.isMovieRetrieved = true
-//                    Log.d(TAG, "subscribeOnObservers: $it")
-//                }
-//            } else {
-//                Log.d(TAG, "onChanged: detail is null")
-//            }
-//        })
-//        viewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
-//            if (aBoolean && !viewModel!!.isMovieRetrieved) {
-//                Log.d(TAG, "onChanged: Connection Timed Out... ")
-//                showErrorMessage("ConnectionTimedOut!")
-//            }
-//        })
-//    }
-
     private fun showErrorMessage(error: String) {
         title!!.text = error
         title!!.textSize = 20f
@@ -112,7 +86,7 @@ class MovieDetailsFragment : Fragment() {
         overview!!.text = details.overview
         rank!!.text = details.voteAverage.toString()
         for (s in details.genres!!) genre += """
- - ${s.name}"""
+ -          ${s.name}"""
         genres!!.text = genre
         drawGlide!!.draw(
             context,
