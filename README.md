@@ -1,7 +1,7 @@
 # THE MOVIE DATABASE API
 
-  ![first page](https://github.com/nima-abdpoor/TMBD/blob/master/app/src/kotlin/res/raw/one.jpg)![first page](https://github.com/nima-abdpoor/TMBD/blob/kotlin/app/src/main/res/raw/two.jpg)
-  ![first page](https://github.com/nima-abdpoor/TMBD/blob/kotlin/app/src/main/res/raw/three.jpg)
+  ![first page](https://github.com/nima-abdpoor/TMDB/blob/kotlin/app/src/main/res/raw/one.jpg)![second page](https://github.com/nima-abdpoor/TMDB/blob/kotlin/app/src/main/res/raw/two.jpg)
+  ![third page](https://github.com/nima-abdpoor/TMDB/blob/kotlin/app/src/main/res/raw/three.jpg)
 
 # Features
  - Search Movie name 
