@@ -45,5 +45,4 @@ class MovieListViewModel : ViewModel() {
     fun cancelJob(message : String){
         movieRepository.cancelJob(message)
     }
-
 }

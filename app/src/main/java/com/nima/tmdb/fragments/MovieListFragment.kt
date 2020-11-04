@@ -37,9 +37,8 @@ class MovieListFragment : Fragment(), OnMovieListener {
     private fun subscribeObservers() {
         mviewModel.searchMovieAPI.observe(this, Observer { example ->
             example?.let {
-                for (x in example.results!!){
-                    Log.d(TAG, "subscribeObservers: ${x.title}")
-                }
+                mviewModel!!.isMovieRetrieved = true
+                adapter!!.setResults(example.results)
             }
 
         })
@@ -141,5 +140,10 @@ class MovieListFragment : Fragment(), OnMovieListener {
 
     companion object {
         private const val TAG = "MovieListFragment"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mviewModel.cancelJob("context destroyed!")
     }
 }
