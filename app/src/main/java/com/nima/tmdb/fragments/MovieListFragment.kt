@@ -17,6 +17,8 @@ import com.nima.tmdb.adapters.MovieRecyclerAdapter
 import com.nima.tmdb.adapters.OnMovieListener
 import com.nima.tmdb.models.Result
 import com.nima.tmdb.utils.Constants
+import androidx.lifecycle.Observer
+import com.nima.tmdb.models.Example
 import com.nima.tmdb.viewModels.MovieListViewModel
 import java.util.*
 
@@ -30,6 +32,17 @@ class MovieListFragment : Fragment(), OnMovieListener {
         mviewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
         subscribeObservers()
         initSearchView()
+    }
+
+    private fun subscribeObservers() {
+        mviewModel.searchMovieAPI.observe(this, Observer { example ->
+            example?.let {
+                for (x in example.results!!){
+                    Log.d(TAG, "subscribeObservers: ${x.title}")
+                }
+            }
+
+        })
     }
 
     private fun initRecyclerView() {
@@ -46,35 +59,35 @@ class MovieListFragment : Fragment(), OnMovieListener {
     }
 
     private fun initSearchView() {}
-    private fun subscribeObservers() {
-        Log.d(TAG, "subscribeObservers: salam")
-        mviewModel!!.movies.observe(this, { results: List<Result> ->
-            Log.d(TAG, "subscribeObservers: $results")
-            results?.let {results ->
-                Log.d(TAG, "subscribeObservers: salam2")
-                results[0].error?.let {error ->
-                    Log.d(TAG, "subscribeObservers: $error")
-                    adapter!!.ShowErrorResult(context,error)
-                } ?: let {
-                    Log.d(TAG, "subscribeObservers: salam3")
-                    //Testing.Test(results, TAG)
-                    mviewModel!!.isMovieRetrieved = true
-                    adapter!!.setResults(results)
-                }
-            }?:let {
-                mviewModel!!.isMovieRetrieved = false
-            }
-        })
-        mviewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
-            if (aBoolean && !mviewModel!!.isMovieRetrieved) {
-                Log.d(TAG, "onChanged: Connection Timed Out!")
-                adapter!!.ShowErrorResult(context,"Connection Timed Out!")
-            }
-        })
-    }
+//    private fun subscribeObservers() {
+//        Log.d(TAG, "subscribeObservers: salam")
+//        mviewModel!!.movies.observe(this, { results: List<Result> ->
+//            Log.d(TAG, "subscribeObservers: $results")
+//            results?.let {results ->
+//                Log.d(TAG, "subscribeObservers: salam2")
+//                results[0].error?.let {error ->
+//                    Log.d(TAG, "subscribeObservers: $error")
+//                    adapter!!.ShowErrorResult(context,error)
+//                } ?: let {
+//                    Log.d(TAG, "subscribeObservers: salam3")
+//                    //Testing.Test(results, TAG)
+//                    mviewModel!!.isMovieRetrieved = true
+//                    adapter!!.setResults(results)
+//                }
+//            }?:let {
+//                mviewModel!!.isMovieRetrieved = false
+//            }
+//        })
+//        mviewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
+//            if (aBoolean && !mviewModel!!.isMovieRetrieved) {
+//                Log.d(TAG, "onChanged: Connection Timed Out!")
+//                adapter!!.ShowErrorResult(context,"Connection Timed Out!")
+//            }
+//        })
+//    }
 
     private fun searchMovieAPI(query: String, page: Int, onResume: Boolean) {
-        if (onResume) loadFirstPage() else mviewModel!!.searchMovieAPI(query, page)
+        if (onResume) loadFirstPage() else mviewModel.setMovie(query,page)
     }
 
     private fun loadFirstPage() {
@@ -82,7 +95,7 @@ class MovieListFragment : Fragment(), OnMovieListener {
         val number = random.nextInt(9)
         Log.d(TAG, "RandomNumber: $number")
         try {
-            mviewModel!!.searchMovieAPI(Constants.DEFAULT_MOVIE_LIST_NAME[number], Constants.DEFAULT_PAGE)
+            mviewModel!!.setMovie(Constants.DEFAULT_MOVIE_LIST_NAME[number], Constants.DEFAULT_PAGE)
         } catch (e: ArrayIndexOutOfBoundsException) {
             searchMovieAPI("error", Constants.DEFAULT_PAGE, false)
             Log.e(TAG, "SearchMovieAPI: searchOnResume", e)

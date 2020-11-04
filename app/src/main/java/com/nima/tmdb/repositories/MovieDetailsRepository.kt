@@ -2,19 +2,19 @@ package com.nima.tmdb.repositories
 
 import androidx.lifecycle.LiveData
 import com.nima.tmdb.models.Details
-import com.nima.tmdb.requests.MovieAPIClient
+//import com.nima.tmdb.requests.MovieAPIClient
 
 
 //
 class MovieDetailsRepository private constructor() {
-    private val movieAPIClient: MovieAPIClient = MovieAPIClient()
-    val isRequestTimeOut: LiveData<Boolean>
-        get() = movieAPIClient.isRequestTimeOut()
-    val movieDetails: LiveData<Details?>
-        get() = movieAPIClient.movieDetails
+//    private val movieAPIClient: MovieAPIClient = MovieAPIClient()
+//    val isRequestTimeOut: LiveData<Boolean>
+//        get() = movieAPIClient.isRequestTimeOut()
+//    val movieDetails: LiveData<Details?>
+//        get() = movieAPIClient.movieDetails
 
     fun searchMovieDetails(movieID: Int) {
-        movieAPIClient.searchMovieID(movieID)
+        //movieAPIClient.searchMovieID(movieID)
     }
 
     companion object {

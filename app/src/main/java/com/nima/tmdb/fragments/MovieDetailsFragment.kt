@@ -54,28 +54,28 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun subscribeOnObservers() {
-        Log.d(TAG, "SubscribeOnObservers: ")
-        viewModel!!.movieDetails.observe(this, { details: Details? ->
-            if (details != null) {
-                details.error?.let {error ->
-                    //error happened
-                    Log.d(TAG, "subscribeOnObservers: $error")
-
-                } ?: let {
-                    initViewItems(details)
-                    viewModel!!.isMovieRetrieved = true
-                    Log.d(TAG, "subscribeOnObservers: $it")
-                }
-            } else {
-                Log.d(TAG, "onChanged: detail is null")
-            }
-        })
-        viewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
-            if (aBoolean && !viewModel!!.isMovieRetrieved) {
-                Log.d(TAG, "onChanged: Connection Timed Out... ")
-                showErrorMessage("ConnectionTimedOut!")
-            }
-        })
+//        Log.d(TAG, "SubscribeOnObservers: ")
+//        viewModel!!.movieDetails.observe(this, { details: Details? ->
+//            if (details != null) {
+//                details.error?.let {error ->
+//                    //error happened
+//                    Log.d(TAG, "subscribeOnObservers: $error")
+//
+//                } ?: let {
+//                    initViewItems(details)
+//                    viewModel!!.isMovieRetrieved = true
+//                    Log.d(TAG, "subscribeOnObservers: $it")
+//                }
+//            } else {
+//                Log.d(TAG, "onChanged: detail is null")
+//            }
+//        })
+//        viewModel!!.isRequestTimedOut.observe(this, { aBoolean ->
+//            if (aBoolean && !viewModel!!.isMovieRetrieved) {
+//                Log.d(TAG, "onChanged: Connection Timed Out... ")
+//                showErrorMessage("ConnectionTimedOut!")
+//            }
+//        })
     }
 
     private fun showErrorMessage(error: String) {
