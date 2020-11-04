@@ -1,14 +1,14 @@
 # THE MOVIE DATABASE API
 
-  ![first page](https://github.com/nima-abdpoor/TMBD/blob/master/app/src/main/res/raw/one.jpg)![first page](https://github.com/nima-abdpoor/TMBD/blob/master/app/src/main/res/raw/two.jpg)
-  ![first page](https://github.com/nima-abdpoor/TMBD/blob/master/app/src/main/res/raw/three.jpg)
+  ![first page](https://github.com/nima-abdpoor/TMBD/blob/master/app/src/kotlin/res/raw/one.jpg)![first page](https://github.com/nima-abdpoor/TMBD/blob/kotlin/app/src/main/res/raw/two.jpg)
+  ![first page](https://github.com/nima-abdpoor/TMBD/blob/kotlin/app/src/main/res/raw/three.jpg)
 
 # Features
  - Search Movie name 
  - Show Details Of Selected Movie
  
 # Technologies
- - kotlin & java
+ - kotlin
  - MVVM architecture
  - Navigaion Components with animation
  - ~~DiffUtils~~
