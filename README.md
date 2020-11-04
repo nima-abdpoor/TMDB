@@ -14,7 +14,7 @@
  - ~~DiffUtils~~
  - Retrofit2
  - RecyclerView
- - Executors
+ - Coroutines
  
 # Refrence
  - [coding with mitch course](https://codingwithmitch.com/courses/rest-api-mvvm-retrofit2/)
