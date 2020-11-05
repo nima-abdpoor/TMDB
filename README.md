@@ -11,9 +11,8 @@
  - kotlin
  - MVVM architecture
  - Navigaion Components with animation
- - ~~DiffUtils~~
+ - DiffUtils-RecyclerView
  - Retrofit2
- - RecyclerView
  - Coroutines
  
 # Refrence
