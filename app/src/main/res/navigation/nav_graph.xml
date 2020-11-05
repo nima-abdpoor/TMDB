@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/movieListFragment"
-        android:name="com.nima.tmdb.fragments.MovieListFragment"
+        android:name="com.nima.tmdb.ui.fragments.MovieListFragment"
         android:label="MovieListFragment" >
         <action
             android:id="@+id/action_movieListFragment_to_movieDetailsFragment"
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.nima.tmdb.fragments.MovieDetailsFragment"
+        android:name="com.nima.tmdb.ui.fragments.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
         >
         <argument

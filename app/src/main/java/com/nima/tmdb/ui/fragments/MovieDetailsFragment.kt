@@ -1,4 +1,4 @@
-package com.nima.tmdb.fragments
+package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,20 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.nima.tmdb.R
 import com.nima.tmdb.models.Details
-import com.nima.tmdb.uiHelpers.DrawGlide
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.viewModels.MovieDetailsViewModel
+import kotlinx.android.synthetic.main.fragment_movie_details.*
 
 
 @Suppress("NAME_SHADOWING")
 class MovieDetailsFragment : Fragment() {
     //UI
-    var imageView: AppCompatImageView? = null
     var title: TextView? = null
     var overview: TextView? = null
     var rank: TextView? = null
@@ -27,13 +26,11 @@ class MovieDetailsFragment : Fragment() {
     var scrollView: ScrollView? = null
     private lateinit var viewModel: MovieDetailsViewModel
 
-    //image
-    private var drawGlide: DrawGlide? = null
+
     private val TAG = "MovieDetailsActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init()
         viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
         val movieID = requireArguments().getInt("movieID")
         setMovieID(movieID)
@@ -52,12 +49,6 @@ class MovieDetailsFragment : Fragment() {
         viewModel.setMovieID(movieID)
     }
 
-
-    private fun init() {
-        drawGlide = DrawGlide()
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,19 +56,6 @@ class MovieDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_movie_details, container, false)
     }
 
-    private fun showErrorMessage(error: String) {
-        title!!.text = error
-        title!!.textSize = 20f
-        overview!!.text = ""
-        rank!!.text = ""
-        genres!!.text = ""
-        drawGlide!!.draw(
-            context,
-            Constants.DEFAULT_IMAGE_REQUEST,
-            Constants.DEFAULT_IMAGE,
-            imageView
-        )
-    }
 
     private fun initViewItems(details: Details) {
         var genre = "genres : "
@@ -88,17 +66,15 @@ class MovieDetailsFragment : Fragment() {
         for (s in details.genres!!) genre += """
  -          ${s.name}"""
         genres!!.text = genre
-        drawGlide!!.draw(
-            context,
-            Constants.DEFAULT_IMAGE_REQUEST,
-            Constants.IMAGE_BASE_URL + details.backdropPath,
-            imageView
-        )
+        context?.let {
+            Glide.with(it)
+                .load(Constants.IMAGE_BASE_URL + details.backdropPath)
+                .into(movie_image_detail)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imageView = view.findViewById(R.id.movie_image_detail)
         title = view.findViewById(R.id.movie_title_detail)
         overview = view.findViewById(R.id.overview_title)
         rank = view.findViewById(R.id.movie_vote)
