@@ -21,6 +21,7 @@ import com.nima.tmdb.viewModels.MovieListViewModel
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 import java.util.*
 
+@Suppress("NAME_SHADOWING")
 class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
     private lateinit var movieListAdapter: MovieListAdapter
     private var recyclerView: RecyclerView? = null
@@ -52,7 +53,7 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
         }
     }
 
-    private fun searchMovieAPI(query: String, page: Int, onResume: Boolean) {
+    private fun searchMovieAPI(query: String ="" , page: Int = 1, onResume: Boolean) {
         if (onResume) loadFirstPage() else mviewModel.setMovie(query, page)
     }
 
@@ -96,7 +97,7 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
 
     override fun onResume() {
         super.onResume()
-        searchMovieAPI("life", Constants.DEFAULT_PAGE, true)
+        searchMovieAPI(onResume =  true)
     }
 
     companion object {
@@ -109,6 +110,11 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
     }
 
     override fun onItemSelected(position: Int, item: Result) {
-
+        item.id?.let {id ->
+            val bundle = Bundle()
+            bundle.putInt("movieID", id)
+            navController!!.navigate(R.id.action_movieListFragment_to_movieDetailsFragment, bundle)
+            Log.d(TAG, "onItemSelected: $position")
+        }
     }
 }
