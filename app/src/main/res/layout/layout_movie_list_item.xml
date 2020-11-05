@@ -24,7 +24,8 @@
                 android:layout_height="@dimen/movie_image_height"
                 android:scaleType="centerCrop"
                 android:id="@+id/movie_image"
-                android:src="@drawable/ic_launcher_background"/>
+                android:src="@drawable/ic_launcher_background"
+                />
 
 
             <LinearLayout
