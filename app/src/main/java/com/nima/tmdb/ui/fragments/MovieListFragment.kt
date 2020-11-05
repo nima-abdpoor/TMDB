@@ -13,9 +13,10 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
-import com.nima.tmdb.models.Result
 import com.nima.tmdb.adapters.MovieListAdapter
+import com.nima.tmdb.models.Result
 import com.nima.tmdb.utils.Constants
+import com.nima.tmdb.utils.TopSpacingItemDecoration
 import com.nima.tmdb.viewModels.MovieListViewModel
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 import java.util.*
@@ -45,8 +46,10 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
     }
 
     private fun initRecyclerView() {
+        val topSpacingItemDecoration =  TopSpacingItemDecoration(padding = Constants.PADDING)
         recycler_view.apply {
             layoutManager = LinearLayoutManager(activity)
+            addItemDecoration(topSpacingItemDecoration)
             movieListAdapter = MovieListAdapter(this@MovieListFragment)
             adapter = movieListAdapter
         }

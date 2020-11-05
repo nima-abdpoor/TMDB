@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.nima.tmdb.R
 import com.nima.tmdb.models.Details
-import com.nima.tmdb.ui.uiHelpers.DrawGlide
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.viewModels.MovieDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_movie_details.*
