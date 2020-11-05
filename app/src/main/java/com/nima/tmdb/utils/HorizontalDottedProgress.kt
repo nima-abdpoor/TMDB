@@ -1,4 +1,4 @@
-package com.chinachino.mvvm.utils
+package com.nima.tmdb.utils
 
 import android.content.Context
 import android.graphics.Canvas

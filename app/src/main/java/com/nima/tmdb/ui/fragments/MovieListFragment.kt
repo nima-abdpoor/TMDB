@@ -1,4 +1,4 @@
-package com.nima.tmdb.fragments
+package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
 import com.nima.tmdb.models.Result
-import com.nima.tmdb.ui.MovieListAdapter
+import com.nima.tmdb.adapters.MovieListAdapter
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.viewModels.MovieListViewModel
 import kotlinx.android.synthetic.main.fragment_movie_list.*

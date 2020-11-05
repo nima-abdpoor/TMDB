@@ -1,4 +1,4 @@
-package com.nima.tmdb.activity
+package com.nima.tmdb.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

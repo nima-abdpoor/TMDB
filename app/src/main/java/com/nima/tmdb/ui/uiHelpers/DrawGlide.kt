@@ -1,4 +1,4 @@
-package com.nima.tmdb.uiHelpers
+package com.nima.tmdb.ui.uiHelpers
 
 import android.content.Context
 import android.widget.ImageView

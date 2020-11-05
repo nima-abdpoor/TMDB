@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui
+package com.nima.tmdb.adapters
 
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
