@@ -36,15 +36,10 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
     private fun subscribeObservers() {
         mviewModel.searchMovieAPI.observe(this, { example ->
             example?.let { example ->
-                example.error?.let {
-                    Log.d(TAG, "subscribeObservers: $it")
-                } ?: let {
-                    mviewModel.isMovieRetrieved = true
-                    example.results?.let { results ->
-                        movieListAdapter.submitList(results)
-                    }
+                mviewModel.isMovieRetrieved = true
+                example.results?.let { results ->
+                    movieListAdapter.submitList(results)
                 }
-
             }
 
         })

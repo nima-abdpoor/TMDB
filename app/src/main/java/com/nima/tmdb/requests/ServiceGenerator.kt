@@ -9,7 +9,6 @@ object ServiceGenerator {
     private val retrofitBuilder: Retrofit.Builder = Retrofit
         .Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        //.addCallAdapterFactory(LiveDataCallAdapterFactory())
         .baseUrl(BASE_URL)
 
 
