@@ -16,6 +16,7 @@ import com.nima.tmdb.R
 import com.nima.tmdb.adapters.MovieListAdapter
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.Result
+import com.nima.tmdb.ui.uiHelpers.ErrorAdapter
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.utils.Status
 import com.nima.tmdb.utils.TopSpacingItemDecoration
@@ -24,8 +25,10 @@ import kotlinx.android.synthetic.main.fragment_movie_list.*
 import java.util.*
 
 @Suppress("NAME_SHADOWING")
-class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
+class MovieListFragment : Fragment(), MovieListAdapter.Interaction,ErrorAdapter.TryAgain {
+    private var _query : String? =null
     private lateinit var movieListAdapter: MovieListAdapter
+    private lateinit var errorAdapter: ErrorAdapter
     private var recyclerView: RecyclerView? = null
     lateinit var mviewModel: MovieListViewModel
     var navController: NavController? = null
@@ -51,7 +54,13 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
     }
 
     private fun handleErrorData(message: String?) {
+
         message?.let {error->
+            recycler_view.apply {
+                errorAdapter = ErrorAdapter(this@MovieListFragment)
+                layoutManager = LinearLayoutManager(activity)
+                adapter = errorAdapter
+            }
             Log.d(TAG, "handleErrorData: $error")
         }
     }
@@ -103,6 +112,7 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
         val searchView: SearchView = view.findViewById(R.id.search_view)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                _query = query
                 searchMovieAPI(query, 1, false)
                 return false
             }
@@ -135,5 +145,12 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
             navController!!.navigate(R.id.action_movieListFragment_to_movieDetailsFragment, bundle)
             Log.d(TAG, "onItemSelected: $position")
         }
+    }
+
+    override fun onClick() {
+        _query?.let {
+            searchMovieAPI(it, 1, false)
+        }?: loadFirstPage()
+
     }
 }

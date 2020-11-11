@@ -32,7 +32,7 @@ object ServiceGenerator {
         val client: OkHttpClient = okHttpClient.newBuilder()
             .connectTimeout(4, TimeUnit.SECONDS)
             .writeTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .dispatcher(dispatcher)
             .build()
