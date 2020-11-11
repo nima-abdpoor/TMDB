@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.MovieListAdapter
+import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.Result
 import com.nima.tmdb.utils.Constants
+import com.nima.tmdb.utils.Status
 import com.nima.tmdb.utils.TopSpacingItemDecoration
 import com.nima.tmdb.viewModels.MovieListViewModel
 import kotlinx.android.synthetic.main.fragment_movie_list.*
@@ -34,15 +36,30 @@ class MovieListFragment : Fragment(), MovieListAdapter.Interaction {
     }
 
     private fun subscribeObservers() {
-        mviewModel.searchMovieAPI.observe(this, { example ->
-            example?.let { example ->
-                mviewModel.isMovieRetrieved = true
-                example.results?.let { results ->
-                    movieListAdapter.submitList(results)
-                }
+        mviewModel.searchMovieAPI.observe(this, { networkResource->
+            when(networkResource.status){
+                Status.SUCCESS -> handleSuccessData(networkResource.data)
+                Status.ERROR -> handleErrorData(networkResource.msg)
+                Status.LOADING -> handleLoadingData()
             }
 
         })
+    }
+
+    private fun handleLoadingData() {
+        Log.d(TAG, "handleLoadingData: isLoading...")
+    }
+
+    private fun handleErrorData(message: String?) {
+        message?.let {error->
+            Log.d(TAG, "handleErrorData: $error")
+        }
+    }
+
+    private fun handleSuccessData(data: Example?) {
+        data?.let {example->
+            example.results?.let { movieListAdapter.submitList(it) }
+        }
     }
 
     private fun initRecyclerView() {
