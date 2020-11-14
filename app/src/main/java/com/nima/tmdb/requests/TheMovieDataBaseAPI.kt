@@ -3,6 +3,7 @@ package com.nima.tmdb.requests
 
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
+import com.nima.tmdb.models.Token
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -24,4 +25,9 @@ interface TheMovieDataBaseAPI {
             @Query("api_key") key: String?,
             @Query("language") language: String?
     ): Details
+
+    @GET("authentication/token/new")
+    suspend fun getNewToken(
+        @Query("api_key") key: String?,
+    ): Token
 }
