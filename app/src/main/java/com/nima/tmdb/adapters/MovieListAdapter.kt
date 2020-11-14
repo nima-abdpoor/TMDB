@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_movie_list_item.view.*
 class MovieListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Result>() {
+    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Result>() {
 
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem.id == newItem.id
@@ -72,6 +73,8 @@ class MovieListAdapter(private val interaction: Interaction? = null) :
         }
 
         private fun setupView(itemView: View, item: Result) {
+            itemView.card_view.animation =
+                AnimationUtils.loadAnimation(itemView.context,R.anim.card_view_anim)
             itemView.movie_title.text = item.title
             itemView.movie_description.text = getOverview(item)
             itemView.release_date.text = item.release_date.toString()
