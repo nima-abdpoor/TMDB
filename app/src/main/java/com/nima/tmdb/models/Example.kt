@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class Example {
+
     @SerializedName("page")
     @Expose
     var page: Int? = null

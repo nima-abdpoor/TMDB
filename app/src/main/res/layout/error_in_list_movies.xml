@@ -7,16 +7,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="check your connection!"
+        android:text="@string/check_your_connection"
         android:layout_marginTop="20dp"
         android:textSize="20sp"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="try again"
+        android:text="@string/try_again"
         android:id="@+id/error_button"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/error_text"
+        android:layout_marginTop="20dp"/>
+
+    <ProgressBar
+        android:id="@+id/error_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/error_button"
+        android:visibility="invisible"
         android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

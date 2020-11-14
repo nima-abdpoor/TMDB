@@ -6,7 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.repositories.MovieListRepository
-
+import com.nima.tmdb.utils.Resource
 
 
 class MovieListViewModel : ViewModel() {
@@ -21,7 +21,7 @@ class MovieListViewModel : ViewModel() {
     }
 
 
-    val searchMovieAPI: LiveData<Example> = Transformations
+    val searchMovieAPI: LiveData<Resource<Example>> = Transformations
         .switchMap(_query){query ->
             movieRepository.searchMovieAPI(query,_page)
         }
