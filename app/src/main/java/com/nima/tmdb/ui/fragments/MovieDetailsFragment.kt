@@ -66,8 +66,7 @@ class MovieDetailsFragment : Fragment() {
         title!!.text = details.title
         overview!!.text = details.overview
         rank!!.text = details.voteAverage.toString()
-        for (s in details.genres!!) genre += """
- -          ${s.name}"""
+        for (s in details.genres!!) genre += """-${s.name}"""
         genres!!.text = genre
         context?.let {
             Glide.with(it)
