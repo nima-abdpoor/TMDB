@@ -74,7 +74,7 @@ class MovieListAdapter(private val interaction: Interaction? = null) :
 
         private fun setupView(itemView: View, item: Result) {
             itemView.card_view.animation =
-                AnimationUtils.loadAnimation(itemView.context,R.anim.card_view_anim)
+                AnimationUtils.loadAnimation(itemView.context,R.anim.card_view_anim_one)
             itemView.movie_title.text = item.title
             itemView.movie_description.text = getOverview(item)
             itemView.release_date.text = item.release_date.toString()

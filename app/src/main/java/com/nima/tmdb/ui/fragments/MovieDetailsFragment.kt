@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -58,6 +59,8 @@ class MovieDetailsFragment : Fragment() {
 
 
     private fun initViewItems(details: Details) {
+        card_view.animation =
+            AnimationUtils.loadAnimation(context,R.anim.card_view_anim_one)
         var genre = "genres : "
         scrollView!!.visibility = View.VISIBLE
         title!!.text = details.title
