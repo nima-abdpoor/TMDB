@@ -1,11 +1,30 @@
 package com.nima.tmdb.models.login.account
 
+import android.util.Log
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
-
+const val TAG = "Account"
 
 class Account {
+
+    fun log(tag : String? = TAG) {
+        Log.d(tag, "log: ${toString()}")
+    }
+
+    override fun toString(): String {
+        return "Account(" +
+                "avatar=$avatar," +
+                " id=$id, iso6391=$iso6391," +
+                " iso31661=$iso31661, " +
+                "name=$name, " +
+                "includeAdult=$includeAdult," +
+                " username=$username," +
+                " statusMessage=$statusMessage," +
+                " statusCode=$statusCode" +
+                ")"
+    }
+
     @SerializedName("avatar")
     @Expose
     var avatar: Avatar? = null
