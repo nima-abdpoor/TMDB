@@ -1,17 +1,18 @@
-package com.nima.tmdb.models
+package com.nima.tmdb.models.login
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Session {
+class LoginResponse {
     @SerializedName("success")
     @Expose
     var success: Boolean = false
-
-    @SerializedName("session_id")
+    @SerializedName("expires_at")
     @Expose
-    var sessionId: String? = null
-
+    var expiresAt: String? = null
+    @SerializedName("request_token")
+    @Expose
+    var requestToken: String? = null
 
     @SerializedName("status_message")
     @Expose
@@ -20,6 +21,5 @@ class Session {
     @SerializedName("status_code")
     @Expose
     var statusCode: Int? = null
-
 
 }

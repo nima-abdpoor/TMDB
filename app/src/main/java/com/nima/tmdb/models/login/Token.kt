@@ -1,4 +1,4 @@
-package com.nima.tmdb.models
+package com.nima.tmdb.models.login
 
 
 import com.google.gson.annotations.Expose
@@ -15,5 +15,13 @@ class Token {
 
     @SerializedName("request_token")
     @Expose
-    var requestToken : String = ""
+    var requestToken : String? = null
+
+    @SerializedName("status_message")
+    @Expose
+    var statusMessage: String? = null
+
+    @SerializedName("status_code")
+    @Expose
+    var statusCode: Int? = null
 }
