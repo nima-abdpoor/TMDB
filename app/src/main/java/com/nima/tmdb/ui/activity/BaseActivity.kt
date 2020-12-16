@@ -7,6 +7,7 @@ import com.nima.tmdb.login.Authenticate
 import com.nima.tmdb.login.state.LoginStateEvent.*
 import com.nima.tmdb.login.state.log
 import com.nima.tmdb.models.login.account.Account
+import com.nima.tmdb.utils.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,16 +51,21 @@ class BaseActivity : AppCompatActivity() {
 
     private fun handleFailedLogin(code: Int, message: String) {
         log(null, message, "LoginFailed")
+        goToLoginPage()
         if (code == 400) {
-            //login page
+            //null inputs in login variables
         } else {
-            //login page with error
+            message.toast(this)
         }
-        TODO("Not yet implemented")
+    }
+
+    private fun goToLoginPage() {
+        TODO()
     }
 
     private fun timeOut(message: String) {
         log(null, message, "TimeOutError")
+        message.toast(this)
         TODO()
         //show error :not have internet connection
     }
