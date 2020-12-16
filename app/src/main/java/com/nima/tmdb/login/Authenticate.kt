@@ -6,6 +6,7 @@ import com.nima.tmdb.models.login.Login
 import com.nima.tmdb.models.login.RequestToken
 import com.nima.tmdb.requests.ServiceGenerator
 import com.nima.tmdb.utils.Constants
+import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.TIME_OUT_SHORT
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -56,7 +57,15 @@ private suspend fun getSessionId(_requestToken: String): LoginStateEvent {
     } ?: LoginStateEvent.TimeOutError("Time Out!!")
 }
 
-fun getAccountDetails(sessionId: String): LoginStateEvent {
-
-}
+suspend fun getAccountDetails(sessionId: String): LoginStateEvent {
+    return withTimeoutOrNull(TIME_OUT_SHORT) {
+        ServiceGenerator.apiService().getAccountDetails(API_KEY, sessionId)
+    }?.let { account ->
+        account.statusCode?.let {
+            return LoginStateEvent.AccountDetailsFailed(
+                account.statusCode!!,
+                account.statusMessage!!
+            )
+        } ?: return LoginStateEvent.Success(account)
+    } ?: LoginStateEvent.TimeOutError("Time Out!!")
 }

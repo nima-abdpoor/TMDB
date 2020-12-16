@@ -33,4 +33,12 @@ class Account {
     @SerializedName("username")
     @Expose
     var username: String? = null
+
+    @SerializedName("status_message")
+    @Expose
+    var statusMessage: String? = null
+
+    @SerializedName("status_code")
+    @Expose
+    var statusCode: Int? = null
 }
