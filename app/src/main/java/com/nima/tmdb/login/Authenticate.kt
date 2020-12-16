@@ -31,7 +31,7 @@ class Authenticate(_activity: Activity) {
                     token.statusMessage!!
                 )
         } ?: let {
-            return LoginStateEvent.TimeOutError("Time Out!!")
+            return LoginStateEvent.TimeOutError("Check Your Internet Connection!")
         }
     }
 
