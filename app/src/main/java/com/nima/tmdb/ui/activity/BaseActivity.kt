@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 
 class BaseActivity : AppCompatActivity() {
-    private val authenticate = Authenticate()
+    private val authenticate = Authenticate(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
@@ -55,18 +55,18 @@ class BaseActivity : AppCompatActivity() {
         if (code == 400) {
             //null inputs in login variables
         } else {
-            message.toast(this)
+           // message.toast(this)
         }
     }
 
     private fun goToLoginPage() {
-        TODO()
+ //       TODO()
     }
 
     private fun timeOut(message: String) {
         log(null, message, "TimeOutError")
-        message.toast(this)
-        TODO()
+        //message.toast(this)
+//        TODO()
         //show error :not have internet connection
     }
 }
