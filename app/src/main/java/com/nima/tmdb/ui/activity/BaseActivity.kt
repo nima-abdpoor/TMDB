@@ -6,6 +6,7 @@ import com.nima.tmdb.R
 import com.nima.tmdb.login.Authenticate
 import com.nima.tmdb.login.state.LoginStateEvent.*
 import com.nima.tmdb.login.state.log
+import com.nima.tmdb.models.login.account.Account
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,47 +22,45 @@ class BaseActivity : AppCompatActivity() {
 
     private fun authenticate() {
         CoroutineScope(Dispatchers.IO).launch {
-            val loginStateEvent = authenticate.requestToken()
-            when (loginStateEvent) {
-                is RequestTokenFailure -> {
-                    log(
-                        loginStateEvent.statusCode,
-                        loginStateEvent.statusMessage,
-                        "RequestTokenFailure"
-                    )
-                }
-                is AccountDetailsFailed -> {
-                    log(
-                        loginStateEvent.statusCode,
-                        loginStateEvent.statusMessage,
-                        "AccountDetailsFailed"
-                    )
-                }
+            when (val loginStateEvent = authenticate.requestToken()) {
+                is RequestTokenFailure -> handleUnknownFailure(
+                    loginStateEvent.statusCode, loginStateEvent.statusMessage , "requestToken")
+                is AccountDetailsFailed ->handleUnknownFailure(loginStateEvent.statusCode,loginStateEvent.statusMessage,"AccountDetailsFailed")
                 is TimeOutError -> timeOut(loginStateEvent.message)
-                is LoginFailed -> {
-                    handleFailedLogin(loginStateEvent.code,loginStateEvent.message)
-                }
-                is SessionFailed -> {
-                    log(null, loginStateEvent.message, "SessionFailed")
-                }
-                is Success -> {
-                    loginStateEvent.account.log(com.nima.tmdb.login.state.TAG)
-                }
+                is LoginFailed -> handleFailedLogin(loginStateEvent.code, loginStateEvent.message)
+                is SessionFailed -> handleSession(loginStateEvent.message)
+                is Success -> handleSuccess(loginStateEvent.account)
             }
         }
     }
 
+    private fun handleUnknownFailure(statusCode: Int, statusMessage: String , methodName : String) {
+        log(statusCode, statusMessage, methodName)
+    }
+
+    private fun handleSession(message: String) {
+        log(null, message, "SessionFailed")
+        TODO("Not yet implemented")
+    }
+
+    private fun handleSuccess(account: Account) {
+        account.log(com.nima.tmdb.login.state.TAG)
+        TODO("Not yet implemented")
+    }
+
     private fun handleFailedLogin(code: Int, message: String) {
         log(null, message, "LoginFailed")
-        if (code == 400) //login page
-            else //login page with error
-//        TODO("Not yet implemented")
-        //show login page proper message
+        if (code == 400) {
+            //login page
+        } else {
+            //login page with error
+        }
+        TODO("Not yet implemented")
     }
 
     private fun timeOut(message: String) {
         log(null, message, "TimeOutError")
-//        TODO()
+        TODO()
         //show error :not have internet connection
     }
 }

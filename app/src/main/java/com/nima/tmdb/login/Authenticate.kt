@@ -35,8 +35,7 @@ class Authenticate {
 }
 
 suspend fun login(requestToken: String): LoginStateEvent {
-    //val login = LoginInfo("nimaabdpoot", "upf5YwB6@CXYiER", requestToken)
-    val login = LoginInfo("", "", requestToken)
+    val login = LoginInfo("nimaabdpoot", "upf5YwB6@CXYiER", requestToken)
     try {
         return withTimeoutOrNull(TIME_OUT_SHORT) {
             ServiceGenerator.apiService().login(login, Constants.API_KEY)
