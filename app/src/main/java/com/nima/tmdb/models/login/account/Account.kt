@@ -14,7 +14,7 @@ class Account {
 
     override fun toString(): String {
         return "Account(" +
-                "avatar=$avatar," +
+                "avatar=${avatar?.getTmdb()}," +
                 " id=$id, iso6391=$iso6391," +
                 " iso31661=$iso31661, " +
                 "name=$name, " +

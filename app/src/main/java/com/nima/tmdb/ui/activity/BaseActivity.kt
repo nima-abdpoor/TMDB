@@ -21,26 +21,47 @@ class BaseActivity : AppCompatActivity() {
 
     private fun authenticate() {
         CoroutineScope(Dispatchers.IO).launch {
-            when (val loginStateEvent = authenticate.requestToken()) {
+            val loginStateEvent = authenticate.requestToken()
+            when (loginStateEvent) {
                 is RequestTokenFailure -> {
-                    log(loginStateEvent.statusCode, loginStateEvent.statusMessage)
+                    log(
+                        loginStateEvent.statusCode,
+                        loginStateEvent.statusMessage,
+                        "RequestTokenFailure"
+                    )
                 }
                 is AccountDetailsFailed -> {
-                    log(loginStateEvent.statusCode, loginStateEvent.statusMessage)
+                    log(
+                        loginStateEvent.statusCode,
+                        loginStateEvent.statusMessage,
+                        "AccountDetailsFailed"
+                    )
                 }
-                is TimeOutError -> {
-                    log(null, loginStateEvent.message)
-                }
+                is TimeOutError -> timeOut(loginStateEvent.message)
                 is LoginFailed -> {
-                    log(null, loginStateEvent.message)
+                    handleFailedLogin(loginStateEvent.code,loginStateEvent.message)
                 }
                 is SessionFailed -> {
-                    log(null, loginStateEvent.message)
+                    log(null, loginStateEvent.message, "SessionFailed")
                 }
                 is Success -> {
                     loginStateEvent.account.log(com.nima.tmdb.login.state.TAG)
                 }
             }
         }
+    }
+
+    private fun handleFailedLogin(code: Int, message: String) {
+        log(null, message, "LoginFailed")
+        if (code == 400) //login page
+            else //login page with error
+//        TODO("Not yet implemented")
+        //show login page proper message
+    }
+
+    private fun timeOut(message: String) {
+        log(null, message, "TimeOutError")
+//        TODO()
+        //show error :not have internet connection
     }
 }

@@ -8,11 +8,11 @@ sealed class LoginStateEvent {
     data class RequestTokenFailure(val statusCode : Int , val statusMessage : String) : LoginStateEvent()
     data class AccountDetailsFailed(val statusCode : Int , val statusMessage : String) : LoginStateEvent()
     data class TimeOutError(val message : String) : LoginStateEvent()
-    data class LoginFailed(val message: String) : LoginStateEvent()
+    data class LoginFailed(val code : Int , val message: String) : LoginStateEvent()
     data class SessionFailed(val message: String) : LoginStateEvent()
     data class Success(val account: Account) : LoginStateEvent()
 }
 
-fun log(statusCode: Int?, statusMessage: String){
-    Log.d(TAG, "log: $statusMessage with $statusCode")
+fun log(statusCode: Int?, statusMessage: String , methodName : String? = null){
+    Log.d(TAG, "log: $statusMessage with $statusCode in $methodName")
 }
