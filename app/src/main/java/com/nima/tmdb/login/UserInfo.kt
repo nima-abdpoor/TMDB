@@ -13,11 +13,12 @@ class UserInfo(context: Context) {
     private var userName  :String = ""
     private var password  :String = ""
     private var context : Context = context
-    private val sharedPref = context.getSharedPreferences(R.string.usr_pass_file.toString(),Context.MODE_PRIVATE)
+
 
      fun saveUserInfo(_userName : String , _password : String) {
          Log.d(TAG, "saveUserInfo: $_userName ------- $_password")
          CoroutineScope(Dispatchers.IO).launch {
+             val sharedPref = context.getSharedPreferences(R.string.usr_pass_file.toString(),Context.MODE_PRIVATE)
              with (sharedPref.edit()) {
                  putString(R.string.username.toString(),_userName)
                  putString(R.string.password.toString(),_password)
@@ -27,6 +28,7 @@ class UserInfo(context: Context) {
      }
 
     fun getUserInfo(requestToken: String)  : LoginInfo{
+         val sharedPref = context.getSharedPreferences(R.string.usr_pass_file.toString(),Context.MODE_PRIVATE)
          userName = sharedPref.getString(R.string.username.toString(),"").toString()
          password = sharedPref.getString(R.string.password.toString(),"").toString()
         Log.d(TAG, "getUserInfo: $userName +++ $password ---")
@@ -37,6 +39,7 @@ class UserInfo(context: Context) {
         )
     }
     fun isUsernameEmptyOrNot() : Boolean{
+        val sharedPref = context.getSharedPreferences(R.string.usr_pass_file.toString(),Context.MODE_PRIVATE)
         userName = sharedPref.getString(R.string.username.toString(),"").toString()
         return userName.isEmpty()
     }

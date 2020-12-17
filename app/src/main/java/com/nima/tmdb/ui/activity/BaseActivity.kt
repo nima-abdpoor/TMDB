@@ -6,6 +6,7 @@ import android.graphics.Path
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.animation.PathInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.nima.tmdb.R
@@ -37,14 +38,20 @@ class BaseActivity : AppCompatActivity() {
         // arcTo() and PathInterpolator only available on API 21+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val path = Path().apply {
-                arcTo(0f, 0f, 1000f, 1000f, 270f, -180f, true)
+                arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
+                arcTo(100f, 100f, 100f, -100f, -100f, -180f, true)
+                //arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
             }
-            val pathInterpolator = PathInterpolator(path)
-            val animation = ObjectAnimator.ofFloat(button, "translationX", 100f).apply {
-                interpolator = pathInterpolator
-                start()
+            val animator = ObjectAnimator.ofFloat(button, View.X, View.Y, path).apply {
+                duration = 2000
+                for (i in 1..3){
+                    start()
             }
+            }
+        } else {
+            // Create animator without using curved path
         }
+
 
 
 
@@ -86,7 +93,7 @@ class BaseActivity : AppCompatActivity() {
         message.toast(this)
         if (userInfo.isUsernameEmptyOrNot()){
             //show error :not have internet connection
-
+            Log.d(TAG, "handleTimeOut: userInfo is empty")
         }
         else{
             //offline mode
