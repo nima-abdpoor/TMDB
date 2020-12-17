@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login( username: String, password: String, requestToken: String,) {
+    private fun login( username: String, password: String, requestToken: String) {
         CoroutineScope(Dispatchers.IO).launch {
             loginStateEvent = authentication.login(username , password , requestToken)
             manage(loginStateEvent)

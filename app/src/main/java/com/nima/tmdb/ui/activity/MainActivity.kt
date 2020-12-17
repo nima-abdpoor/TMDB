@@ -2,6 +2,7 @@ package com.nima.tmdb.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
@@ -19,5 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val sessionId = intent.getStringExtra(R.string.requestToken.toString())
+        Log.d(TAG, "onCreate: $sessionId")
     }
 }
