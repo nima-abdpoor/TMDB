@@ -26,7 +26,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        val requestToken = savedInstanceState?.getString(R.string.requestToken.toString())
+        val requestToken = intent.getStringExtra(R.string.requestToken.toString())
+        Log.d(TAG, "onCreate: $requestToken")
 
 
         login_button.setOnClickListener{
@@ -34,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
             password =password_field.text.toString()
             requestToken?.let {
                 login(username , password , requestToken)
+                Log.d(TAG, "onCreate: $username ++ $password +++ $requestToken")
             }
         }
     }

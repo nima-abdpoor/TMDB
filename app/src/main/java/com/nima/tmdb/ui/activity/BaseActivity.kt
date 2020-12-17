@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-const val TAG : String = "BaseActivity"
+const val TAG : String = "LoginStateEvent"
 
 class BaseActivity : AppCompatActivity() {
     private val authenticate = Authentication(this)
@@ -51,6 +51,7 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun handleSuccess(session: String) {
+        "success".toast(this)
         val intent = Intent(this , MainActivity::class.java)
         intent.putExtra((R.string.requestToken).toString(),session)
         startActivity(intent)
@@ -64,6 +65,7 @@ class BaseActivity : AppCompatActivity() {
 
     private fun handleFailedLogin(code: Int, message: String , requestToken : String) {
         val intent = Intent(this , LoginActivity::class.java)
+        log(null , requestToken , "askldfj")
         intent.putExtra((R.string.requestToken).toString(),requestToken)
         startActivity(intent)
         if (code == 401)

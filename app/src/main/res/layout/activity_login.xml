@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="username"/>
+        android:text="nimaabdpoor"/>
 
     <EditText
         android:id="@+id/password_field"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/username_field"
         android:layout_centerHorizontal="true"
-        android:text="password"/>
+        android:text="upf5YwB6@CXYiER"/>
 
     <Button
         android:id="@+id/login_button"
