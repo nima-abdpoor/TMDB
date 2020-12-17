@@ -8,4 +8,5 @@
     <string name="username">User_Name</string>
     <string name="password">Pass_Word</string>
     <string name="usr_pass_file">usrfilepasss</string>
+    <string name="requestToken">request_token</string>
 </resources>

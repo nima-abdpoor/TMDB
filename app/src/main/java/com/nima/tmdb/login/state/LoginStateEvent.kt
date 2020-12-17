@@ -4,8 +4,7 @@ import android.util.Log
 import com.nima.tmdb.models.login.account.Account
 const val TAG : String = "LoginStateEvent"
 
-sealed class LoginStateEvent {
-    data class RequestTokenFailure(val statusCode : Int , val statusMessage : String) : LoginStateEvent()
+sealed class LoginStateEvent : State(){
     data class AccountDetailsFailed(val statusCode : Int , val statusMessage : String) : LoginStateEvent()
     data class TimeOutError(val message : String) : LoginStateEvent()
     data class LoginFailed(val code : Int , val message: String) : LoginStateEvent()
