@@ -3,14 +3,12 @@ package com.nima.tmdb.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
 import com.nima.tmdb.login.state.LoginStateEvent
 import com.nima.tmdb.login.state.log
 import com.nima.tmdb.utils.toast
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,9 +69,6 @@ class BaseActivity : AppCompatActivity() {
         if (code == 401)
             message.toast(this)
         else log(code , message , "Failed To login")
-    }
-    private fun handleUnknownFailure(statusCode: Int, statusMessage: String , methodName : String) {
-        log(statusCode, statusMessage, methodName)
     }
 
     private fun handleSession(message: String) {

@@ -4,17 +4,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
+import com.nima.tmdb.login.UserInfo
 import com.nima.tmdb.login.state.LoginStateEvent
 import com.nima.tmdb.login.state.log
 import com.nima.tmdb.utils.toast
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
+    private val userInfo = UserInfo(this)
     private val authentication = Authentication(this)
     private lateinit var loginStateEvent : LoginStateEvent
     private var username : String = ""
@@ -23,8 +27,14 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         val requestToken = savedInstanceState?.getString(R.string.requestToken.toString())
-        requestToken?.let {
-            login(username , password , requestToken)
+
+
+        login_button.setOnClickListener{
+            username = username_field.text.toString()
+            password =password_field.text.toString()
+            requestToken?.let {
+                login(username , password , requestToken)
+            }
         }
     }
 
@@ -46,6 +56,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun handleSuccess(session: String) {
+        userInfo.saveUserInfo(username , password)
+        "success".toast(this)
         val intent = Intent(this , MainActivity::class.java)
         intent.putExtra((R.string.requestToken).toString(),session)
         startActivity(intent)

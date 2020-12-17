@@ -15,7 +15,7 @@ import com.nima.tmdb.login.state.TAG
 import com.nima.tmdb.ui.activity.BaseActivity
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
-class LoginFragment : Fragment() {
+class MainPageFragment : Fragment() {
 
     private var navController: NavController? = null
     lateinit var userInfo : UserInfo
