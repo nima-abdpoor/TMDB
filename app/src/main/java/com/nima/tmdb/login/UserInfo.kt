@@ -26,7 +26,7 @@ class UserInfo(context: Context) {
          }
      }
 
-    fun getUserInfo(requestToken: String)  :LoginInfo{
+    fun getUserInfo(requestToken: String)  : LoginInfo{
         val sharedPref = context.getSharedPreferences(R.string.usr_pass_file.toString(),Context.MODE_PRIVATE)
          userName = sharedPref.getString(R.string.username.toString(),"").toString()
          password = sharedPref.getString(R.string.password.toString(),"").toString()

@@ -12,9 +12,28 @@ import java.lang.Exception
 
 class Authentication(context : Context) {
     private val userInfo = UserInfo(context)
+    private lateinit var login :LoginInfo
 
-    suspend fun login(requestToken: String): LoginStateEvent {
-        val login = getLoginInfo(requestToken)
+    suspend fun getRequestToken(): LoginStateEvent {
+        return withTimeoutOrNull(Constants.TIME_OUT_SHORT) {
+            val token = ServiceGenerator.apiService().getNewToken(Constants.API_KEY)
+            Log.d("TAG", "authentication: ${token.requestToken}")
+            token
+        }?.let { token ->
+            return if (token.success)
+                login(null , null , token.requestToken!!)
+            else
+                LoginStateEvent.RequestTokenFailed(
+                    token.statusCode!!,
+                    token.statusMessage!!
+                )
+        } ?: let {
+            return LoginStateEvent.TimeOutError("Check Your Internet Connection!")
+        }
+    }
+
+    suspend fun login(username : String? = null , password : String? = null ,requestToken: String): LoginStateEvent {
+        login = getLoginInfo(username , password , requestToken)
         Log.d(com.nima.tmdb.login.state.TAG, "login: ${login.username} +++${login.password}")
         try {
             return withTimeoutOrNull(Constants.TIME_OUT_SHORT) {
@@ -25,22 +44,26 @@ class Authentication(context : Context) {
                 else
                     LoginStateEvent.LoginFailed(
                         code = loginResponse.statusCode!!,
-                        loginResponse.statusMessage!!
+                        loginResponse.statusMessage!! ,
+                        requestToken
                     )
             } ?: LoginStateEvent.TimeOutError("Time Out!!")
         } catch (e: Exception) {
             Log.d(com.nima.tmdb.login.state.TAG, "login: ${e.message}")
             if (e.message.equals("HTTP 401")) {
-                LoginStateEvent.LoginFailed(code = 401, "Invalid username or password")
+                LoginStateEvent.LoginFailed(code = 401, "Invalid username or password" , requestToken)
             } else if (e.message.equals("HTTP 401")) {
-                LoginStateEvent.LoginFailed(code = 400, "You must provide a username and password.")
+                LoginStateEvent.LoginFailed(code = 400, "You must provide a username and password." , requestToken)
             }
-            return LoginStateEvent.LoginFailed(404, "Failed To Login")
+            return LoginStateEvent.LoginFailed(404, "Failed To Login" , requestToken)
         }
     }
 
-    private fun getLoginInfo(requestToken: String): LoginInfo {
-        return userInfo.getUserInfo(requestToken)
+    private fun getLoginInfo(username : String? = null , password : String? = null ,requestToken: String): LoginInfo {
+         username ?: return userInfo.getUserInfo(requestToken)
+        username?.let {
+            return LoginInfo(username, password!!, requestToken)
+        }
         //return LoginInfo("nimaabdpoot", "upf5YwB6@CXYiER", requestToken)
     }
 
@@ -52,22 +75,22 @@ class Authentication(context : Context) {
         }?.let { session ->
             if (session.success) {
                 Log.d(com.nima.tmdb.login.state.TAG, "getSessionId: ${session.sessionId}")
-                getAccountDetails(session.sessionId!!)
+                LoginStateEvent.Success(session.sessionId!!)
             } else
                 return LoginStateEvent.SessionFailed("${session.statusMessage} code : ${session.statusCode}")
         } ?: LoginStateEvent.TimeOutError("Time Out!!")
     }
 
-    suspend fun getAccountDetails(sessionId: String): LoginStateEvent {
-        return withTimeoutOrNull(Constants.TIME_OUT_SHORT) {
-            ServiceGenerator.apiService().getAccountDetails(Constants.API_KEY, sessionId)
-        }?.let { account ->
-            account.statusCode?.let {
-                return LoginStateEvent.AccountDetailsFailed(
-                    account.statusCode!!,
-                    account.statusMessage!!
-                )
-            } ?: return LoginStateEvent.Success(account)
-        } ?: LoginStateEvent.TimeOutError("Time Out!!")
-    }
+//    private suspend fun getAccountDetails(sessionId: String): LoginStateEvent {
+//        return withTimeoutOrNull(Constants.TIME_OUT_SHORT) {
+//            ServiceGenerator.apiService().getAccountDetails(Constants.API_KEY, sessionId)
+//        }?.let { account ->
+//            account.statusCode?.let {
+//                return LoginStateEvent.AccountDetailsFailed(
+//                    account.statusCode!!,
+//                    account.statusMessage!!
+//                )
+//            } ?: return LoginStateEvent.Success(account)
+//        } ?: LoginStateEvent.TimeOutError("Time Out!!")
+//    }
 }

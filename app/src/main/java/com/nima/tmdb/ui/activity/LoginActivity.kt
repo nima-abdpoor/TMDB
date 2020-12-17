@@ -1,55 +1,48 @@
 package com.nima.tmdb.ui.activity
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
 import com.nima.tmdb.login.state.LoginStateEvent
 import com.nima.tmdb.login.state.log
 import com.nima.tmdb.utils.toast
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
-const val TAG : String = "BaseActivity"
-
-class BaseActivity : AppCompatActivity() {
-    private val authenticate = Authentication(this)
+class LoginActivity : AppCompatActivity() {
+    private val authentication = Authentication(this)
+    private lateinit var loginStateEvent : LoginStateEvent
+    private var username : String = ""
+    private var password : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
-        authenticate()
-    }
-
-    private fun authenticate() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val loginStateEvent = authenticate.getRequestToken()
-            manage(loginStateEvent)
+        setContentView(R.layout.activity_login)
+        val requestToken = savedInstanceState?.getString(R.string.requestToken.toString())
+        requestToken?.let {
+            login(username , password , requestToken)
         }
     }
 
+    private fun login( username: String, password: String, requestToken: String,) {
+        CoroutineScope(Dispatchers.IO).launch {
+            loginStateEvent = authentication.login(username , password , requestToken)
+            manage(loginStateEvent)
+        }
+    }
     private suspend fun manage(loginStateEvent: LoginStateEvent) {
         withContext(Dispatchers.Main){
             when (loginStateEvent) {
-                is LoginStateEvent.RequestTokenFailed -> handleFailed(loginStateEvent.statusCode , loginStateEvent.statusMessage)
                 is LoginStateEvent.TimeOutError -> handleTimeOut(loginStateEvent.message)
                 is LoginStateEvent.LoginFailed -> handleFailedLogin(loginStateEvent.code, loginStateEvent.message , loginStateEvent.requestToken)
                 is LoginStateEvent.SessionFailed -> handleSession(loginStateEvent.message)
                 is LoginStateEvent.Success -> handleSuccess(loginStateEvent.session)
             }
         }
-    }
-
-    private fun handleFailed(statusCode: Int, statusMessage: String) {
-        //error happened in getting requestToken
-        //usually happens for Invalid API_KEY
-        Log.d(TAG, "handleFailed: $statusMessage with code : $statusCode")
     }
 
     private fun handleSuccess(session: String) {
@@ -65,15 +58,9 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun handleFailedLogin(code: Int, message: String , requestToken : String) {
-        val intent = Intent(this , LoginActivity::class.java)
-        intent.putExtra((R.string.requestToken).toString(),requestToken)
-        startActivity(intent)
         if (code == 401)
             message.toast(this)
         else log(code , message , "Failed To login")
-    }
-    private fun handleUnknownFailure(statusCode: Int, statusMessage: String , methodName : String) {
-        log(statusCode, statusMessage, methodName)
     }
 
     private fun handleSession(message: String) {
