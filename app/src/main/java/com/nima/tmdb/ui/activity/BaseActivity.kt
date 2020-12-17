@@ -1,14 +1,20 @@
 package com.nima.tmdb.ui.activity
 
+import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Path
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.PathInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
+import com.nima.tmdb.login.UserInfo
 import com.nima.tmdb.login.state.LoginStateEvent
 import com.nima.tmdb.login.state.log
 import com.nima.tmdb.utils.toast
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,11 +24,30 @@ import kotlinx.coroutines.withContext
 const val TAG : String = "LoginStateEvent"
 
 class BaseActivity : AppCompatActivity() {
+    private val userInfo = UserInfo(this)
     private val authenticate = Authentication(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
+        animate()
         authenticate()
+    }
+
+    private fun animate() {
+        // arcTo() and PathInterpolator only available on API 21+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val path = Path().apply {
+                arcTo(0f, 0f, 1000f, 1000f, 270f, -180f, true)
+            }
+            val pathInterpolator = PathInterpolator(path)
+            val animation = ObjectAnimator.ofFloat(button, "translationX", 100f).apply {
+                interpolator = pathInterpolator
+                start()
+            }
+        }
+
+
+
     }
 
     private fun authenticate() {
@@ -59,8 +84,14 @@ class BaseActivity : AppCompatActivity() {
 
     private fun handleTimeOut(message: String) {
         message.toast(this)
-//        TODO()
-        //show error :not have internet connection
+        if (userInfo.isUsernameEmptyOrNot()){
+            //show error :not have internet connection
+
+        }
+        else{
+            //offline mode
+            handleSuccess("")
+        }
     }
 
     private fun handleFailedLogin(code: Int, message: String , requestToken : String) {

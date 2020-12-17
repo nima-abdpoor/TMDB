@@ -47,7 +47,7 @@ class Authentication(context : Context) {
                         loginResponse.statusMessage!! ,
                         requestToken
                     )
-            } ?: LoginStateEvent.TimeOutError("Time Out!!")
+            } ?: LoginStateEvent.TimeOutError("No Internet Connection!")
         } catch (e: Exception) {
             Log.d(com.nima.tmdb.login.state.TAG, "login: ${e.message}")
             if (e.message.equals("HTTP 401")) {

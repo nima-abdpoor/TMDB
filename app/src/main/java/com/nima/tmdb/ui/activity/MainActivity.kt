@@ -21,6 +21,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val sessionId = intent.getStringExtra(R.string.requestToken.toString())
+        sessionId?.let {
+            if (sessionId.isEmpty()){
+                //offline Mode
+            }
+        }
         Log.d(TAG, "onCreate: $sessionId")
     }
 }
