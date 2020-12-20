@@ -37,9 +37,4 @@ interface TheMovieDataBaseAPI {
     @POST("authentication/session/new")
     suspend fun getSessionId(@Body requestToken : RequestToken, @Query("api_key") key: String?) : Session
 
-    @GET("account")
-    suspend fun getAccountDetails(
-        @Query("api_key") key: String,
-        @Query("session_id") sessionId: String,
-    ): Account
 }
