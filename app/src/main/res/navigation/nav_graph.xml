@@ -2,7 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/movieListFragment">
+    app:startDestination="@id/mainPageFragment">
+
+    <fragment
+        android:id="@+id/mainPageFragment"
+        android:name="com.nima.tmdb.ui.fragments.MainPageFragment"
+        android:label="MovieListFragment" >
+        <action
+            android:id="@+id/action_mainPageFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/movieListFragment"

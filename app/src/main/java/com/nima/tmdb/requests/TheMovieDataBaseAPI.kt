@@ -1,12 +1,12 @@
 package com.nima.tmdb.requests
 
 
-import com.nima.tmdb.models.Details
-import com.nima.tmdb.models.Example
+import com.nima.tmdb.models.*
+import com.nima.tmdb.models.login.*
+import com.nima.tmdb.models.login.account.Account
+import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface TheMovieDataBaseAPI {
     @GET("search/movie")
@@ -24,4 +24,21 @@ interface TheMovieDataBaseAPI {
             @Query("api_key") key: String?,
             @Query("language") language: String?
     ): Details
+
+    @GET("authentication/token/new")
+    suspend fun getNewToken(
+        @Query("api_key") key: String?,
+    ): Token
+
+    @POST("authentication/token/validate_with_login")
+    suspend fun login(@Body loginInfo : LoginInfo, @Query("api_key") key: String?) : LoginResponse
+
+    @POST("authentication/session/new")
+    suspend fun getSessionId(@Body requestToken : RequestToken, @Query("api_key") key: String?) : Session
+
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("api_key") key: String,
+        @Query("session_id") sessionId: String,
+    ): Account
 }
