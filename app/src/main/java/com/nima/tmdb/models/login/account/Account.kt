@@ -61,3 +61,15 @@ class Account {
     @Expose
     var statusCode: Int? = null
 }
+
+fun Account.asDatabaseAccount()  :com.nima.tmdb.database.Account{
+    return com.nima.tmdb.database.Account(
+        id = this.id!!,
+        hash = this.avatar?.getGravatar()?.getHash(),
+        iso6391 = this.iso6391,
+        iso31661 = this.iso31661,
+        name = this.name!!,
+        includeAdult = this.includeAdult,
+        username = this.username!!
+    )
+}

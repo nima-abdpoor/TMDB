@@ -17,25 +17,30 @@ const val TAG : String = "MainPageFragment"
 
 class MainPageFragment : Fragment() {
     private lateinit var sessionId : String
-    private lateinit var mainPageViewModel: MainPageViewModel
 
     private var navController: NavController? = null
+    val viewModel: MainPageViewModel by lazy {
+        val activity = requireNotNull(this.activity) {
+            "You can only access the viewModel after onViewCreated()"
+        }
+        ViewModelProvider(this, MainPageViewModel.Factory(activity.application)).get(MainPageViewModel::class.java)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         arguments?.getString(R.string.sessionId.toString())?.let{
+         arguments?.getString(R.string.sessionId.toString())?.let {
              sessionId = it
          }
-        mainPageViewModel = ViewModelProvider(this).get(MainPageViewModel::class.java)
         subscribeObservers()
     }
 
     private fun subscribeObservers() {
-        mainPageViewModel.query.observe(this){account ->
+        viewModel.query.observe(this){account ->
             account?.let {
-                Log.d(TAG, "subscribeObservers: ${it}")
+                Log.d(TAG, "subscribeObservers: $it")
+                viewModel.save(it)
             }
         }
-        mainPageViewModel.setSessionId(sessionId)
+        viewModel.setSessionId(sessionId)
     }
 
     override fun onAttach(context: Context) {
