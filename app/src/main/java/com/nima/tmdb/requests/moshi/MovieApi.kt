@@ -1,5 +1,6 @@
 package com.nima.tmdb.requests.moshi
 
+import com.nima.tmdb.models.login.Token
 import com.nima.tmdb.models.login.account.Account
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
@@ -11,4 +12,9 @@ interface MovieApi{
         @Query("api_key") key: String,
         @Query("session_id") sessionId: String,
     ): Account
+
+    @GET("authentication/token/new")
+    suspend fun getNewToken(
+        @Query("api_key") key: String?,
+    ): Token
 }
