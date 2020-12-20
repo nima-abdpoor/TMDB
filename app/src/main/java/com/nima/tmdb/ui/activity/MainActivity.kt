@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.NavHostController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
 import com.nima.tmdb.login.state.LoginStateEvent
@@ -30,7 +32,8 @@ class MainActivity : AppCompatActivity() {
             else{
                 bundle = Bundle()
                 bundle.putString(R.string.sessionId.toString() , sessionId)
-                findNavController(R.id.nav_host_fragment).setGraph(R.navigation.nav_graph ,bundle )
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+                navHostFragment.navController.setGraph(R.navigation.nav_graph ,bundle)
             }
         }
         Log.d(TAG, "onCreate: $sessionId")

@@ -16,17 +16,26 @@ import com.nima.tmdb.viewModels.MainPageViewModel
 const val TAG : String = "MainPageFragment"
 
 class MainPageFragment : Fragment() {
+    private lateinit var sessionId : String
     private lateinit var mainPageViewModel: MainPageViewModel
 
     private var navController: NavController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+         arguments?.getString(R.string.sessionId.toString())?.let{
+             sessionId = it
+         }
         mainPageViewModel = ViewModelProvider(this).get(MainPageViewModel::class.java)
         subscribeObservers()
     }
 
     private fun subscribeObservers() {
-        TODO()
+        mainPageViewModel.query.observe(this){account ->
+            account?.let {
+                Log.d(TAG, "subscribeObservers: ${it}")
+            }
+        }
+        mainPageViewModel.setSessionId(sessionId)
     }
 
     override fun onAttach(context: Context) {
@@ -39,8 +48,6 @@ class MainPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_main_page, container, false)
-        val sessionId = savedInstanceState?.getString(R.string.sessionId.toString())
-        Log.d(TAG, "onCreateView: $sessionId")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

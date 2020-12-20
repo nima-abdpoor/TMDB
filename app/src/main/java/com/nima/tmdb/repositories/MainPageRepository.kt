@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 object MainPageRepository {
     suspend fun getAccountDetails(sessionId: String)  : Account{
         return withContext(Dispatchers.IO){
-            Network.service.getAccountDetails(API_KEY , sessionId).await()
+            Network.service.getAccountDetails(API_KEY , sessionId)
         }
     }
 }

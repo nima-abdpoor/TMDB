@@ -10,5 +10,5 @@ interface MovieApi{
     suspend fun getAccountDetails(
         @Query("api_key") key: String,
         @Query("session_id") sessionId: String,
-    ): Deferred<Account>
+    ): Account
 }
