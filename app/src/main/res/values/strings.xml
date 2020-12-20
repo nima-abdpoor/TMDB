@@ -9,6 +9,7 @@
     <string name="password">Pass_Word</string>
     <string name="usr_pass_file">usrfilepasss</string>
     <string name="requestToken">request_token</string>
+    <string name="sessionId">session_id</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
