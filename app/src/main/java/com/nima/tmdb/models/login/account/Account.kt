@@ -7,6 +7,23 @@ import com.google.gson.annotations.SerializedName
 const val TAG = "Account"
 
 class Account {
+    constructor(
+        id: Int?,
+        iso6391: String?,
+        iso31661: String?,
+        name: String?,
+        includeAdult: Boolean?,
+        username: String?
+    ) {
+        this.id = id
+        this.iso6391 = iso6391
+        this.iso31661 = iso31661
+        this.name = name
+        this.includeAdult = includeAdult
+        this.username = username
+    }
+
+    constructor()
 
     fun log(tag : String? = TAG) {
         Log.d(tag, "log: ${toString()}")

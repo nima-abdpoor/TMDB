@@ -19,7 +19,7 @@ class MainPageFragment : Fragment() {
     private lateinit var sessionId : String
 
     private var navController: NavController? = null
-    val viewModel: MainPageViewModel by lazy {
+    private val viewModel: MainPageViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
         }
@@ -27,20 +27,31 @@ class MainPageFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         arguments?.getString(R.string.sessionId.toString())?.let {
-             sessionId = it
-         }
+        getArgs()
+        Log.d(TAG, "getArgs: lsakdfjlksadl")
         subscribeObservers()
+    }
+
+    private fun getArgs() {
+        arguments?.getString(R.string.sessionId.toString())?.let {
+            sessionId = it
+            viewModel.setSessionId(sessionId)
+        }
+        if (sessionId.isEmpty()){
+            viewModel.load()
+        }
+        arguments?:let{
+            viewModel.load()
+        }
     }
 
     private fun subscribeObservers() {
         viewModel.query.observe(this){account ->
             account?.let {
                 Log.d(TAG, "subscribeObservers: $it")
-                viewModel.save(it)
+                //viewModel.save(it)
             }
         }
-        viewModel.setSessionId(sessionId)
     }
 
     override fun onAttach(context: Context) {

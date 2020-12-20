@@ -7,7 +7,7 @@ import androidx.room.*
 @Dao
 interface AccountDao {
     @Query("SELECT * FROM account")
-    fun getAccount(): LiveData<Account>
+    fun getAccount(): Account
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg account: Account)
