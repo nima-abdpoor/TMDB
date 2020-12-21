@@ -10,14 +10,11 @@ import kotlinx.coroutines.*
 
 const val TAG  =  "SyncRepository"
 object SyncRepository {
-    private lateinit var token: Token
     suspend fun requestToken(): Token? {
-        withTimeoutOrNull(TIME_OUT_SHORT){
-            token = ServiceGenerator.apiService().getNewToken(API_KEY)
+        return withTimeoutOrNull(TIME_OUT_SHORT){
+            val token = ServiceGenerator.apiService().getNewToken(API_KEY)
             Log.d(TAG, "requestToken: $token")
-        }
-        token?.let {
-            return token
+            token
         }
     }
 }

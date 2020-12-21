@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.nima.tmdb.R
+import com.nima.tmdb.repositories.MovieRepository
 import com.nima.tmdb.utils.log
 import com.nima.tmdb.viewModels.MainPageViewModel
 
@@ -31,6 +32,7 @@ class MainPageFragment : Fragment() {
         getArgs()
         sendRequest()
         subscribeObservers()
+        MovieRepository.getPopularMovies()
     }
 
     private fun sendRequest() {
