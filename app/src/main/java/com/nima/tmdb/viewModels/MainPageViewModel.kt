@@ -28,7 +28,7 @@ class MainPageViewModel constructor(application: Application) : ViewModel(),
                 @Suppress("UNCHECKED_CAST")
                 return MainPageViewModel(_application) as T
             }
-            throw IllegalArgumentException("Unable to construct viewmodel")
+            throw IllegalArgumentException("Unable to construct viewModel")
         }
     }
 
