@@ -1,10 +1,9 @@
 package com.nima.tmdb.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
 import com.nima.tmdb.login.UserInfo

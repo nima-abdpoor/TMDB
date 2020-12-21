@@ -5,11 +5,14 @@ import android.util.Log
 import com.google.gson.GsonBuilder
 import com.nima.tmdb.utils.Constants.BASE_URL
 import okhttp3.Dispatcher
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object ServiceGenerator {
@@ -25,6 +28,7 @@ object ServiceGenerator {
 
         val dispatcher = Dispatcher()
         dispatcher.maxRequests = 1
+
 
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
