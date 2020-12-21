@@ -94,6 +94,10 @@ class BaseActivity : AppCompatActivity() {
                         Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
                         true
                     }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_VPN")
+                        true
+                    }
                     else -> false
                 }
             }
