@@ -1,13 +1,15 @@
 package com.nima.tmdb.ui.activity
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.graphics.Path
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.PathInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.nima.tmdb.R
 import com.nima.tmdb.login.Authentication
@@ -25,6 +27,7 @@ import kotlinx.coroutines.withContext
 const val TAG : String = "LoginStateEvent"
 
 class BaseActivity : AppCompatActivity() {
+    private lateinit var  loginStateEvent  : LoginStateEvent
     private val userInfo = UserInfo(this)
     private val authenticate = Authentication(this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,17 +62,58 @@ class BaseActivity : AppCompatActivity() {
 
     private fun authenticate() {
         CoroutineScope(Dispatchers.IO).launch {
-            val loginStateEvent = authenticate.getRequestToken()
-            manage(loginStateEvent)
+            if(networkAvailable()){
+                loginStateEvent = authenticate.getRequestToken()
+                manage(loginStateEvent)
+            }
+            else{
+                //offline mode
+                Log.d(TAG, "authenticate: network in not available!!")
+                manage(LoginStateEvent.Success(""))
+            }
         }
+    }
+
+    private fun networkAvailable(): Boolean {
+        val connectivityManager =
+            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        connectivityManager?.let {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            capabilities?.let {
+                return when {
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                        true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                        true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                        Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+        return false
     }
 
     private suspend fun manage(loginStateEvent: LoginStateEvent) {
         withContext(Dispatchers.Main){
             when (loginStateEvent) {
-                is LoginStateEvent.RequestTokenFailed -> handleFailed(loginStateEvent.statusCode , loginStateEvent.statusMessage)
+                is LoginStateEvent.RequestTokenFailed -> handleFailed(
+                    loginStateEvent.statusCode,
+                    loginStateEvent.statusMessage
+                )
                 is LoginStateEvent.TimeOutError -> handleTimeOut(loginStateEvent.message)
-                is LoginStateEvent.LoginFailed -> handleFailedLogin(loginStateEvent.code, loginStateEvent.message , loginStateEvent.requestToken)
+                is LoginStateEvent.LoginFailed -> handleFailedLogin(
+                    loginStateEvent.code,
+                    loginStateEvent.message,
+                    loginStateEvent.requestToken
+                )
                 is LoginStateEvent.SessionFailed -> handleSession(loginStateEvent.message)
                 is LoginStateEvent.Success -> handleSuccess(loginStateEvent.session)
             }
@@ -84,8 +128,8 @@ class BaseActivity : AppCompatActivity() {
 
     private fun handleSuccess(session: String) {
         "success".toast(this)
-        val intent = Intent(this , MainActivity::class.java)
-        intent.putExtra((R.string.requestToken).toString(),session)
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra((R.string.requestToken).toString(), session)
         startActivity(intent)
     }
 
@@ -101,14 +145,14 @@ class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleFailedLogin(code: Int, message: String , requestToken : String) {
-        val intent = Intent(this , LoginActivity::class.java)
-        log(null , requestToken , "askldfj")
-        intent.putExtra((R.string.requestToken).toString(),requestToken)
+    private fun handleFailedLogin(code: Int, message: String, requestToken: String) {
+        val intent = Intent(this, LoginActivity::class.java)
+        log(null, requestToken, "askldfj")
+        intent.putExtra((R.string.requestToken).toString(), requestToken)
         startActivity(intent)
         if (code == 401)
             message.toast(this)
-        else log(code , message , "Failed To login")
+        else log(code, message, "Failed To login")
     }
 
     private fun handleSession(message: String) {

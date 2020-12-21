@@ -28,20 +28,24 @@ class MainPageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getArgs()
+        sendRequest()
         Log.d(TAG, "getArgs: lsakdfjlksadl")
         subscribeObservers()
+    }
+
+    private fun sendRequest() {
+        if (sessionId.isEmpty())
+            viewModel.load()
+        else viewModel.setSessionId(sessionId)
+
+        arguments?:let{
+            viewModel.load()
+        }
     }
 
     private fun getArgs() {
         arguments?.getString(R.string.sessionId.toString())?.let {
             sessionId = it
-            viewModel.setSessionId(sessionId)
-        }
-        if (sessionId.isEmpty()){
-            viewModel.load()
-        }
-        arguments?:let{
-            viewModel.load()
         }
     }
 
