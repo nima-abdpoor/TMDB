@@ -12,6 +12,7 @@ object Constants {
     const val TIME_OUT_SHORT  : Long = 3000L
     const val PADDING  : Int = 10
     const val DEFAULT_LANGUAGE = "en-US"
+    const val DEFAULT_REGION = ""
     const val DEFAULT_PAGE = 1
     const val DEFAULT_ADULT = false
     val DEFAULT_MOVIE_LIST_NAME = arrayOf("life", "toy", "war", "nature", "nina", "big", "peace", "rain", "murder")

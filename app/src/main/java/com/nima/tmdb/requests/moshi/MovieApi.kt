@@ -1,9 +1,7 @@
 package com.nima.tmdb.requests.moshi
 
-import com.nima.tmdb.models.login.Token
 import com.nima.tmdb.models.login.account.Account
-import kotlinx.coroutines.Deferred
-import retrofit2.Call
+import com.nima.tmdb.models.movie.popular.Popular
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,8 +12,11 @@ interface MovieApi{
         @Query("session_id") sessionId: String,
     ): Account
 
-    @GET("authentication/token/new")
-    suspend fun getNewToken(
-        @Query("api_key") key: String?,
-    ): Token
+    @GET("movie/popular")
+    suspend fun getPopular(
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+        @Query("region") region: String,
+    ) : Popular
 }
