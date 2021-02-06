@@ -23,3 +23,4 @@
 
 # Future
  - getting and saving recommendations of selected movie(details of movies) to show theme when onResume Called.
+ -getting user information that was set in website of TMDB.
