@@ -9,17 +9,17 @@
  
 # Technologies
  - kotlin
- - MVVM architecture
- - Navigaion Components with animation
+ - MVVM pattern
+ - Navigation Components with animation
  - DiffUtils-RecyclerView
  - Retrofit2
  - Coroutines
  - Room Database
  
-# Refrence
+# Reference
  - [coding with mitch course](https://codingwithmitch.com/courses/rest-api-mvvm-retrofit2/)
  - [Behind the Scenes-android development](https://classroom.udacity.com/courses/ud9012)
  
 
 # Future
- - getting and saving recommendations of selected movie(dettails of movies) to show theme when onResume Called.
+ - getting and saving recommendations of selected movie(details of movies) to show theme when onResume Called.
