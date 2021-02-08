@@ -15,6 +15,7 @@
  - Retrofit2
  - Coroutines
  - Room Database
+ - liveData
  
 # Reference
  - [coding with mitch course](https://codingwithmitch.com/courses/rest-api-mvvm-retrofit2/)
