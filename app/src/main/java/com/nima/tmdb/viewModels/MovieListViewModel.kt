@@ -1,5 +1,6 @@
 package com.nima.tmdb.viewModels
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,10 +9,9 @@ import com.nima.tmdb.models.Example
 import com.nima.tmdb.repositories.MovieListRepository
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-class MovieListViewModel @Inject constructor(
+class MovieListViewModel @ViewModelInject constructor(
     private val repository: MovieListRepository
 ) : ViewModel() {
 

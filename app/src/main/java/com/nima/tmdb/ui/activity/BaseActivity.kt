@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Path
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -30,32 +29,29 @@ class BaseActivity : AppCompatActivity() {
     private lateinit var  loginStateEvent  : LoginStateEvent
     private val userInfo = UserInfo(this)
     private val authenticate = Authentication(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
-        animate()
-        authenticate()
+        //setContentView(R.layout.activity_base)
+        //animate()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        //authenticate()
     }
 
     private fun animate() {
         // arcTo() and PathInterpolator only available on API 21+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val path = Path().apply {
-                arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
-                arcTo(100f, 100f, 100f, -100f, -100f, -180f, true)
-                //arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
-            }
-            val animator = ObjectAnimator.ofFloat(button, View.X, View.Y, path).apply {
-                duration = 2000
-                for (i in 1..3){
-                    start()
-            }
-            }
-        } else {
-            // Create animator without using curved path
+        val path = Path().apply {
+            arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
+            arcTo(100f, 100f, 100f, -100f, -100f, -180f, true)
+            //arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
         }
-
-
+        val animator = ObjectAnimator.ofFloat(button, View.X, View.Y, path).apply {
+            duration = 2000
+            for (i in 1..3){
+                start()
+        }
+        }
 
 
     }
@@ -77,7 +73,7 @@ class BaseActivity : AppCompatActivity() {
     private fun networkAvailable(): Boolean {
         val connectivityManager =
             this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        connectivityManager?.let {
+        connectivityManager.let {
             val capabilities =
                 connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             capabilities?.let {
