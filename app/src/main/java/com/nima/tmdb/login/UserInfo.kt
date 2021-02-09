@@ -9,13 +9,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserInfo(context: Context) {
+class UserInfo(private var context: Context) {
     private var userName  :String = ""
     private var password  :String = ""
-    private var context : Context = context
 
 
-     fun saveUserInfo(_userName : String , _password : String) {
+    fun saveUserInfo(_userName : String , _password : String) {
          Log.d(TAG, "saveUserInfo: $_userName ------- $_password")
          CoroutineScope(Dispatchers.IO).launch {
              val sharedPref = context.getSharedPreferences(R.string.usr_pass_file.toString(),Context.MODE_PRIVATE)
