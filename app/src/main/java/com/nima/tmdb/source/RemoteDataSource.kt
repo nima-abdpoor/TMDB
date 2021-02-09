@@ -11,5 +11,5 @@ class RemoteDataSource @Inject constructor(
     private val api : TheMovieDataBaseAPI
 ) :SafeApi(){
     suspend fun searchMovieAPI(key : String ,language: String?, query: String, page: Int,include_adult : Boolean): ApiWrapper<Example> =safeApi { api.searchMovieList(key,language,query,page,include_adult)}
-    suspend fun getMovieDetail(movieId : Int, query: String,language: String?): ApiWrapper<Details> =safeApi { api.getMovieDetails(movieId,query,language)}
+    suspend fun getMovieDetail(movieId : Int, apiKey: String, language: String?): ApiWrapper<Details> =safeApi { api.getMovieDetails(movieId,apiKey,language)}
 }

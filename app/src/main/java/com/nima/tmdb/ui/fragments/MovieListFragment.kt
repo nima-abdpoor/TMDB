@@ -32,6 +32,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
     ErrorAdapter.TryAgain {
 
     private val TAG = "MovieListFragment"
+    private var firstTime = true
 
     private val viewModel: MovieListViewModel by viewModels()
 
@@ -49,6 +50,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
         initRecyclerView()
         subscribeOnSearchView()
         subscribeOnMovieListObserver()
+        loadFirstPage()
     }
 
     private fun initViewItems() {
@@ -152,14 +154,6 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
             DEFAULT_ADULT
         )
     }
-
-
-    override fun onResume() {
-        super.onResume()
-        searchMovieAPI(onResume = true)
-    }
-
-    companion object;
 
     override fun onItemSelected(position: Int, item: Result) {
         item.id?.let { id ->

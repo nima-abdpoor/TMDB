@@ -9,5 +9,5 @@ import javax.inject.Inject
 class MovieDetailsRepository @Inject constructor(
     private val remote: RemoteDataSource
 ) : SafeApi() {
-    suspend fun searchMovieAPI(movieId: Int, query: String, language: String): ApiWrapper<Details> = remote.getMovieDetail(movieId,query,language)
+    suspend fun searchMovieAPI(movieId: Int, apiKey: String, language: String): ApiWrapper<Details> = remote.getMovieDetail(movieId,apiKey,language)
 }

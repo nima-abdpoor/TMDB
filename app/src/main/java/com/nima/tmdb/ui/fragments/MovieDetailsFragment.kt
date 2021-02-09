@@ -1,6 +1,7 @@
 package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ScrollView
@@ -12,6 +13,7 @@ import com.nima.tmdb.R
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants
+import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.viewModels.MovieDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,8 +37,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
         val movieId = requireArguments().getInt("movieID")
-        setMovieID(movieId, "", DEFAULT_LANGUAGE)
-        subscribeOnObservers()
+        setMovieID(movieId, DEFAULT_LANGUAGE)
     }
 
     private fun subscribeOnObservers() {
@@ -47,19 +48,21 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
                         initViewItems(it)
                     }
                 }
-                is ApiWrapper.UnknownError -> {
+                is ApiWrapper.ApiError -> {
+                    Log.d(TAG, "subscribeOnObservers api: ${response.totalError}")
                 }
                 is ApiWrapper.NetworkError -> {
+                    Log.d(TAG, "subscribeOnObservers net: ${response.totalError}")
                 }
-                is ApiWrapper.ApiError -> {
-
+                is ApiWrapper.UnknownError -> {
+                    Log.d(TAG, "subscribeOnObservers unKnown: ${response.totalError}")
                 }
             }
         }
     }
 
-    private fun setMovieID(movieId: Int, query: String = "", language: String) {
-        viewModel.setMovieID(movieId, query, language)
+    private fun setMovieID(movieId: Int,language: String) {
+        viewModel.setMovieID(movieId, API_KEY, language)
     }
 
 
@@ -87,5 +90,6 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         rank = view.findViewById(R.id.movie_vote)
         scrollView = view.findViewById(R.id.parent)
         genres = view.findViewById(R.id.genres)
+        subscribeOnObservers()
     }
 }

@@ -19,8 +19,8 @@ class MovieDetailsViewModel @ViewModelInject constructor(
         get() = _movieDetails
 
 
-    fun setMovieID(movieId: Int, query: String, language: String) =
+    fun setMovieID(movieId: Int, apiKey: String, language: String) =
         viewModelScope.launch {
-            _movieDetails.value = repository.searchMovieAPI(movieId, query, language)
+            _movieDetails.value = repository.searchMovieAPI(movieId, apiKey, language)
         }
 }

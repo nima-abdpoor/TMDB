@@ -28,6 +28,11 @@ class MainPageFragment : Fragment() {
         ViewModelProvider(this, MainPageViewModel.Factory(activity.application)).get(MainPageViewModel::class.java)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment)
+    }
+
     private fun sendRequest() {
         if (sessionId.isEmpty())
             viewModel.load()
@@ -63,9 +68,4 @@ class MainPageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main_page, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-       /// navController = Navigation.findNavController(view)
-        findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment)
-    }
 }
