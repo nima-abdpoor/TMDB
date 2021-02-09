@@ -1,11 +1,9 @@
 package com.nima.tmdb.requests
 
 
-import androidx.lifecycle.LiveData
-import com.nima.tmdb.models.*
+import com.nima.tmdb.models.Details
+import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
-import com.nima.tmdb.models.login.account.Account
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
