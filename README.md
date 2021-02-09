@@ -10,12 +10,12 @@
 # Technologies
  - kotlin
  - MVVM pattern
- - Navigation Components with animation
- - DiffUtils-RecyclerView
- - Retrofit2
+ - HILT dependency Injection
  - Coroutines
+ - Retrofit2
+ - Navigation Components with animation
  - Room Database
- - liveData
+ - DiffUtils-RecyclerView
  
 # Reference
  - [coding with mitch course](https://codingwithmitch.com/courses/rest-api-mvvm-retrofit2/)
