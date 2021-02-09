@@ -1,41 +1,27 @@
 package com.nima.tmdb.viewModels
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.repositories.MovieListRepository
-import com.nima.tmdb.utils.Resource
+import com.nima.tmdb.requests.wrapper.ApiWrapper
+import kotlinx.coroutines.launch
 
 
-class MovieListViewModel : ViewModel() {
-    private val movieRepository: MovieListRepository = MovieListRepository
-    private val _query :MutableLiveData<String> = MutableLiveData()
-    private var _page : Int = 1
+class MovieListViewModel @ViewModelInject constructor(
+    private val repository: MovieListRepository
+) : ViewModel() {
 
-    var isMovieRetrieved = false
-
-    fun searchNextPage() {
-        movieRepository.searchNextQuery()
-    }
+    private val _movieList = MutableLiveData<ApiWrapper<Example>>()
+    val movieList: LiveData<ApiWrapper<Example>>
+        get() = _movieList
 
 
-    val searchMovieAPI: LiveData<Resource<Example>> = Transformations
-        .switchMap(_query){query ->
-            movieRepository.searchMovieAPI(query,_page)
+    fun setMovie(key: String, language: String?, query: String, page: Int, include_adult: Boolean) =
+        viewModelScope.launch {
+            _movieList.value = repository.searchMovieAPI(key, language, query, page, include_adult)
         }
-
-    fun setMovie(query: String, page: Int){
-        if (query == _query.value){
-            return
-        }
-        _query.value = query
-        _page = page
-
-    }
-
-    fun cancelJob(message : String){
-        movieRepository.cancelJob(message)
-    }
 }

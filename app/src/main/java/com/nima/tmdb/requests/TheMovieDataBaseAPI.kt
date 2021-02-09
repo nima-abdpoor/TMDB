@@ -1,18 +1,16 @@
 package com.nima.tmdb.requests
 
 
-import androidx.lifecycle.LiveData
-import com.nima.tmdb.models.*
+import com.nima.tmdb.models.Details
+import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
-import com.nima.tmdb.models.login.account.Account
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
 interface TheMovieDataBaseAPI {
     @GET("search/movie")
     suspend fun searchMovieList(
-            @Query("api_key") key: String?,
+            @Query("api_key") key: String,
             @Query("language") language: String?,
             @Query("query") query: String?,
             @Query("page") page: Int,
@@ -24,7 +22,7 @@ interface TheMovieDataBaseAPI {
             @Path("movieID") movieID: Int,
             @Query("api_key") key: String?,
             @Query("language") language: String?
-    ): Details
+    ): Response<Details>
 
     @GET("authentication/token/new")
     suspend fun getNewToken(

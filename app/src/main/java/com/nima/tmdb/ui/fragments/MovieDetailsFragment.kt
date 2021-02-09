@@ -1,9 +1,8 @@
 package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ScrollView
 import android.widget.TextView
@@ -12,13 +11,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.nima.tmdb.R
 import com.nima.tmdb.models.Details
+import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants
+import com.nima.tmdb.utils.Constants.API_KEY
+import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.viewModels.MovieDetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 
 
-@Suppress("NAME_SHADOWING")
-class MovieDetailsFragment : Fragment() {
+@AndroidEntryPoint
+class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     //UI
     var title: TextView? = null
     var overview: TextView? = null
@@ -33,34 +36,39 @@ class MovieDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
-        val movieID = requireArguments().getInt("movieID")
-        setMovieID(movieID)
-        subscribeOnObservers()
+        val movieId = requireArguments().getInt("movieID")
+        setMovieID(movieId, DEFAULT_LANGUAGE)
     }
 
     private fun subscribeOnObservers() {
-        viewModel.searchMovieAPI.observe(this, { details ->
-            details?.let { details ->
-                initViewItems(details)
+        viewModel.movieDetails.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ApiWrapper.Success -> {
+                    response.data?.let {
+                        initViewItems(it)
+                    }
+                }
+                is ApiWrapper.ApiError -> {
+                    Log.d(TAG, "subscribeOnObservers api: ${response.totalError}")
+                }
+                is ApiWrapper.NetworkError -> {
+                    Log.d(TAG, "subscribeOnObservers net: ${response.totalError}")
+                }
+                is ApiWrapper.UnknownError -> {
+                    Log.d(TAG, "subscribeOnObservers unKnown: ${response.totalError}")
+                }
             }
-        })
+        }
     }
 
-    private fun setMovieID(movieID: Int) {
-        viewModel.setMovieID(movieID)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_movie_details, container, false)
+    private fun setMovieID(movieId: Int,language: String) {
+        viewModel.setMovieID(movieId, API_KEY, language)
     }
 
 
     private fun initViewItems(details: Details) {
         card_view.animation =
-            AnimationUtils.loadAnimation(context,R.anim.card_view_anim_one)
+            AnimationUtils.loadAnimation(context, R.anim.card_view_anim_one)
         var genre = "genres : "
         scrollView!!.visibility = View.VISIBLE
         title!!.text = details.title
@@ -82,5 +90,6 @@ class MovieDetailsFragment : Fragment() {
         rank = view.findViewById(R.id.movie_vote)
         scrollView = view.findViewById(R.id.parent)
         genres = view.findViewById(R.id.genres)
+        subscribeOnObservers()
     }
 }

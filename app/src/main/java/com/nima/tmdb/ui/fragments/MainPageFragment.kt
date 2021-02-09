@@ -1,6 +1,5 @@
 package com.nima.tmdb.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
-import com.nima.tmdb.repositories.MovieRepository
 import com.nima.tmdb.utils.log
 import com.nima.tmdb.viewModels.MainPageViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 const val TAG : String = "MainPageFragment"
 
+@AndroidEntryPoint
 class MainPageFragment : Fragment() {
     private lateinit var sessionId : String
 
@@ -27,12 +27,10 @@ class MainPageFragment : Fragment() {
         }
         ViewModelProvider(this, MainPageViewModel.Factory(activity.application)).get(MainPageViewModel::class.java)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getArgs()
-        sendRequest()
-        subscribeObservers()
-        MovieRepository.getPopularMovies()
+        findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment)
     }
 
     private fun sendRequest() {
@@ -62,10 +60,6 @@ class MainPageFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,8 +68,4 @@ class MainPageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main_page, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        navController = Navigation.findNavController(view)
-    }
 }

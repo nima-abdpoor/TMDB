@@ -1,43 +1,31 @@
 package com.nima.tmdb.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.navigation.NavHostController
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.nima.tmdb.R
-import com.nima.tmdb.login.Authentication
-import com.nima.tmdb.login.state.LoginStateEvent
-import com.nima.tmdb.login.state.log
-import com.nima.tmdb.models.login.account.Account
-import com.nima.tmdb.utils.toast
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var bundle : Bundle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val sessionId = intent.getStringExtra(R.string.requestToken.toString())
+        navigate()
         sessionId?.let {it->
-            navigate(it)
             if (sessionId.isEmpty()) {
                 //offline Mode
             }
             else{
-
             }
         }
         Log.d(TAG, "onCreate: $sessionId")
     }
 
-    private fun navigate(sessionId: String) {
+    private fun navigate(sessionId: String = "") {
         bundle = Bundle()
         bundle.putString(R.string.sessionId.toString() , sessionId)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
