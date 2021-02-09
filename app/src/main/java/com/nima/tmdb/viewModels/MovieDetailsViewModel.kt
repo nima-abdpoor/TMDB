@@ -1,26 +1,26 @@
 package com.nima.tmdb.viewModels
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.repositories.MovieDetailsRepository
+import com.nima.tmdb.requests.wrapper.ApiWrapper
+import kotlinx.coroutines.launch
 
-class MovieDetailsViewModel : ViewModel() {
+class MovieDetailsViewModel @ViewModelInject constructor(
+    private val repository: MovieDetailsRepository
+) : ViewModel() {
 
-    private val movieDetailsRepositories : MovieDetailsRepository = MovieDetailsRepository
-    private val _movieID : MutableLiveData<Int> = MutableLiveData()
+    private val _movieDetails = MutableLiveData<ApiWrapper<Details>>()
+    val movieDetails: LiveData<ApiWrapper<Details>>
+        get() = _movieDetails
 
-    val searchMovieAPI: LiveData<Details> = Transformations
-        .switchMap(_movieID){movieID ->
-            movieDetailsRepositories.searchMovieAPI(movieID)
+
+    fun setMovieID(movieId: Int, query: String, language: String) =
+        viewModelScope.launch {
+            _movieDetails.value = repository.searchMovieAPI(movieId, query, language)
         }
-
-    fun setMovieID(movieID: Int){
-        if (movieID == _movieID.value){
-            return
-        }
-        _movieID.value = movieID
-    }
 }

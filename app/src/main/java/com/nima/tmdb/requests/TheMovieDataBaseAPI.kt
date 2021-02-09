@@ -22,7 +22,7 @@ interface TheMovieDataBaseAPI {
             @Path("movieID") movieID: Int,
             @Query("api_key") key: String?,
             @Query("language") language: String?
-    ): Details
+    ): Response<Details>
 
     @GET("authentication/token/new")
     suspend fun getNewToken(
