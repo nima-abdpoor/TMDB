@@ -10,7 +10,7 @@ import retrofit2.http.*
 interface TheMovieDataBaseAPI {
     @GET("search/movie")
     suspend fun searchMovieList(
-            @Query("api_key") key: String?,
+            @Query("api_key") key: String,
             @Query("language") language: String?,
             @Query("query") query: String?,
             @Query("page") page: Int,
