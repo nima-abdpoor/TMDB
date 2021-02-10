@@ -27,12 +27,12 @@ interface TheMovieDataBaseAPI {
     @GET("authentication/token/new")
     suspend fun getNewToken(
         @Query("api_key") key: String?,
-    ): Token
+    ): Response<Token>
 
     @POST("authentication/token/validate_with_login")
-    suspend fun login(@Body loginInfo : LoginInfo, @Query("api_key") key: String?) : LoginResponse
+    suspend fun login(@Body loginInfo : LoginInfo, @Query("api_key") key: String?) : Response<LoginResponse>
 
     @POST("authentication/session/new")
-    suspend fun getSessionId(@Body requestToken : RequestToken, @Query("api_key") key: String?) : Session
+    suspend fun getSessionId(@Body requestToken : RequestToken, @Query("api_key") key: String?) : Response<Session>
 
 }
