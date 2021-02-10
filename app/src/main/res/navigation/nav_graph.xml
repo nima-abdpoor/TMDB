@@ -22,7 +22,10 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/mainPageFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -63,14 +66,21 @@
         android:id="@+id/loginFragment"
         android:name="com.nima.tmdb.ui.fragments.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" >
+        tools:layout="@layout/login_fragment">
+        <argument
+            android:name="@string/requestToken"
+            android:defaultValue="null"
+            />
         <action
-            android:id="@+id/action_loginFragment_to_mainPageFragment2"
-            app:destination="@id/mainPageFragment"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"/>
+            android:id="@+id/action_loginFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
 </navigation>

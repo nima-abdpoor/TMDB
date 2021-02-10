@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
 import com.nima.tmdb.database.MyDao
 import com.nima.tmdb.requests.wrapper.ApiWrapper
@@ -78,7 +79,9 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
             ){
                 viewModel.login(userInfo,requestToken, API_KEY)
             }else{
-                // TODO: 2/10/2021 navigate to login Page
+                val bundle = Bundle()
+                bundle.putString(R.string.requestToken.toString(),requestToken)
+                findNavController().navigate(R.id.action_mainPageFragment_to_loginFragment,bundle)
             }
         }
     }
