@@ -8,15 +8,20 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.nima.tmdb.R
+import com.nima.tmdb.database.MyDao
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.viewModels.AuthenticationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_base.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainPageFragment : Fragment(R.layout.fragment_main_page) {
+
+    @Inject
+    lateinit var dao : MyDao
 
     private val TAG: String = "MainPageFragment"
     //private val userInfo = UserInfo(requireContext())
@@ -66,7 +71,15 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
 
     private fun handleLogin(requestToken: String?) {
         requestToken?.let {
-            //viewModel.login()
+           val userInfo = viewModel.getUserInfo()
+            if (userInfo != null &&
+                userInfo.userName?.isNotEmpty() == true &&
+                        userInfo.password?.isNotEmpty() == true
+            ){
+                viewModel.login(userInfo,requestToken, API_KEY)
+            }else{
+                // TODO: 2/10/2021 navigate to login Page
+            }
         }
     }
 
