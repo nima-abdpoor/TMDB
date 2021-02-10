@@ -25,6 +25,7 @@
     <string name="the_movie_database_loignPage">THE MOVIE DATABASE</string>
     <string name="register_loginPage">Register</string>
 
+    <string name="invalid_username_password">Invalid UserName Or Password</string>
     <string name="dont_have_account_loginPage">Don\'t hava an account?</string>
     <string name="forgot_password_LoginPage">forgot password?</string>
     <string name="api_error_text">oops…something went wrong!!</string>

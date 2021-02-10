@@ -1,7 +1,6 @@
 package com.nima.tmdb.requests.wrapper
 
 import com.nima.tmdb.utils.NoInternetException
-import kotlinx.coroutines.delay
 import retrofit2.Response
 import java.net.SocketException
 import java.net.UnknownHostException
@@ -38,19 +37,12 @@ abstract class SafeApi {
             handleResponse(call.invoke())
         } catch (e: NoInternetException) {
             ApiWrapper.NetworkError(message = "${e.message}")
-        } catch (e: UnknownHostException){
+        } catch (e: UnknownHostException) {
             ApiWrapper.NetworkError(message = "${e.message}")
-        } catch (e: SocketException){
+        } catch (e: SocketException) {
             ApiWrapper.NetworkError(message = "${e.message}")
         } catch (t: Throwable) {
-            if (!flag) {
-                flag = true
-                delay(3000)
-                apiTry(call)
-            } else {
-                flag = false
-                ApiWrapper.UnknownError(message = "${t.message}//${t.cause}")
-            }
+            ApiWrapper.UnknownError(message = "${t.message}//${t.cause}")
         }
     }
 }

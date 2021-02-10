@@ -1,125 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.fragments.LoginFragment">
 
-<LinearLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".ui.activity.LoginActivity">
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragments.LoginFragment">
+
+        <LinearLayout
+            android:id="@+id/lnl_loginPageF_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:context=".ui.activity.LoginActivity">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/design_shape"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txt_loginF_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/text_shape"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/the_movie_database_loignPage"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_loginF_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_loginF_title"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/login_loginPage"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp">
+
+                <EditText
+                    android:id="@+id/et_loginF_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:autofillHints="@string/username"
+                    android:background="@drawable/edittext_design"
+                    android:gravity="center"
+                    android:hint="@string/enter_your_username_loingPage"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <EditText
+                    android:id="@+id/et_loginF_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_loginF_username"
+                    android:layout_margin="10dp"
+                    android:autofillHints="@string/password_loginPage"
+                    android:background="@drawable/edittext_design"
+                    android:gravity="center"
+                    android:hint="@string/enter_your_password_loginPage"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/txt_loginF_forgotPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_loginF_password"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/forgot_password_LoginPage"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <Button
+                    android:id="@+id/btn_loginF_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_loginF_forgotPass"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_design"
+                    android:text="@string/login_loginPage"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/txt_loginF_notHaveAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_loginF_login"
+                    android:layout_margin="10dp"
+                    android:text="@string/dont_have_account_loginPage"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/txt_loginF_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_loginF_login"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@+id/txt_loginF_notHaveAccount"
+                    android:text="@string/register_loginPage"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="#2196F3" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
+        android:id="@+id/rtl_loginPageF_layout"
         android:layout_width="match_parent"
-        android:background="@drawable/design_shape"
-        android:gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
         <TextView
-            android:id="@+id/txt_loginF_title"
-            android:layout_width="match_parent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#fff"
-            android:layout_margin="10dp"
-            android:background="@drawable/text_shape"
-            android:text="@string/the_movie_database_loignPage"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/txt_loginF_text"
+            android:id="@+id/txt_loginPageF_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_loginF_title"
-            android:layout_marginTop="30dp"
-            android:text="@string/login_loginPage"
-            android:textColor="#fff"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/et_loginF_username"
-            android:gravity="center"
-            android:hint="@string/enter_your_username_loingPage"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:inputType="text"
-            android:background="@drawable/edittext_design"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="@string/username"
-            />
-
-        <EditText
-            android:id="@+id/et_loginF_password"
-            android:layout_below="@id/et_loginF_username"
-            android:gravity="center"
-            android:hint="@string/enter_your_password_loginPage"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:inputType="textPassword"
-            android:background="@drawable/edittext_design"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="@string/password_loginPage"/>
-
-        <TextView
-            android:id="@+id/txt_loginF_forgotPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_loginF_password"
-            android:layout_marginTop="20dp"
-            android:text="@string/forgot_password_LoginPage"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/api_error_text"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <Button
-            android:id="@+id/btn_loginF_login"
-            android:layout_margin="10dp"
-            android:background="@drawable/button_design"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:text="@string/login_loginPage"
-            android:layout_below="@+id/txt_loginF_forgotPass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/txt_loginF_notHaveAccount"
-            android:layout_margin="10dp"
+            android:id="@+id/btn_loginPageF_tryAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_loginF_login"
-            android:text="@string/dont_have_account_loginPage"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-        <TextView
-            android:id="@+id/txt_loginF_register"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_loginF_login"
-            android:textColor="#2196F3"
-            android:layout_toEndOf="@+id/txt_loginF_notHaveAccount"
-            android:text="@string/register_loginPage"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_below="@+id/txt_loginPageF_error"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_shape_wight"
+            android:text="@string/try_again"
+            android:textAllCaps="false" />
     </RelativeLayout>
 
-
-</LinearLayout>
-</ScrollView>
+</RelativeLayout>

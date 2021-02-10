@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.nima.tmdb.models.login.RequestToken
 import com.nima.tmdb.models.login.Session
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
+import com.nima.tmdb.utils.toast
 import com.nima.tmdb.viewModels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.login_fragment.*
@@ -53,55 +55,35 @@ class LoginFragment :Fragment(R.layout.login_fragment){
         subscribeOnSessionId()
     }
 
+    private fun subscribeOnLoginOnObserver() {
+        viewModel.login.observe(viewLifecycleOwner){response ->
+            when (response) {
+                is ApiWrapper.Success ->handleSuccessLogin(response.data)
+                is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                is ApiWrapper.NetworkError -> handleNetError(response.message)
+                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+            }
+        }
+    }
     private fun subscribeOnSessionId() {
         viewModel.sessionId.observe(viewLifecycleOwner){response ->
             when (response) {
-                is ApiWrapper.Success -> {
-                    handelSuccessSession(response.data)
-                    Log.d(TAG, "subscribeOnSessionId:success ${response.data?.sessionId}")
-                }
-                is ApiWrapper.ApiError -> {
-                    // TODO: 2/9/2021 show view that says : something went wrong!!
-                    Log.d(TAG, "subscribeOnSessionId:api ${response.totalError}")
-                }
-                is ApiWrapper.NetworkError -> {
-                    // TODO: 2/9/2021 show view that says :Please Check Your Connectivity NO INTERNET
-                    Log.d(TAG, "subscribeOnSessionId:net ${response.message}")
-                }
-                is ApiWrapper.UnknownError -> {
-                    // TODO: 2/9/2021 show view that says : failed to connect TMDB please make sure you are connected to internet
-                    Log.d(TAG, "subscribeOnSessionId :unKnown ${response.message}")
-                }
+                is ApiWrapper.Success ->handelSuccessSession(response.data)
+                is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                is ApiWrapper.NetworkError -> handleNetError(response.message)
+                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
             }
         }
     }
 
-    private fun subscribeOnLoginOnObserver() {
-        viewModel.login.observe(viewLifecycleOwner){response ->
-            when (response) {
-                is ApiWrapper.Success -> {
-                    handleSuccessLogin(response.data)
-                    Log.d(TAG, "subscribeOnLoginOnObserver :success ${response.data}")
-                }
-                is ApiWrapper.ApiError -> {
-                    // TODO: 2/9/2021 show view that says : something went wrong!!
-                    Log.d(TAG, "subscribeOnLoginOnObserver:api ${response.totalError}")
-                }
-                is ApiWrapper.NetworkError -> {
-                    // TODO: 2/9/2021 show view that says :Please Check Your Connectivity NO INTERNET
-                    Log.d(TAG, "subscribeOnLoginOnObserver:net ${response.message}")
-                }
-                is ApiWrapper.UnknownError -> {
-                    // TODO: 2/9/2021 show view that says : failed to connect TMDB please make sure you are connected to internet
-                    Log.d(TAG, "subscribeOnLoginOnObserver :unKnown ${response.message}")
-                }
-            }
-        }
-    }
+
 
     private fun subscribeOnViewItems() {
         btn_loginF_login.setOnClickListener {
             subscribeOnLoginButton()
+        }
+        btn_loginPageF_tryAgain.setOnClickListener {
+            showErrorView(false)
         }
     }
 
@@ -146,6 +128,34 @@ class LoginFragment :Fragment(R.layout.login_fragment){
         requestToken?.let {token ->
             val loginInfo = LoginInfo(userName,password,token)
             viewModel.login(loginInfo,API_KEY)
+        }
+    }
+    private fun handleApiError(totalError: String?) {
+        resources.getString(R.string.invalid_username_password).apply {
+            this.toast(requireContext())
+        }
+        Log.d(TAG, "handleApiError:api $totalError")
+    }
+    private fun handleNetError(message: String?) {
+        resources.getString(R.string.check_your_connection).apply {
+            showErrorView(true, this)
+            this.toast(requireContext())
+        }
+        Log.d(TAG, "subscribeOnTokenObserver:net $message")
+    }
+    private fun handleUnKnowError(message: String?) {
+        resources.getString(R.string.check_your_connection).apply {
+            showErrorView(true, this)
+            this.toast(requireContext())
+        }
+        Log.d(TAG, "subscribeOnTokenObserver:unKnown $message")
+    }
+
+    private fun showErrorView(show: Boolean, errorText: String? = null) {
+        rtl_loginPageF_layout.isVisible = show
+        lnl_loginPageF_layout.isVisible = !show
+        errorText?.let {
+            txt_loginPageF_error.text = it
         }
     }
 }
