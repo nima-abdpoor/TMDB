@@ -10,6 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
 import com.nima.tmdb.database.MyDao
+import com.nima.tmdb.models.login.LoginResponse
+import com.nima.tmdb.models.login.RequestToken
+import com.nima.tmdb.models.login.Session
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.viewModels.AuthenticationViewModel
@@ -89,8 +92,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
     private fun subscribeOnLoginObserver() {
         viewModel.login.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is ApiWrapper.Success -> {
-                }
+                is ApiWrapper.Success -> handleSuccessLogin(response.data)
                 is ApiWrapper.ApiError -> {
                 }
                 is ApiWrapper.NetworkError -> {
@@ -98,6 +100,13 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
                 is ApiWrapper.UnknownError -> {
                 }
             }
+        }
+    }
+
+    private fun handleSuccessLogin(data: LoginResponse?) {
+        data?.let {
+            val requestToken = it.requestToken?.let { it1 -> RequestToken(it1) }
+            requestToken?.let { it1 -> viewModel.getSessionId(it1, API_KEY) }
         }
     }
 
@@ -105,6 +114,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
         viewModel.sessionId.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiWrapper.Success -> {
+                    handelSuccessSession(response.data)
                 }
                 is ApiWrapper.ApiError -> {
                 }
@@ -116,7 +126,17 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
         }
     }
 
- //   private fun getLoginInfo(
+    private fun handelSuccessSession(data: Session?) {
+        data?.sessionId?.let {
+            if (it.isNotEmpty()){
+                val bundle = Bundle()
+                bundle.putString(R.string.sessionId.toString(),it)
+                findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment,bundle)
+            }
+        }
+    }
+
+    //   private fun getLoginInfo(
 //        username: String? = null,
 //        password: String? = null,
 //        requestToken: String
