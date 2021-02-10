@@ -2,7 +2,6 @@ package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.nima.tmdb.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,11 +16,5 @@ class LoginFragment :Fragment(R.layout.login_fragment){
         super.onCreate(savedInstanceState)
         requestToken = arguments?.getString(R.string.requestToken.toString(),"null")
         Log.d(TAG, "onCreate: $requestToken")
-    }
-
-    object callBack :OnBackPressedCallback(true){
-        override fun handleOnBackPressed() {
-
-        }
     }
 }
