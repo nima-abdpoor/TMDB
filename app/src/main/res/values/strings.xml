@@ -4,7 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="MovieListNames">MovieListNames</string>
     <string name="try_again">try again</string>
-    <string name="check_your_connection">check your connection!</string>
     <string name="username">User_Name</string>
     <string name="password">Pass_Word</string>
     <string name="password_loginPage">Pass_Word</string>
@@ -25,6 +24,9 @@
     <string name="login_loginPage">Login</string>
     <string name="the_movie_database_loignPage">THE MOVIE DATABASE</string>
     <string name="register_loginPage">Register</string>
+
     <string name="dont_have_account_loginPage">Don\'t hava an account?</string>
     <string name="forgot_password_LoginPage">forgot password?</string>
+    <string name="api_error_text">oops…something went wrong!!</string>
+    <string name="check_your_connection">check your connection!</string>
 </resources>

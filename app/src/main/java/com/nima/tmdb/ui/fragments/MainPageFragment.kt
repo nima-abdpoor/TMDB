@@ -6,6 +6,7 @@ import android.graphics.Path
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,9 +16,10 @@ import com.nima.tmdb.models.login.RequestToken
 import com.nima.tmdb.models.login.Session
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
+import com.nima.tmdb.utils.toast
 import com.nima.tmdb.viewModels.AuthenticationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.fragment_main_page.*
 import javax.inject.Inject
 
 
@@ -34,41 +36,66 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getToken()
-        //findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment)
-    }
-
-    private fun getToken() {
-        Log.d(TAG, "subscribeOnTokenObserver :getToken Called")
-        viewModel.getToken(API_KEY)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        animate()
+        subscribeOnViewItems()
         subscribeOnTokenObserver()
         subscribeOnLoginObserver()
         subscribeOnSessionId()
     }
 
+    private fun subscribeOnViewItems() {
+        btn_mainPageF_tryAgain.setOnClickListener {
+            animate()
+            showErrorView(false)
+            getToken()
+        }
+    }
+
+    private fun getToken() {
+        viewModel.getToken(API_KEY)
+    }
+
     private fun subscribeOnTokenObserver() {
         viewModel.getToken.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is ApiWrapper.Success -> {
-                    handleLogin(response.data?.requestToken)
-                    Log.d(TAG, "subscribeOnTokenObserver :success ${response.data}")
-                }
-                is ApiWrapper.ApiError -> {
-                    // TODO: 2/9/2021 show view that says : something went wrong!!
-                    Log.d(TAG, "subscribeOnTokenObserver:api ${response.totalError}")
-                }
-                is ApiWrapper.NetworkError -> {
-                    // TODO: 2/9/2021 show view that says :Please Check Your Connectivity NO INTERNET
-                    Log.d(TAG, "subscribeOnTokenObserver:net ${response.message}")
-                }
-                is ApiWrapper.UnknownError -> {
-                    // TODO: 2/9/2021 show view that says : failed to connect TMDB please make sure you are connected to internet
-                    Log.d(TAG, "subscribeOnTokenObserver:unKnown ${response.message}")
-                }
+                is ApiWrapper.Success -> handleLogin(response.data?.requestToken)
+                is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                is ApiWrapper.NetworkError -> handleNetError(response.message)
+                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
             }
+        }
+    }
+
+    private fun subscribeOnLoginObserver() {
+        viewModel.login.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ApiWrapper.Success -> handleSuccessLogin(response.data)
+                is ApiWrapper.ApiError -> handleApiError(response.message)
+                is ApiWrapper.NetworkError -> handleNetError(response.message)
+                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+            }
+        }
+    }
+
+    private fun subscribeOnSessionId() {
+        viewModel.sessionId.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ApiWrapper.Success -> handelSuccessSession(response.data)
+                is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                is ApiWrapper.NetworkError -> handleNetError(response.message)
+                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+            }
+        }
+    }
+
+    private fun handleSuccessLogin(data: LoginResponse?) {
+        data?.let {
+            val requestToken = it.requestToken?.let { it1 -> RequestToken(it1) }
+            requestToken?.let { it1 -> viewModel.getSessionId(it1, API_KEY) }
         }
     }
 
@@ -86,43 +113,6 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
         }
     }
 
-    private fun subscribeOnLoginObserver() {
-        viewModel.login.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiWrapper.Success -> handleSuccessLogin(response.data)
-                is ApiWrapper.ApiError -> {
-                }
-                is ApiWrapper.NetworkError -> {
-                }
-                is ApiWrapper.UnknownError -> {
-                }
-            }
-        }
-    }
-
-    private fun handleSuccessLogin(data: LoginResponse?) {
-        data?.let {
-            val requestToken = it.requestToken?.let { it1 -> RequestToken(it1) }
-            requestToken?.let { it1 -> viewModel.getSessionId(it1, API_KEY) }
-        }
-    }
-
-    private fun subscribeOnSessionId() {
-        viewModel.sessionId.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiWrapper.Success -> {
-                    handelSuccessSession(response.data)
-                }
-                is ApiWrapper.ApiError -> {
-                }
-                is ApiWrapper.NetworkError -> {
-                }
-                is ApiWrapper.UnknownError -> {
-                }
-            }
-        }
-    }
-
     private fun handelSuccessSession(data: Session?) {
         data?.sessionId?.let {
             if (it.isNotEmpty()) {
@@ -136,15 +126,29 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
         }
     }
 
-    //   private fun getLoginInfo(
-//        username: String? = null,
-//        password: String? = null,
-//        requestToken: String
-//    ): LoginInfo {
-//       // username ?: return userInfo.getUserInfo(requestToken)
-//        return LoginInfo(username, password!!, requestToken)
-//        //return LoginInfo("nimaabdpoor", "upf5YwB6@CXYiER", requestToken)
-//    }
+
+    private fun handleApiError(totalError: String?) {
+        showErrorView(true)
+        resources.getString(R.string.api_error_text).apply {
+            showErrorView(true, this)
+            this.toast(requireContext())
+        }
+        Log.d(TAG, "subscribeOnTokenObserver:api $totalError")
+    }
+    private fun handleNetError(message: String?) {
+        resources.getString(R.string.check_your_connection).apply {
+            showErrorView(true, this)
+            this.toast(requireContext())
+        }
+        Log.d(TAG, "subscribeOnTokenObserver:net $message")
+    }
+    private fun handleUnKnowError(message: String?) {
+        resources.getString(R.string.check_your_connection).apply {
+            showErrorView(true, this)
+            this.toast(requireContext())
+        }
+        Log.d(TAG, "subscribeOnTokenObserver:unKnown $message")
+    }
 
     private fun animate() {
         val path = Path().apply {
@@ -152,11 +156,19 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
             arcTo(100f, 100f, 100f, -100f, -100f, -180f, true)
             arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
         }
-        val animator = ObjectAnimator.ofFloat(button, View.X, View.Y, path).apply {
+        val animator = ObjectAnimator.ofFloat(btn_mainPageF_animation, View.X, View.Y, path).apply {
             duration = 2000
             for (i in 1..3) {
                 start()
             }
+        }
+    }
+
+    private fun showErrorView(show: Boolean, errorText: String? = null) {
+        rtl_mainPageF_layout.isVisible = show
+        btn_mainPageF_animation.isVisible = !show
+        errorText?.let {
+            txt_mainPageF_error.text = it
         }
     }
 }
