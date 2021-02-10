@@ -12,18 +12,18 @@ import com.nima.tmdb.models.login.Session
 import com.nima.tmdb.models.login.Token
 import com.nima.tmdb.repositories.AuthenticationRepository
 import com.nima.tmdb.requests.wrapper.ApiWrapper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class AuthenticationViewModel @ViewModelInject constructor(
     private val repository: AuthenticationRepository
 ) : ViewModel() {
-    private var userInfo : UserInfo? =null
     private val _token = MutableLiveData<ApiWrapper<Token>>()
     val getToken: LiveData<ApiWrapper<Token>>
         get() = _token
+
+    private val _userInfo = MutableLiveData<UserInfo>()
+    val userInfo: LiveData<UserInfo>
+        get() = _userInfo
 
     private val _login = MutableLiveData<ApiWrapper<LoginResponse>>()
     val login: LiveData<ApiWrapper<LoginResponse>>
@@ -38,22 +38,13 @@ class AuthenticationViewModel @ViewModelInject constructor(
             _token.value = repository.requestToken(apiKey)
         }
 
-    fun login(userInfo: UserInfo,requestToken: String , apiKey: String) =
+    fun login(username :String ,password :String,requestToken: String , apiKey: String) =
         viewModelScope.launch {
-            _login.value = repository.login(userInfo,requestToken , apiKey)
+            _login.value = repository.login(username,password ,requestToken , apiKey)
         }
 
     fun getSessionId(requestToken : RequestToken, apiKey: String) =
         viewModelScope.launch {
             _sessionId.value = repository.getSessionId(requestToken,apiKey)
         }
-
-    fun getUserInfo() : UserInfo? {
-        CoroutineScope(Dispatchers.IO).launch {
-            repository.getUserInfo().collect {
-                userInfo = it
-            }
-        }
-        return userInfo
-    }
 }

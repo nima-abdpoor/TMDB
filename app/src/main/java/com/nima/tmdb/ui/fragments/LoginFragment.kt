@@ -1,5 +1,6 @@
 package com.nima.tmdb.ui.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
+import com.nima.tmdb.database.MyDao
 import com.nima.tmdb.models.login.LoginInfo
 import com.nima.tmdb.models.login.LoginResponse
 import com.nima.tmdb.models.login.RequestToken
@@ -17,11 +19,21 @@ import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.viewModels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.login_fragment.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment :Fragment(R.layout.login_fragment){
 
+    @Inject
+    lateinit var dao :MyDao
+    @Inject
+    lateinit var pref : SharedPreferences
+
     private val viewModel: LoginViewModel by viewModels()
+
 
     private val TAG = "LoginFragment"
     private var requestToken: String? = null
@@ -107,8 +119,19 @@ class LoginFragment :Fragment(R.layout.login_fragment){
         data?.let {
             val requestToken = it.requestToken?.let { it1 -> RequestToken(it1) }
             requestToken?.let { it1 -> viewModel.getSessionId(it1, API_KEY) }
+            saveUserData()
         }
     }
+
+    private fun saveUserData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            pref.edit()
+                .putString(R.string.username.toString(),userName)
+                .putString(R.string.password.toString(),password)
+                .apply()
+        }
+    }
+
     private fun handelSuccessSession(data: Session?) {
         data?.sessionId?.let {
             if (it.isNotEmpty()){

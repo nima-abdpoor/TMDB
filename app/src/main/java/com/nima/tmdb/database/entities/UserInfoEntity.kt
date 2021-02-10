@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class UserInfo constructor(
     @PrimaryKey
-    val id : Int? = 0,
-    val userName : String? = "",
-    val password: String? ="",
+    var id : Int,
+    var userName : String,
+    var password: String,
 )

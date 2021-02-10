@@ -9,7 +9,7 @@ import com.nima.tmdb.database.entities.UserInfo
     entities = [
         Account::class,
         UserInfo::class
-    ], version = 2
+    ], version = 1
 )
 abstract class TMDBDatabase : RoomDatabase() {
     abstract fun myDao(): MyDao

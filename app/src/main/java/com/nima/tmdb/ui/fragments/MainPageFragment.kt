@@ -1,6 +1,7 @@
 package com.nima.tmdb.ui.fragments
 
 import android.animation.ObjectAnimator
+import android.content.SharedPreferences
 import android.graphics.Path
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
-import com.nima.tmdb.database.MyDao
 import com.nima.tmdb.models.login.LoginResponse
 import com.nima.tmdb.models.login.RequestToken
 import com.nima.tmdb.models.login.Session
@@ -25,10 +25,9 @@ import javax.inject.Inject
 class MainPageFragment : Fragment(R.layout.fragment_main_page) {
 
     @Inject
-    lateinit var dao : MyDao
+    lateinit var pref: SharedPreferences
 
     private val TAG: String = "MainPageFragment"
-    //private val userInfo = UserInfo(requireContext())
 
     private val viewModel: AuthenticationViewModel by viewModels()
 
@@ -75,16 +74,14 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
 
     private fun handleLogin(requestToken: String?) {
         requestToken?.let {
-           val userInfo = viewModel.getUserInfo()
-            if (userInfo != null &&
-                userInfo.userName?.isNotEmpty() == true &&
-                        userInfo.password?.isNotEmpty() == true
-            ){
-                viewModel.login(userInfo,requestToken, API_KEY)
-            }else{
+            val userName = pref.getString(R.string.username.toString(), "")
+            val password = pref.getString(R.string.password.toString(), "")
+            if (userName?.isNotEmpty() == true && password?.isNotEmpty() == true) {
+                viewModel.login(userName, password, requestToken, API_KEY)
+            } else {
                 val bundle = Bundle()
-                bundle.putString(R.string.requestToken.toString(),requestToken)
-                findNavController().navigate(R.id.action_mainPageFragment_to_loginFragment,bundle)
+                bundle.putString(R.string.requestToken.toString(), requestToken)
+                findNavController().navigate(R.id.action_mainPageFragment_to_loginFragment, bundle)
             }
         }
     }
@@ -128,10 +125,13 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
 
     private fun handelSuccessSession(data: Session?) {
         data?.sessionId?.let {
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 val bundle = Bundle()
-                bundle.putString(R.string.sessionId.toString(),it)
-                findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment,bundle)
+                bundle.putString(R.string.sessionId.toString(), it)
+                findNavController().navigate(
+                    R.id.action_mainPageFragment_to_movieListFragment,
+                    bundle
+                )
             }
         }
     }
@@ -143,7 +143,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
 //    ): LoginInfo {
 //       // username ?: return userInfo.getUserInfo(requestToken)
 //        return LoginInfo(username, password!!, requestToken)
-//        //return LoginInfo("nimaabdpoot", "upf5YwB6@CXYiER", requestToken)
+//        //return LoginInfo("nimaabdpoor", "upf5YwB6@CXYiER", requestToken)
 //    }
 
     private fun animate() {
