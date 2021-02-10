@@ -1,11 +1,13 @@
 package com.nima.tmdb.ui.fragments
 
-import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.SharedPreferences
-import android.graphics.Path
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.LinearInterpolator
+import android.widget.Button
+import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,6 +32,8 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
     lateinit var pref: SharedPreferences
 
     private val TAG: String = "MainPageFragment"
+    lateinit var animationButton : Button
+    var duration = 1000L
 
     private val viewModel: AuthenticationViewModel by viewModels()
 
@@ -40,14 +44,15 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        animate()
         subscribeOnViewItems()
+        animate()
         subscribeOnTokenObserver()
         subscribeOnLoginObserver()
         subscribeOnSessionId()
     }
 
     private fun subscribeOnViewItems() {
+        animationButton = view?.findViewById(R.id.btn_mainPageF_animation)!!
         btn_mainPageF_tryAgain.setOnClickListener {
             animate()
             showErrorView(false)
@@ -151,15 +156,67 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
     }
 
     private fun animate() {
-        val path = Path().apply {
-            arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
-            arcTo(100f, 100f, 100f, -100f, -100f, -180f, true)
-            arcTo(0f, 0f, 100f, 100f, 270f, -180f, true)
+        val valueAnimator0 = ValueAnimator.ofFloat(0f, -40f)
+        val valueAnimator1 = ValueAnimator.ofFloat(0f, 5 * 360f)
+        val valueAnimator2 = ValueAnimator.ofFloat(0f, 4 * 360f)
+        val valueAnimator3 = ValueAnimator.ofFloat(0f, 3 * 360f)
+        val valueAnimator4 = ValueAnimator.ofFloat(0f, 2 * 180f)
+        val valueAnimator5 = ValueAnimator.ofFloat(0f, 2 * 180f)
+        val valueAnimator6 = ValueAnimator.ofFloat(0f, 1 * 180f)
+        val valueAnimators = listOf<ValueAnimator>(valueAnimator1, valueAnimator2, valueAnimator3, valueAnimator4, valueAnimator5, valueAnimator6)
+        valueAnimator0.addUpdateListener {
+            val value = it.animatedValue as Float
+            animationButton.rotation = value
         }
-        val animator = ObjectAnimator.ofFloat(btn_mainPageF_animation, View.X, View.Y, path).apply {
-            duration = 2000
-            for (i in 1..3) {
-                start()
+        valueAnimator0.interpolator = LinearInterpolator()
+        valueAnimator0.duration = 1500L
+        valueAnimator1.addUpdateListener {
+            val value = it.animatedValue as Float
+            animationButton.rotation = value
+        }
+        valueAnimator2.addUpdateListener {
+            val value = it.animatedValue as Float
+            animationButton.rotation = value
+        }
+        valueAnimator3.addUpdateListener {
+            val value = it.animatedValue as Float
+            animationButton.rotation = value
+        }
+        valueAnimator4.addUpdateListener {
+            val value = it.animatedValue as Float
+            animationButton.rotation = value
+        }
+        valueAnimator5.addUpdateListener {
+            val value = it.animatedValue as Float
+            animationButton.rotation = value
+        }
+        valueAnimator6.addUpdateListener {
+            val value = it.animatedValue as Float
+            animationButton.rotation = value
+        }
+        for (i in valueAnimators) {
+            i.interpolator = LinearInterpolator()
+            i.duration = duration / 2
+        }
+        valueAnimator0.start()
+        valueAnimator0.doOnEnd {
+            valueAnimator6.start()
+            valueAnimator6.doOnEnd {
+                valueAnimator5.start()
+                valueAnimator5.doOnEnd {
+                    valueAnimator4.start()
+                    valueAnimator4.doOnEnd {
+                        valueAnimator3.start()
+                        valueAnimator3.doOnEnd {
+                            valueAnimator2.start()
+                            valueAnimator2.doOnEnd {
+                                valueAnimator1.doOnEnd {
+                                    valueAnimator6.start()
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
