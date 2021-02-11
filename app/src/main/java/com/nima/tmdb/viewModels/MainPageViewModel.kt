@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
-import com.nima.tmdb.models.trend.TrendModel
+import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.repositories.MainPageRepository
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
@@ -19,8 +19,8 @@ class MainPageViewModel @ViewModelInject constructor(
     val popularMovies: LiveData<ApiWrapper<PopularInfoModel>>
         get() = _popularMovies
 
-    private val _trendingMovies = MutableLiveData<ApiWrapper<TrendModel>>()
-    val trendingMovies: LiveData<ApiWrapper<TrendModel>>
+    private val _trendingMovies = MutableLiveData<ApiWrapper<TrendInfoModel>>()
+    val trendingMovies: LiveData<ApiWrapper<TrendInfoModel>>
         get() = _trendingMovies
 
 

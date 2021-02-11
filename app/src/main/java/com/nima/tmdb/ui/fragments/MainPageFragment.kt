@@ -8,8 +8,11 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.PopularMoviesAdapter
+import com.nima.tmdb.adapters.TrendMoviesAdapter
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.movie.popular.PopularModel
+import com.nima.tmdb.models.trend.TrendInfoModel
+import com.nima.tmdb.models.trend.TrendModel
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.ALL_MEDIA_TYPE
 import com.nima.tmdb.utils.Constants.API_KEY
@@ -23,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_main_page.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapter.Interaction{
+class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapter.Interaction,TrendMoviesAdapter.Interaction{
 
     private val TAG : String = "MainPageFragment"
 
@@ -32,6 +35,7 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
 
     private val viewModel: MainPageViewModel by viewModels()
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
+    private lateinit var trendMoviesAdapter: TrendMoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +58,10 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
         rv_mainPageF_popularItems.apply {
              popularMoviesAdapter = PopularMoviesAdapter(this@MainPageFragment,glide)
             adapter =popularMoviesAdapter
+        }
+        rv_mainPageF_trendingItems.apply {
+            trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment,glide)
+            adapter = trendMoviesAdapter
         }
     }
 
@@ -83,12 +91,19 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
             data.results?.let { movies -> popularMoviesAdapter.submitList(movies) }
         }
     }
+    private fun submitTrendMoviesData(data: TrendInfoModel?) {
+        data?.let {
+            Log.d(TAG, "submitTrendMoviesData: ${data.results.toString()}")
+            data.results?.let { movies -> trendMoviesAdapter.submitList(movies) }
+        }
+    }
 
     private fun subscribeOnTrendingMovies() {
         viewModel.trendingMovies.observe(viewLifecycleOwner){response ->
             when(response){
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnTrendingMovies: success ${response.data}")
+                    submitTrendMoviesData(response.data)
                 }
                 is ApiWrapper.NetworkError ->{
                     Log.d(TAG, "subscribeOnTrendingMovies: net ${response.message}")
@@ -104,6 +119,10 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
     }
 
     override fun onItemSelected(position: Int, item: PopularModel) {
-        Log.d(TAG, "onItemSelected: ${item.title}")
+        Log.d(TAG, "onItemSelected: ${item.id}")
+    }
+
+    override fun onItemSelected(position: Int, item: TrendModel) {
+        Log.d(TAG, "onItemSelected: ${item.id}")
     }
 }

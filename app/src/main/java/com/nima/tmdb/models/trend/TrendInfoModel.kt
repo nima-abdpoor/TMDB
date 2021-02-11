@@ -21,4 +21,8 @@ class TrendInfoModel {
     @SerializedName("total_results")
     @Expose
     var totalResults: Int? = null
+    override fun toString(): String {
+        return "TrendInfoModel(page=$page, results=$results, totalPages=$totalPages, totalResults=$totalResults)"
+    }
+
 }

@@ -77,4 +77,9 @@ class TrendModel {
     @SerializedName("original_name")
     @Expose
     var originalName: String? = null
+    override fun toString(): String {
+        return "TrendModel(adult=$adult, backdropPath=$backdropPath, genreIds=$genreIds, id=$id, originalLanguage=$originalLanguage, originalTitle=$originalTitle, overview=$overview, posterPath=$posterPath, releaseDate=$releaseDate, title=$title, video=$video, voteAverage=$voteAverage, voteCount=$voteCount, popularity=$popularity, firstAirDate=$firstAirDate, name=$name, originCountry=$originCountry, originalName=$originalName)"
+    }
+
+
 }

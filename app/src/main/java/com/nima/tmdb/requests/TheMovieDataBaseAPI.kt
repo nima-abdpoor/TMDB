@@ -6,7 +6,7 @@ import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
 import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
-import com.nima.tmdb.models.trend.TrendModel
+import com.nima.tmdb.models.trend.TrendInfoModel
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -57,5 +57,5 @@ interface TheMovieDataBaseAPI {
         @Path("media_type") type: String,
         @Path("time_window") timeWindow: String,
         @Query("api_key") key: String
-    ) : Response<TrendModel>
+    ) : Response<TrendInfoModel>
 }
