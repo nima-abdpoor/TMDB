@@ -63,8 +63,11 @@ class TrendMoviesAdapter(private val interaction: Interaction? = null, private v
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: TrendModel) = with(itemView) {
-            itemView.setOnClickListener { interaction?.onItemSelected(adapterPosition, item) }
+            itemView.setOnClickListener { interaction?.onTrendItemSelected(adapterPosition, item) }
             itemView.apply {
+                img_mainPageF_image.setOnClickListener {
+                    interaction?.onTrendItemSelected(adapterPosition,item)
+                }
                 txt_movieCategoryI_title.text = item.title
                 txt_movieCategoryI_date.text = item.releaseDate
                 glide.load(Constants.IMAGE_BASE_URL + item.posterPath)
@@ -74,7 +77,7 @@ class TrendMoviesAdapter(private val interaction: Interaction? = null, private v
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: TrendModel)
+        fun onTrendItemSelected(position: Int, item: TrendModel)
     }
 
 }

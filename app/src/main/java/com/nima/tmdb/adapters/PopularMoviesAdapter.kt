@@ -69,10 +69,10 @@ class PopularMoviesAdapter(private val interaction: Interaction? = null, private
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: PopularModel) = with(itemView) {
-            itemView.setOnClickListener { interaction?.onItemSelected(adapterPosition, item) }
+            itemView.setOnClickListener { interaction?.onPopularItemSelected(adapterPosition, item) }
             itemView.apply {
                 img_mainPageF_image.setOnClickListener {
-                    interaction?.onItemSelected(adapterPosition,item)
+                    interaction?.onPopularItemSelected(adapterPosition,item)
                 }
                 txt_movieCategoryI_title.text = item.title
                 txt_movieCategoryI_date.text = item.releaseDate
@@ -83,6 +83,6 @@ class PopularMoviesAdapter(private val interaction: Interaction? = null, private
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: PopularModel)
+        fun onPopularItemSelected(position: Int, item: PopularModel)
     }
 }

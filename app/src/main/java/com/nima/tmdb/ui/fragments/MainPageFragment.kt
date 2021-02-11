@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.PopularMoviesAdapter
@@ -118,11 +119,27 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
         }
     }
 
-    override fun onItemSelected(position: Int, item: PopularModel) {
-        Log.d(TAG, "onItemSelected: ${item.id}")
+    override fun onPopularItemSelected(position: Int, item: PopularModel) {
+        Log.d(TAG, "onTrendItemSelected: ${item.id}")
+        item.id?.let { id ->
+            val bundle = Bundle()
+            bundle.putInt("movieID", id)
+            findNavController().navigate(
+                R.id.action_mainPageFragment_to_movieDetailsFragment,
+                bundle
+            )
+        }
     }
 
-    override fun onItemSelected(position: Int, item: TrendModel) {
-        Log.d(TAG, "onItemSelected: ${item.id}")
+    override fun onTrendItemSelected(position: Int, item: TrendModel) {
+        Log.d(TAG, "onTrendItemSelected: ${item.id}")
+        item.id?.let { id ->
+            val bundle = Bundle()
+            bundle.putInt("movieID", id)
+            findNavController().navigate(
+                R.id.action_mainPageFragment_to_movieDetailsFragment,
+                bundle
+            )
+        }
     }
 }
