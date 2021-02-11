@@ -21,12 +21,12 @@ import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
 import com.nima.tmdb.viewModels.AuthenticationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_main_page.*
+import kotlinx.android.synthetic.main.fragment_first_page.*
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainPageFragment : Fragment(R.layout.fragment_main_page) {
+class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -52,8 +52,8 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
     }
 
     private fun subscribeOnViewItems() {
-        animationButton = view?.findViewById(R.id.btn_mainPageF_animation)!!
-        btn_mainPageF_tryAgain.setOnClickListener {
+        animationButton = view?.findViewById(R.id.btn_firstPageF_animation)!!
+        btn_firstPageF_tryAgain.setOnClickListener {
             animate()
             showErrorView(false)
             getToken()
@@ -113,7 +113,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
             } else {
                 val bundle = Bundle()
                 bundle.putString(R.string.requestToken.toString(), requestToken)
-                findNavController().navigate(R.id.action_mainPageFragment_to_loginFragment, bundle)
+                findNavController().navigate(R.id.action_firstPageFragment_to_loginFragment, bundle)
             }
         }
     }
@@ -124,7 +124,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
                 val bundle = Bundle()
                 bundle.putString(R.string.sessionId.toString(), it)
                 findNavController().navigate(
-                    R.id.action_mainPageFragment_to_movieListFragment,
+                    R.id.action_firstPageFragment_to_movieListFragment,
                     bundle
                 )
             }
@@ -222,10 +222,10 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page) {
     }
 
     private fun showErrorView(show: Boolean, errorText: String? = null) {
-        rtl_mainPageF_layout.isVisible = show
-        btn_mainPageF_animation.isVisible = !show
+        rtl_firstPageF_layout.isVisible = show
+        btn_firstPageF_animation.isVisible = !show
         errorText?.let {
-            txt_mainPageF_error.text = it
+            txt_firstPageF_error.text = it
         }
     }
 }
