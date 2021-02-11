@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.LoginFragment">
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/lnr_mainPageF_popularLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/txt_mainPageF_popularTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/popular_category"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:textSize="@dimen/_16sdp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_mainPageF_popularItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_movie_category" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnr_mainPageF_trendingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/lnr_mainPageF_popularLayout">
+        <TextView
+            android:id="@+id/txt_mainPageF_trendingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/trending_category"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:textSize="@dimen/_16sdp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_mainPageF_trendingItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_movie_category"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
+</ScrollView>

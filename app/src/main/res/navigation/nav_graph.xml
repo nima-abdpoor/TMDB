@@ -69,7 +69,7 @@
         android:id="@+id/loginFragment"
         android:name="com.nima.tmdb.ui.fragments.LoginFragment"
         android:label="loginFragment"
-        tools:layout="@layout/login_fragment">
+        tools:layout="@layout/fragment_login">
         <argument
             android:name="@string/requestToken"
             android:defaultValue="null"
