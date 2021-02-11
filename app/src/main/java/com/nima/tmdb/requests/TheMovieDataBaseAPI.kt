@@ -4,6 +4,9 @@ package com.nima.tmdb.requests
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
+import com.nima.tmdb.models.login.account.Account
+import com.nima.tmdb.models.movie.popular.Popular
+import com.nima.tmdb.models.trend.Trend
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -35,4 +38,24 @@ interface TheMovieDataBaseAPI {
     @POST("authentication/session/new")
     suspend fun getSessionId(@Body requestToken : RequestToken, @Query("api_key") key: String?) : Response<Session>
 
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("api_key") key: String,
+        @Query("session_id") sessionId: String,
+    ): Response<Account>
+
+    @GET("movie/popular")
+    suspend fun getPopular(
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+        @Query("region") region: String,
+    ) : Response<Popular>
+
+    @GET("trending/{media_type}/{time_window}/")
+    suspend fun getTrending(
+        @Path("media_type") type: String,
+        @Path("time_window") timeWindow: String,
+        @Query("api_key") key: String
+    ) : Response<Trend>
 }
