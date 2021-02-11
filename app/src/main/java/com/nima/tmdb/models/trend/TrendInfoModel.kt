@@ -5,14 +5,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class Trend {
+class TrendInfoModel {
     @SerializedName("page")
     @Expose
     var page: Int? = null
 
     @SerializedName("results")
     @Expose
-    var results: List<TrendResults>? = null
+    var results: List<TrendModel>? = null
 
     @SerializedName("total_pages")
     @Expose

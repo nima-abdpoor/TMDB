@@ -3,12 +3,12 @@ package com.nima.tmdb.models.movie.popular
 import com.squareup.moshi.Json
 
 
-class Popular {
+class PopularInfoModel {
     @Json(name = "page")
     var page: Int? = null
 
     @Json(name = "results")
-    var results: List<Result>? = null
+    var results: List<PopularModel>? = null
 
     @Json(name = "total_pages")
     var totalPages: Int? = null

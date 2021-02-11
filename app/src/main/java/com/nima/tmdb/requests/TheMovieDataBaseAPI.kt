@@ -5,8 +5,8 @@ import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
 import com.nima.tmdb.models.login.account.Account
-import com.nima.tmdb.models.movie.popular.Popular
-import com.nima.tmdb.models.trend.Trend
+import com.nima.tmdb.models.movie.popular.PopularInfoModel
+import com.nima.tmdb.models.trend.TrendModel
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -50,12 +50,12 @@ interface TheMovieDataBaseAPI {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String="",
-    ) : Response<Popular>
+    ) : Response<PopularInfoModel>
 
-    @GET("trending/{media_type}/{time_window}/")
+    @GET("trending/{media_type}/{time_window}")
     suspend fun getTrending(
         @Path("media_type") type: String,
         @Path("time_window") timeWindow: String,
         @Query("api_key") key: String
-    ) : Response<Trend>
+    ) : Response<TrendModel>
 }

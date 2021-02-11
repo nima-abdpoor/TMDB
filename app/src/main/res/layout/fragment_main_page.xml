@@ -31,7 +31,8 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
-            tools:listitem="@layout/item_movie_category" />
+            tools:listitem="@layout/item_movie_category"
+            android:padding="@dimen/_5sdp"/>
 
     </LinearLayout>
 

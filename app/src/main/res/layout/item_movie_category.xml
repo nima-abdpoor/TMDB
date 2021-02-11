@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_border_movie_category">
             <ImageView
-                android:id="@+id/img_"
+                android:id="@+id/img_mainPageF_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class TrendResults {
+class TrendModel {
     @SerializedName("adult")
     @Expose
     var adult: Boolean? = null

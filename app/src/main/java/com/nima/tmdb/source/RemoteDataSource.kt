@@ -3,8 +3,8 @@ package com.nima.tmdb.source
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
-import com.nima.tmdb.models.movie.popular.Popular
-import com.nima.tmdb.models.trend.Trend
+import com.nima.tmdb.models.movie.popular.PopularInfoModel
+import com.nima.tmdb.models.trend.TrendModel
 import com.nima.tmdb.requests.TheMovieDataBaseAPI
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.requests.wrapper.SafeApi
@@ -18,6 +18,6 @@ class RemoteDataSource @Inject constructor(
     suspend fun getToken(apiKey: String): ApiWrapper<Token> =safeApi { api.getNewToken(apiKey)}
     suspend fun login(loginInfo : LoginInfo , apiKey: String): ApiWrapper<LoginResponse> =safeApi { api.login(loginInfo,apiKey)}
     suspend fun getSessionId(requestToken : RequestToken , apiKey: String): ApiWrapper<Session> =safeApi { api.getSessionId(requestToken,apiKey)}
-    suspend fun getPopular(apiKey: String,language: String,page: Int,region : String): ApiWrapper<Popular> =safeApi { api.getPopular(apiKey,language,page , region)}
-    suspend fun getTrending(mediaType : String , timeWindow : String , apiKey: String): ApiWrapper<Trend> =safeApi { api.getTrending(mediaType,timeWindow,apiKey)}
+    suspend fun getPopular(apiKey: String,language: String,page: Int,region : String): ApiWrapper<PopularInfoModel> =safeApi { api.getPopular(apiKey,language,page , region)}
+    suspend fun getTrending(mediaType : String , timeWindow : String , apiKey: String): ApiWrapper<TrendModel> =safeApi { api.getTrending(mediaType,timeWindow,apiKey)}
 }

@@ -3,7 +3,7 @@ package com.nima.tmdb.models.movie.popular
 import com.squareup.moshi.Json
 
 
-class Result {
+class PopularModel {
     @Json(name = "adult")
     var adult: Boolean? = null
 
