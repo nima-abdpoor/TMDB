@@ -3,30 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainPageFragment">
+    app:startDestination="@id/firstPageFragment">
 
     <fragment
-        android:id="@+id/mainPageFragment"
-        android:name="com.nima.tmdb.ui.fragments.MainPageFragment"
-        android:label="MovieListFragment" >
+        android:id="@+id/firstPageFragment"
+        android:name="com.nima.tmdb.ui.fragments.FirstPageFragment"
+        android:label="firstPageFragment" >
         <action
-            android:id="@+id/action_mainPageFragment_to_movieListFragment"
+            android:id="@+id/action_firstPageFragment_to_movieListFragment"
             app:destination="@id/movieListFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/mainPageFragment"
+            app:popUpTo="@id/firstPageFragment"
             app:popUpToInclusive="true"
             />
         <action
-            android:id="@+id/action_mainPageFragment_to_loginFragment"
+            android:id="@+id/action_firstPageFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/mainPageFragment"
+            app:popUpTo="@id/firstPageFragment"
             app:popUpToInclusive="true"
             />
     </fragment>
@@ -68,7 +68,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.nima.tmdb.ui.fragments.LoginFragment"
-        android:label="login_fragment"
+        android:label="loginFragment"
         tools:layout="@layout/login_fragment">
         <argument
             android:name="@string/requestToken"
