@@ -1,18 +1,31 @@
 package com.nima.tmdb.models.movie.popular
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 
 class PopularInfoModel {
-    @Json(name = "page")
+
+    @SerializedName("page")
+    @Expose
     var page: Int? = null
 
-    @Json(name = "results")
-    var results: List<PopularModel>? = null
+    @SerializedName("results")
+    @Expose
+    var results: List<PopularModel?>? = null
 
-    @Json(name = "total_pages")
+    @SerializedName("total_pages")
+    @Expose
     var totalPages: Int? = null
 
-    @Json(name = "total_results")
+    @SerializedName("total_results")
+    @Expose
     var totalResults: Int? = null
+
+
+    override fun toString(): String {
+        return "PopularInfoModel(page=$page, results=$results, totalPages=$totalPages, totalResults=$totalResults)"
+    }
+
+
 }

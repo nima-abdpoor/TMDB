@@ -58,7 +58,7 @@ class PopularMoviesAdapter(private val interaction: Interaction? = null, private
         return differ.currentList.size
     }
 
-    fun submitList(list: List<PopularModel>) {
+    fun submitList(list: List<PopularModel?>) {
         differ.submitList(list)
     }
 
@@ -73,7 +73,7 @@ class PopularMoviesAdapter(private val interaction: Interaction? = null, private
             itemView.apply {
                 txt_movieCategoryI_title.text = item.title
                 txt_movieCategoryI_date.text = item.voteAverage.toString()
-                glide.load(Constants.IMAGE_BASE_URL + item.posterPath)
+                glide.load(Constants.IMAGE_BASE_URL + item.backdropPath)
                     .into(img_mainPageF_image)
             }
         }

@@ -79,6 +79,7 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
 
     private fun submitPopularMoviesData(data: PopularInfoModel?) {
         data?.let {
+            Log.d(TAG, "submitPopularMoviesData: ${data.results.toString()}")
             data.results?.let { movies -> popularMoviesAdapter.submitList(movies) }
         }
     }

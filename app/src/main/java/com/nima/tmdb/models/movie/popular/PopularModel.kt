@@ -1,48 +1,63 @@
 package com.nima.tmdb.models.movie.popular
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 
 class PopularModel {
-    @Json(name = "adult")
-    var adult: Boolean? = null
+    @SerializedName("adult")
+    @Expose
+     var adult: Boolean? = null
 
-    @Json(name = "backdrop_path")
-    var backdropPath: String? = null
+    @SerializedName("backdrop_path")
+    @Expose
+     var backdropPath: String? = null
 
-    @Json(name = "genre_ids")
-    var genreIds: List<Int>? = null
+    @SerializedName("genre_ids")
+    @Expose
+     var genreIds: List<Int?>? = null
 
-    @Json(name = "id")
-    var id: Int? = null
+    @SerializedName("id")
+    @Expose
+     var id: Int? = null
 
-    @Json(name = "original_language")
-    var originalLanguage: String? = null
+    @SerializedName("original_language")
+    @Expose
+     var originalLanguage: String? = null
 
-    @Json(name = "original_title")
-    var originalTitle: String? = null
+    @SerializedName("original_title")
+    @Expose
+     var originalTitle: String? = null
 
-    @Json(name = "overview")
-    var overview: String? = null
+    @SerializedName("overview")
+    @Expose
+     var overview: String? = null
 
-    @Json(name = "popularity")
-    var popularity: Double? = null
+    @SerializedName("popularity")
+    @Expose
+     var popularity: Double? = null
 
-    @Json(name = "poster_path")
-    var posterPath: String? = null
+    @SerializedName("poster_path")
+    @Expose
+     var posterPath: String? = null
 
-    @Json(name = "release_date")
-    var releaseDate: String? = null
+    @SerializedName("release_date")
+    @Expose
+     var releaseDate: String? = null
 
-    @Json(name = "title")
-    var title: String? = null
+    @SerializedName("title")
+    @Expose
+     var title: String? = null
 
-    @Json(name = "video")
-    var video: Boolean? = null
+    @SerializedName("video")
+    @Expose
+     var video: Boolean? = null
 
-    @Json(name = "vote_average")
-    var voteAverage: Double? = null
+    @SerializedName("vote_average")
+    @Expose
+     var voteAverage: Int? = null
 
-    @Json(name = "vote_count")
-    var voteCount: Int? = null
+    @SerializedName("vote_count")
+    @Expose
+     var voteCount: Int? = null
 }
