@@ -30,4 +30,9 @@
     <string name="forgot_password_LoginPage">forgot password?</string>
     <string name="api_error_text">oops…something went wrong!!</string>
     <string name="check_your_connection">check your connection!</string>
+
+
+    <string name="popular_category">Popular</string>
+    <string name="trending_category">Trending</string>
+    <string name="movie_category_demoTitle">The Movie Name is the Best</string>
 </resources>

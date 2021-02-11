@@ -20,14 +20,14 @@ import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
 import com.nima.tmdb.viewModels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.login_fragment.*
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment :Fragment(R.layout.login_fragment){
+class LoginFragment :Fragment(R.layout.fragment_login){
 
     @Inject
     lateinit var dao :MyDao
@@ -119,7 +119,7 @@ class LoginFragment :Fragment(R.layout.login_fragment){
             if (it.isNotEmpty()){
                 val bundle = Bundle()
                 bundle.putString(R.string.sessionId.toString(),it)
-                findNavController().navigate(R.id.action_loginFragment_to_movieListFragment,bundle)
+                findNavController().navigate(R.id.action_loginFragment_to_mainPageFragment,bundle)
             }
         }
     }
