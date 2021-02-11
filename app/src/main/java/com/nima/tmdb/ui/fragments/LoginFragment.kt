@@ -119,7 +119,7 @@ class LoginFragment :Fragment(R.layout.fragment_login){
             if (it.isNotEmpty()){
                 val bundle = Bundle()
                 bundle.putString(R.string.sessionId.toString(),it)
-                findNavController().navigate(R.id.action_loginFragment_to_movieListFragment,bundle)
+                findNavController().navigate(R.id.action_loginFragment_to_mainPageFragment,bundle)
             }
         }
     }

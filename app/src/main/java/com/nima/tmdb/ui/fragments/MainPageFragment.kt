@@ -17,7 +17,7 @@ import com.nima.tmdb.viewModels.MainPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainPageFragment :Fragment(R.layout.fragement_main_page){
+class MainPageFragment :Fragment(R.layout.fragment_main_page){
 
     private val TAG : String = "MainPageFragment"
     private val viewModel: MainPageViewModel by viewModels()
@@ -64,13 +64,13 @@ class MainPageFragment :Fragment(R.layout.fragement_main_page){
                     Log.d(TAG, "subscribeOnTrendingMovies: success ${response.data}")
                 }
                 is ApiWrapper.NetworkError ->{
-                    Log.d(TAG, "subscribeOnTrendingMovies: success ${response.message}")
+                    Log.d(TAG, "subscribeOnTrendingMovies: net ${response.message}")
                 }
                 is ApiWrapper.ApiError ->{
-                    Log.d(TAG, "subscribeOnTrendingMovies: success ${response.totalError}")
+                    Log.d(TAG, "subscribeOnTrendingMovies: api ${response.totalError}")
                 }
                 is ApiWrapper.UnknownError ->{
-                    Log.d(TAG, "subscribeOnTrendingMovies: success ${response.message}")
+                    Log.d(TAG, "subscribeOnTrendingMovies: un ${response.message}")
                 }
             }
         }

@@ -124,7 +124,7 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
                 val bundle = Bundle()
                 bundle.putString(R.string.sessionId.toString(), it)
                 findNavController().navigate(
-                    R.id.action_firstPageFragment_to_movieListFragment,
+                    R.id.action_firstPageFragment_to_mainPageFragment,
                     bundle
                 )
             }

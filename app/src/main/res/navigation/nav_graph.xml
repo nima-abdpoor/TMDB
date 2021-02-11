@@ -10,20 +10,20 @@
         android:name="com.nima.tmdb.ui.fragments.FirstPageFragment"
         android:label="firstPageFragment" >
         <action
-            android:id="@+id/action_firstPageFragment_to_movieListFragment"
-            app:destination="@id/movieListFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_firstPageFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/firstPageFragment"
             app:popUpToInclusive="true"
             />
         <action
-            android:id="@+id/action_firstPageFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
+            android:id="@+id/action_firstPageFragment_to_mainPageFragment"
+            app:destination="@id/mainPageFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/firstPageFragment"
@@ -75,15 +75,18 @@
             android:defaultValue="null"
             />
         <action
-            android:id="@+id/action_loginFragment_to_movieListFragment"
-            app:destination="@id/movieListFragment"
+            android:id="@+id/action_loginFragment_to_mainPageFragment"
+            app:destination="@id/mainPageFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"
             />
     </fragment>
+    <fragment
+        android:id="@+id/mainPageFragment"
+        android:name="com.nima.tmdb.ui.fragments.MainPageFragment"
+        android:label="fragment_main_page"
+        tools:layout="@layout/fragment_main_page" />
 
 </navigation>
