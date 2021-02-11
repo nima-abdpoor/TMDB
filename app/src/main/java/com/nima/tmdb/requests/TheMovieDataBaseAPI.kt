@@ -49,7 +49,7 @@ interface TheMovieDataBaseAPI {
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("page") page: Int,
-        @Query("region") region: String,
+        @Query("region") region: String="",
     ) : Response<Popular>
 
     @GET("trending/{media_type}/{time_window}/")

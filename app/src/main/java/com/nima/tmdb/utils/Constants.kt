@@ -20,4 +20,15 @@ object Constants {
     val DEFAULT_MOVIE_LIST_NAME = arrayOf("life", "toy", "war", "nature", "nina", "big", "peace", "rain", "murder")
     var DEFAULT_IMAGE_REQUEST = RequestOptions().placeholder(R.drawable.ic_launcher_background)
     var DEFAULT_IMAGE = R.drawable.ic_launcher_background.toString()
+
+
+    //MediaType
+    const val ALL_MEDIA_TYPE = "all"
+    const val MOVIE_MEDIA_TYPE = "movie"
+    const val TV_MEDIA_TYPE = "tv"
+    const val PERSON_MEDIA_TYPE = "person"
+
+    //timeWindow
+    const val DAY_MEDIA_TYPE = "day"
+    const val WEEK_MEDIA_TYPE = "week"
 }
