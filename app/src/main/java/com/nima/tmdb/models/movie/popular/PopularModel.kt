@@ -55,7 +55,7 @@ class PopularModel {
 
     @SerializedName("vote_average")
     @Expose
-     var voteAverage: Int? = null
+     var voteAverage: Double? = null
 
     @SerializedName("vote_count")
     @Expose

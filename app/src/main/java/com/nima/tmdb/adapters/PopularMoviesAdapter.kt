@@ -72,8 +72,8 @@ class PopularMoviesAdapter(private val interaction: Interaction? = null, private
             itemView.setOnClickListener { interaction?.onItemSelected(adapterPosition, item) }
             itemView.apply {
                 txt_movieCategoryI_title.text = item.title
-                txt_movieCategoryI_date.text = item.voteAverage.toString()
-                glide.load(Constants.IMAGE_BASE_URL + item.backdropPath)
+                txt_movieCategoryI_date.text = item.releaseDate
+                glide.load(Constants.IMAGE_BASE_URL + item.posterPath)
                     .into(img_mainPageF_image)
             }
         }
