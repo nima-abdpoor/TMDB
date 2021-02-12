@@ -1,6 +1,9 @@
 package com.nima.tmdb.ui.fragments
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class LoginFragment :Fragment(R.layout.fragment_login){
 
@@ -44,7 +48,7 @@ class LoginFragment :Fragment(R.layout.fragment_login){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestToken = arguments?.getString(R.string.requestToken.toString(),"null")
+        requestToken = arguments?.getString(R.string.requestToken.toString(), "null")
         Log.d(TAG, "onCreate: $requestToken")
     }
 
@@ -56,9 +60,9 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     }
 
     private fun subscribeOnLoginOnObserver() {
-        viewModel.login.observe(viewLifecycleOwner){response ->
+        viewModel.login.observe(viewLifecycleOwner){ response ->
             when (response) {
-                is ApiWrapper.Success ->handleSuccessLogin(response.data)
+                is ApiWrapper.Success -> handleSuccessLogin(response.data)
                 is ApiWrapper.ApiError -> handleApiError(response.totalError)
                 is ApiWrapper.NetworkError -> handleNetError(response.message)
                 is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
@@ -66,9 +70,9 @@ class LoginFragment :Fragment(R.layout.fragment_login){
         }
     }
     private fun subscribeOnSessionId() {
-        viewModel.sessionId.observe(viewLifecycleOwner){response ->
+        viewModel.sessionId.observe(viewLifecycleOwner){ response ->
             when (response) {
-                is ApiWrapper.Success ->handelSuccessSession(response.data)
+                is ApiWrapper.Success -> handelSuccessSession(response.data)
                 is ApiWrapper.ApiError -> handleApiError(response.totalError)
                 is ApiWrapper.NetworkError -> handleNetError(response.message)
                 is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
@@ -79,11 +83,29 @@ class LoginFragment :Fragment(R.layout.fragment_login){
 
 
     private fun subscribeOnViewItems() {
+        txt_loginF_forgotPass.setOnClickListener {
+            openWebBrowser(resources.getString(R.string.forgot_password_url))
+        }
+        txt_loginF_register.setOnClickListener {
+            openWebBrowser(resources.getString(R.string.signUp_url))
+        }
         btn_loginF_login.setOnClickListener {
             subscribeOnLoginButton()
         }
         btn_loginPageF_tryAgain.setOnClickListener {
             showErrorView(false)
+        }
+    }
+
+    private fun openWebBrowser(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.setPackage("com.android.chrome")
+        try {
+            requireContext().startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            intent.setPackage(null)
+            requireActivity().startActivity(intent)
         }
     }
 
@@ -94,7 +116,11 @@ class LoginFragment :Fragment(R.layout.fragment_login){
             login()
         }
         else{
-            Toast.makeText(requireContext(),"UserName or Password must have value",Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "UserName or Password must have value",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
     private fun handleSuccessLogin(data: LoginResponse?) {
@@ -108,8 +134,8 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     private fun saveUserData() {
         CoroutineScope(Dispatchers.IO).launch {
             pref.edit()
-                .putString(R.string.username.toString(),userName)
-                .putString(R.string.password.toString(),password)
+                .putString(R.string.username.toString(), userName)
+                .putString(R.string.password.toString(), password)
                 .apply()
         }
     }
@@ -118,16 +144,16 @@ class LoginFragment :Fragment(R.layout.fragment_login){
         data?.sessionId?.let {
             if (it.isNotEmpty()){
                 val bundle = Bundle()
-                bundle.putString(R.string.sessionId.toString(),it)
-                findNavController().navigate(R.id.action_loginFragment_to_mainPageFragment,bundle)
+                bundle.putString(R.string.sessionId.toString(), it)
+                findNavController().navigate(R.id.action_loginFragment_to_mainPageFragment, bundle)
             }
         }
     }
 
     private fun login() {
-        requestToken?.let {token ->
-            val loginInfo = LoginInfo(userName,password,token)
-            viewModel.login(loginInfo,API_KEY)
+        requestToken?.let { token ->
+            val loginInfo = LoginInfo(userName, password, token)
+            viewModel.login(loginInfo, API_KEY)
         }
     }
     private fun handleApiError(totalError: String?) {

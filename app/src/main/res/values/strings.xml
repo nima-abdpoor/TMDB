@@ -35,4 +35,6 @@
     <string name="popular_category">Popular</string>
     <string name="trending_category">Trending</string>
     <string name="movie_category_demoTitle">The Movie Name is the Best</string>
+    <string name="signUp_url">https://www.themoviedb.org/signup</string>
+    <string name="forgot_password_url">https://www.themoviedb.org/reset-password</string>
 </resources>
