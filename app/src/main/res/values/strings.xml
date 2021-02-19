@@ -37,4 +37,8 @@
     <string name="movie_category_demoTitle">The Movie Name is the Best</string>
     <string name="signUp_url">https://www.themoviedb.org/signup</string>
     <string name="forgot_password_url">https://www.themoviedb.org/reset-password</string>
+
+    <string name="mainMenu_lists">lists</string>
+    <string name="mainMenu_favorite">favorite</string>
+    <string name="mainMenu_watchList">watchlist</string>
 </resources>

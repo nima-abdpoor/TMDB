@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/addToList_mainPageF_item"
+            android:title="@string/mainMenu_lists"
+            android:icon="@drawable/ic_add_to_list_menu"
+            />
+        <item
+            android:id="@+id/favorite_mainPageF_item"
+            android:title="@string/mainMenu_favorite"
+            android:icon="@drawable/ic_favorite_menu"
+            />
+        <item
+            android:id="@+id/watchList_mainPageF_item"
+            android:title="@string/mainMenu_watchList"
+            android:icon="@drawable/ic_bookmark_menu"
+            />
+    </group>
+
+</menu>
