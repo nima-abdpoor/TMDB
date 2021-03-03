@@ -33,6 +33,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
 
     private val TAG: String = "MainPageFragment"
+    private var sessionId :String = ""
 
     @Inject
     lateinit var glide: RequestManager
@@ -43,12 +44,15 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sessionId = arguments?.getString(R.string.sessionId.toString(), "") ?: ""
+        Log.d(TAG, "onCreate: $sessionId")
         getMovies()
     }
 
     private fun getMovies() {
         viewModel.getPopularMovies(API_KEY, DEFAULT_LANGUAGE, DEFAULT_PAGE, DEFAULT_REGION)
         viewModel.getTrendingMovies(ALL_MEDIA_TYPE, DAY_MEDIA_TYPE, API_KEY)
+        viewModel.getAccount(API_KEY,sessionId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +60,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         initRecyclerView()
         subscribeOnPopularMovies()
         subscribeOnTrendingMovies()
+        subscribeOnAccountDetails()
     }
 
     private fun initRecyclerView() {
@@ -85,6 +90,25 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
                 }
                 is ApiWrapper.UnknownError -> {
                     Log.d(TAG, "subscribeOnPopularMovies: success ${response.message}")
+                }
+            }
+        }
+    }
+
+    private fun subscribeOnAccountDetails() {
+        viewModel.accountDetail.observe(viewLifecycleOwner){response ->
+            when(response){
+                is ApiWrapper.Success -> {
+                    Log.d(TAG, "subscribeOnAccountDetails: success ${response.data}")
+                }
+                is ApiWrapper.NetworkError -> {
+                    Log.d(TAG, "subscribeOnAccountDetails: api ${response.message}")
+                }
+                is ApiWrapper.UnknownError -> {
+                    Log.d(TAG, "subscribeOnAccountDetails: api ${response.message}")
+                }
+                is ApiWrapper.ApiError -> {
+                    Log.d(TAG, "subscribeOnAccountDetails: api ${response.totalError}")
                 }
             }
         }

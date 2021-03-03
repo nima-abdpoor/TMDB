@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.repositories.MainPageRepository
@@ -23,6 +24,10 @@ class MainPageViewModel @ViewModelInject constructor(
     val trendingMovies: LiveData<ApiWrapper<TrendInfoModel>>
         get() = _trendingMovies
 
+    private val _account = MutableLiveData<ApiWrapper<Account>>()
+    val accountDetail: LiveData<ApiWrapper<Account>>
+        get() = _account
+
 
     fun getPopularMovies(apiKey: String,language: String,page: Int,region : String) =
         viewModelScope.launch {
@@ -32,5 +37,9 @@ class MainPageViewModel @ViewModelInject constructor(
     fun getTrendingMovies(mediaType : String , timeWindow : String , apiKey: String) =
         viewModelScope.launch {
             _trendingMovies.value = repository.getTrending(mediaType,timeWindow,apiKey)
+        }
+    fun getAccount(apiKey: String,sessionId : String) =
+        viewModelScope.launch {
+            _account.value = repository.getAccount(apiKey,sessionId)
         }
 }

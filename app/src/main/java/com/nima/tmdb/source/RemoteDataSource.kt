@@ -3,6 +3,7 @@ package com.nima.tmdb.source
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
+import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.requests.TheMovieDataBaseAPI
@@ -20,4 +21,5 @@ class RemoteDataSource @Inject constructor(
     suspend fun getSessionId(requestToken : RequestToken , apiKey: String): ApiWrapper<Session> =safeApi { api.getSessionId(requestToken,apiKey)}
     suspend fun getPopular(apiKey: String,language: String,page: Int,region : String): ApiWrapper<PopularInfoModel> =safeApi { api.getPopular(apiKey,language,page , region)}
     suspend fun getTrending(mediaType : String , timeWindow : String , apiKey: String): ApiWrapper<TrendInfoModel> =safeApi { api.getTrending(mediaType,timeWindow,apiKey)}
+    suspend fun getAccount(apiKey: String,sessionId : String): ApiWrapper<Account> =safeApi { api.getAccountDetails(apiKey,sessionId)}
 }

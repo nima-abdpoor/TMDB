@@ -1,5 +1,6 @@
 package com.nima.tmdb.repositories
 
+import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.requests.wrapper.ApiWrapper
@@ -11,4 +12,5 @@ class MainPageRepository @Inject constructor(
 ) {
     suspend fun getPopularMovies(apiKey: String,language: String,page: Int,region : String): ApiWrapper<PopularInfoModel> = remote.getPopular(apiKey,language,page, region)
     suspend fun getTrending(mediaType : String , timeWindow : String , apiKey: String): ApiWrapper<TrendInfoModel> = remote.getTrending(mediaType,timeWindow,apiKey)
+    suspend fun getAccount(apiKey: String,sessionId:String): ApiWrapper<Account> = remote.getAccount(apiKey,sessionId)
 }
