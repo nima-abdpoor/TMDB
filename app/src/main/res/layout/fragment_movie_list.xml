@@ -18,7 +18,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:id="@+id/search_view"
-                app:queryHint="@string/default_search_text"/>
+                app:queryHint="@string/default_search_text"
+                android:focusable="true"
+                />
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -56,6 +56,11 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
     private fun initViewItems() {
         recyclerView = view?.findViewById(R.id.recycler_view)
         searchView = view?.findViewById(R.id.search_view)!!
+        searchView.apply {
+            isFocusable = true
+            requestFocusFromTouch()
+            onActionViewExpanded()
+        }
     }
 
     private fun subscribeOnSearchView() {
