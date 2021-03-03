@@ -3,13 +3,10 @@ package com.nima.tmdb.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
-import com.google.android.material.navigation.NavigationView
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.PopularMoviesAdapter
 import com.nima.tmdb.adapters.TrendMoviesAdapter
@@ -34,9 +31,6 @@ import javax.inject.Inject
 class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAdapter.Interaction,
     TrendMoviesAdapter.Interaction {
 
-    private lateinit var drawerLayout : DrawerLayout
-    private lateinit var navigationView: NavigationView
-    private lateinit var toggle: ActionBarDrawerToggle
 
     private val TAG: String = "MainPageFragment"
 
@@ -59,18 +53,9 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViewItems()
         initRecyclerView()
         subscribeOnPopularMovies()
         subscribeOnTrendingMovies()
-    }
-
-    private fun initViewItems() {
-        drawerLayout = view?.findViewById(R.id.drwL_mainPageF_drawerLayout)!!
-        navigationView = view?.findViewById(R.id.nav_mainPageF_menu)!!
-        toggle = ActionBarDrawerToggle(requireActivity(),drawerLayout,R.string.app_name,R.string.app_name)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
     }
 
     private fun initRecyclerView() {
@@ -83,6 +68,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
             adapter = trendMoviesAdapter
         }
     }
+
 
     private fun subscribeOnPopularMovies() {
         viewModel.popularMovies.observe(viewLifecycleOwner) { response ->
