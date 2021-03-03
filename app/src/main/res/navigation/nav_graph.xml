@@ -98,6 +98,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             />
+        <action
+            android:id="@+id/action_mainPageFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
     </fragment>
 
 </navigation>

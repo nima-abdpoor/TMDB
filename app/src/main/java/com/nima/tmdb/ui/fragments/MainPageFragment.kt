@@ -58,9 +58,17 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        subscribeOnViewButtons()
         subscribeOnPopularMovies()
         subscribeOnTrendingMovies()
         subscribeOnAccountDetails()
+
+    }
+
+    private fun subscribeOnViewButtons() {
+        btn_mainPageF_searchButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment)
+        }
     }
 
     private fun initRecyclerView() {

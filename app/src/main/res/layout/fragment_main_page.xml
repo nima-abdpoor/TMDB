@@ -8,67 +8,82 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.fragments.MainPageFragment">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-        <RelativeLayout
+        <Button
+            android:id="@+id/btn_mainPageF_searchButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/white_searchbar_background"
+            android:layout_margin="@dimen/_5sdp"
+            android:hint="@string/default_search_text"
+            android:gravity="center"
+            />
 
-            <LinearLayout
-                android:id="@+id/lnr_mainPageF_popularLayout"
+        <ScrollView
+            android:layout_below="@+id/btn_mainPageF_searchButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/txt_mainPageF_popularTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/popular_category"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_16sdp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_mainPageF_popularItems"
+                <LinearLayout
+                    android:id="@+id/lnr_mainPageF_popularLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_5sdp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_movie_category" />
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/txt_mainPageF_popularTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/popular_category"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16sdp" />
 
-            <LinearLayout
-                android:id="@+id/lnr_mainPageF_trendingLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lnr_mainPageF_popularLayout"
-                android:orientation="vertical">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_mainPageF_popularItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_movie_category" />
 
-                <TextView
-                    android:id="@+id/txt_mainPageF_trendingTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/trending_category"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_16sdp" />
+                </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_mainPageF_trendingItems"
+                <LinearLayout
+                    android:id="@+id/lnr_mainPageF_trendingLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_movie_category" />
+                    android:layout_below="@+id/lnr_mainPageF_popularLayout"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/txt_mainPageF_trendingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/trending_category"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16sdp" />
 
-        </RelativeLayout>
-    </ScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_mainPageF_trendingItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_movie_category" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
