@@ -24,12 +24,15 @@ import com.nima.tmdb.utils.Constants.DEFAULT_REGION
 import com.nima.tmdb.viewModels.MainPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main_page.*
+import kotlinx.android.synthetic.main.fragment_movie_list.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapter.Interaction,TrendMoviesAdapter.Interaction{
+class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAdapter.Interaction,
+    TrendMoviesAdapter.Interaction {
 
-    private val TAG : String = "MainPageFragment"
+
+    private val TAG: String = "MainPageFragment"
 
     @Inject
     lateinit var glide: RequestManager
@@ -57,29 +60,30 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
 
     private fun initRecyclerView() {
         rv_mainPageF_popularItems.apply {
-             popularMoviesAdapter = PopularMoviesAdapter(this@MainPageFragment,glide)
-            adapter =popularMoviesAdapter
+            popularMoviesAdapter = PopularMoviesAdapter(this@MainPageFragment, glide)
+            adapter = popularMoviesAdapter
         }
         rv_mainPageF_trendingItems.apply {
-            trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment,glide)
+            trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment, glide)
             adapter = trendMoviesAdapter
         }
     }
 
+
     private fun subscribeOnPopularMovies() {
-        viewModel.popularMovies.observe(viewLifecycleOwner){response ->
-            when(response){
+        viewModel.popularMovies.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnPopularMovies: success ${response.data}")
                     submitPopularMoviesData(response.data)
                 }
-                is ApiWrapper.NetworkError ->{
+                is ApiWrapper.NetworkError -> {
                     Log.d(TAG, "subscribeOnPopularMovies: success ${response.message}")
                 }
-                is ApiWrapper.ApiError ->{
+                is ApiWrapper.ApiError -> {
                     Log.d(TAG, "subscribeOnPopularMovies: success ${response.totalError}")
                 }
-                is ApiWrapper.UnknownError ->{
+                is ApiWrapper.UnknownError -> {
                     Log.d(TAG, "subscribeOnPopularMovies: success ${response.message}")
                 }
             }
@@ -92,6 +96,7 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
             data.results?.let { movies -> popularMoviesAdapter.submitList(movies) }
         }
     }
+
     private fun submitTrendMoviesData(data: TrendInfoModel?) {
         data?.let {
             Log.d(TAG, "submitTrendMoviesData: ${data.results.toString()}")
@@ -100,19 +105,19 @@ class MainPageFragment :Fragment(R.layout.fragment_main_page),PopularMoviesAdapt
     }
 
     private fun subscribeOnTrendingMovies() {
-        viewModel.trendingMovies.observe(viewLifecycleOwner){response ->
-            when(response){
+        viewModel.trendingMovies.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnTrendingMovies: success ${response.data}")
                     submitTrendMoviesData(response.data)
                 }
-                is ApiWrapper.NetworkError ->{
+                is ApiWrapper.NetworkError -> {
                     Log.d(TAG, "subscribeOnTrendingMovies: net ${response.message}")
                 }
-                is ApiWrapper.ApiError ->{
+                is ApiWrapper.ApiError -> {
                     Log.d(TAG, "subscribeOnTrendingMovies: api ${response.message}")
                 }
-                is ApiWrapper.UnknownError ->{
+                is ApiWrapper.UnknownError -> {
                     Log.d(TAG, "subscribeOnTrendingMovies: un ${response.message}")
                 }
             }
