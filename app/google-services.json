@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "485787980560",
+    "project_id": "tmdb-42359",
+    "storage_bucket": "tmdb-42359.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485787980560:android:140f6183be874700838b95",
+        "android_client_info": {
+          "package_name": "com.nima.tmdb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485787980560-ffs6onefqbvuiphda55r2prk0jr0rc78.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nima.tmdb",
+            "certificate_hash": "2948c59c5f2e5a16c7d52cae06da9bb83c9bfcfb"
+          }
+        },
+        {
+          "client_id": "485787980560-ka5ljp4cev3k4lt8dfanlpba0o80jvos.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUR6EAGrdRZeCWcoYN0r1J_oX9lMoCNJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485787980560-ka5ljp4cev3k4lt8dfanlpba0o80jvos.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
