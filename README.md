@@ -16,6 +16,7 @@
  - Navigation Components with animation
  - Room Database
  - DiffUtils-RecyclerView
+ - firebase
  
 # Reference
  - [coding with mitch course](https://codingwithmitch.com/courses/rest-api-mvvm-retrofit2/)
