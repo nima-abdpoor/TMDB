@@ -7,6 +7,7 @@ import com.nima.tmdb.models.login.*
 import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.requests.FavoriteBody
+import com.nima.tmdb.models.requests.WatchlistBody
 import com.nima.tmdb.models.responses.FavoriteResponse
 import com.nima.tmdb.models.trend.TrendInfoModel
 import retrofit2.Response
@@ -44,6 +45,15 @@ interface TheMovieDataBaseAPI {
                               @Query("api_key") key: String,
                               @Query("session_id") sessionId: String,
     ) : Response<FavoriteResponse>
+
+    //https://developers.themoviedb.org/3/account/add-to-watchlist
+    @POST("/account/{account_id}/watchlist")
+    suspend fun addToWatchlist(@Body watchlistBody: WatchlistBody,
+                              @Path("account_id") accountId: Int,
+                              @Query("api_key") key: String,
+                              @Query("session_id") sessionId: String,
+    ) : Response<FavoriteResponse>
+
 
     @POST("authentication/session/new")
     suspend fun getSessionId(@Body requestToken : RequestToken, @Query("api_key") key: String?) : Response<Session>

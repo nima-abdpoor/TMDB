@@ -14,6 +14,7 @@ import com.nima.tmdb.adapters.TrendMoviesAdapter
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.movie.popular.PopularModel
 import com.nima.tmdb.models.requests.FavoriteBody
+import com.nima.tmdb.models.requests.WatchlistBody
 import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.models.trend.TrendModel
 import com.nima.tmdb.requests.wrapper.ApiWrapper
@@ -67,6 +68,36 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         subscribeOnTrendingMovies()
         subscribeOnAccountDetails()
         subscribeOnFavoriteMovies()
+        subscribeOnWatchlistMovies()
+    }
+
+    private fun subscribeOnWatchlistMovies() {
+        viewModel.watchlistResponse.observe(viewLifecycleOwner){response ->
+            when (response) {
+                is ApiWrapper.Success -> {
+                    Log.d(TAG, "subscribeOnWatchlistMovies: success ${response.data}")
+                    response.data?.let {
+                        if (it.success)
+                            Toast.makeText(requireContext(),"added to your watchlist",Toast.LENGTH_SHORT).show()
+                        else{
+                            Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                is ApiWrapper.NetworkError -> {
+                    Log.d(TAG, "subscribeOnWatchlistMovies: net ${response.message}")
+                    Toast.makeText(requireContext(),"check your connection!",Toast.LENGTH_SHORT).show()
+                }
+                is ApiWrapper.ApiError -> {
+                    Log.d(TAG, "subscribeOnWatchlistMovies: api ${response.totalError}")
+                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                }
+                is ApiWrapper.UnknownError -> {
+                    Log.d(TAG, "subscribeOnWatchlistMovies: unknown ${response.message}")
+                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun subscribeOnFavoriteMovies() {
@@ -198,6 +229,15 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         viewModel.markAsFavorite(favoriteBody,accountId, API_KEY,sessionId)
     }
 
+    private fun addToWatchList(id: Int, watchlist: Boolean) {
+        val watchlistBody = WatchlistBody(MOVIE_MEDIA_TYPE,id,watchlist)
+        Log.d(TAG, "subscribeOnFavoriteMovies:favoriteBody :" +
+                "$watchlistBody " +
+                "id : $accountId" +
+                "")
+        viewModel.addToWatchlist(watchlistBody,accountId, API_KEY,sessionId)
+    }
+
     override fun onPopularItemSelected(position: Int, item: PopularModel) {
         Log.d(TAG, "onTrendItemSelected: ${item.id}")
         item.id?.let { id ->
@@ -219,7 +259,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     }
 
     override fun addToWatchList(position: Int, item: PopularModel) {
-        TODO("Not yet implemented")
+        item.id?.let { addToWatchList(it,true) }
     }
 
     override fun onTrendItemSelected(position: Int, item: TrendModel) {
@@ -244,6 +284,6 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     }
 
     override fun addToWatchList(position: Int, item: TrendModel) {
-        TODO("Not yet implemented")
+        item.id?.let { addToWatchList(it,true) }
     }
 }

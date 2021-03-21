@@ -6,6 +6,7 @@ import com.nima.tmdb.models.login.*
 import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.requests.FavoriteBody
+import com.nima.tmdb.models.requests.WatchlistBody
 import com.nima.tmdb.models.responses.FavoriteResponse
 import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.requests.TheMovieDataBaseAPI
@@ -25,4 +26,5 @@ class RemoteDataSource @Inject constructor(
     suspend fun getTrending(mediaType : String , timeWindow : String , apiKey: String): ApiWrapper<TrendInfoModel> =safeApi { api.getTrending(mediaType,timeWindow,apiKey)}
     suspend fun getAccount(apiKey: String,sessionId : String): ApiWrapper<Account> =safeApi { api.getAccountDetails(apiKey,sessionId)}
     suspend fun markAsFavorite(favoriteBody: FavoriteBody,accountId:Int,apiKey: String,sessionId:String) : ApiWrapper<FavoriteResponse> =safeApi { api.addToFavorite(favoriteBody,accountId,apiKey,sessionId)}
+    suspend fun addToWatchlist(watchlistBody: WatchlistBody,accountId:Int,apiKey: String,sessionId:String) : ApiWrapper<FavoriteResponse> =safeApi { api.addToWatchlist(watchlistBody,accountId,apiKey,sessionId)}
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.requests.FavoriteBody
+import com.nima.tmdb.models.requests.WatchlistBody
 import com.nima.tmdb.models.responses.FavoriteResponse
 import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.repositories.MainPageRepository
@@ -34,6 +35,10 @@ class MainPageViewModel @ViewModelInject constructor(
     val favoriteResponse: LiveData<ApiWrapper<FavoriteResponse>>
         get() = _favorite
 
+    private val _watchlist = MutableLiveData<ApiWrapper<FavoriteResponse>>()
+    val watchlistResponse: LiveData<ApiWrapper<FavoriteResponse>>
+        get() = _watchlist
+
 
     fun getPopularMovies(apiKey: String,language: String,page: Int,region : String) =
         viewModelScope.launch {
@@ -51,5 +56,10 @@ class MainPageViewModel @ViewModelInject constructor(
     fun markAsFavorite(favoriteBody: FavoriteBody, accountId:Int, apiKey: String, sessionId:String) =
         viewModelScope.launch {
             _favorite.value = repository.markAsFavorite(favoriteBody,accountId,apiKey,sessionId)
+        }
+
+    fun addToWatchlist(watchlistBody: WatchlistBody, accountId:Int, apiKey: String, sessionId:String) =
+        viewModelScope.launch {
+            _watchlist.value = repository.addToWatchlist(watchlistBody,accountId,apiKey,sessionId)
         }
 }
