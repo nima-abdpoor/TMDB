@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/itemMenu_addToList"
+        android:title="@string/itemMenu_addToList"
+        android:icon="@drawable/ic_add_to_list_menu"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/itemMenu_addToFavorite"
+        android:title="@string/itemMenu_addToFavorite"
+        android:icon="@drawable/ic_favorite_menu"
+        />
+
+    <item
+        android:id="@+id/itemMenu_addToWatchList"
+        android:title="@string/itemMenu_addToWatchList"
+        android:icon="@drawable/ic_bookmark_menu"
+        />
+
+</menu>

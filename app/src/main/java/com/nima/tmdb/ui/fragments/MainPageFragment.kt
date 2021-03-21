@@ -168,6 +168,18 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         }
     }
 
+    override fun addToList(position: Int, item: PopularModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addToFavorite(position: Int, item: PopularModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addToWatchList(position: Int, item: PopularModel) {
+        TODO("Not yet implemented")
+    }
+
     override fun onTrendItemSelected(position: Int, item: TrendModel) {
         Log.d(TAG, "onTrendItemSelected: ${item.id}")
         item.id?.let { id ->
