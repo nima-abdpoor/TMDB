@@ -110,7 +110,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
             adapter = popularMoviesAdapter
         }
         rv_mainPageF_trendingItems.apply {
-            trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment, glide)
+            trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment, glide,requireContext())
             adapter = trendMoviesAdapter
         }
     }
@@ -191,6 +191,10 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     }
     private fun markAsFavorite(id: Int,favorite: Boolean) {
         val favoriteBody = FavoriteBody(MOVIE_MEDIA_TYPE,id,favorite)
+        Log.d(TAG, "subscribeOnFavoriteMovies:favoriteBody :" +
+                "$favoriteBody " +
+                "id : $accountId" +
+                "")
         viewModel.markAsFavorite(favoriteBody,accountId, API_KEY,sessionId)
     }
 
@@ -228,5 +232,18 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
                 bundle
             )
         }
+    }
+
+    override fun addToList(position: Int, item: TrendModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addToFavorite(position: Int, item: TrendModel) {
+        Log.d(TAG, "addToFavorite: $item")
+        item.id?.let { markAsFavorite(it,true) }
+    }
+
+    override fun addToWatchList(position: Int, item: TrendModel) {
+        TODO("Not yet implemented")
     }
 }
