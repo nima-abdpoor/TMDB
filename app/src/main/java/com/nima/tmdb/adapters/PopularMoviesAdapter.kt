@@ -1,8 +1,10 @@
 package com.nima.tmdb.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +14,9 @@ import com.nima.tmdb.models.movie.popular.PopularModel
 import com.nima.tmdb.utils.Constants
 import kotlinx.android.synthetic.main.item_movie_category.view.*
 
-class PopularMoviesAdapter(private val interaction: Interaction? = null, private val glide: RequestManager) :
+class PopularMoviesAdapter(private val interaction: Interaction? = null,
+                           private val glide: RequestManager,
+                           private val ctx :Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -42,7 +46,8 @@ class PopularMoviesAdapter(private val interaction: Interaction? = null, private
                 false
             ),
             interaction,
-            glide
+            glide,
+            ctx
         )
     }
 
@@ -65,10 +70,15 @@ class PopularMoviesAdapter(private val interaction: Interaction? = null, private
     class PopularMoviesViewHolder(
         itemView: View,
         private val interaction: Interaction?,
-        private val glide: RequestManager
+        private val glide: RequestManager,
+        private val ctx :Context
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: PopularModel) = with(itemView) {
+            itemView.btn_mainPageF_menu.setOnClickListener {
+                val menu = PopupMenu(ctx,itemView.btn_mainPageF_menu)
+                menu.inflate(R.menu.main_page_menu)
+            }
             itemView.setOnClickListener { interaction?.onPopularItemSelected(adapterPosition, item) }
             itemView.apply {
                 img_mainPageF_image.setOnClickListener {

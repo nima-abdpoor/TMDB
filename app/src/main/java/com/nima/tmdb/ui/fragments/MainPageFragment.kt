@@ -73,7 +73,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     private fun initRecyclerView() {
         rv_mainPageF_popularItems.apply {
-            popularMoviesAdapter = PopularMoviesAdapter(this@MainPageFragment, glide)
+            popularMoviesAdapter = PopularMoviesAdapter(this@MainPageFragment, glide,requireContext())
             adapter = popularMoviesAdapter
         }
         rv_mainPageF_trendingItems.apply {
