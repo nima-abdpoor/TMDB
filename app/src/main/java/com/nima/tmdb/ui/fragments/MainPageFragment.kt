@@ -3,6 +3,7 @@ package com.nima.tmdb.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,6 +13,7 @@ import com.nima.tmdb.adapters.PopularMoviesAdapter
 import com.nima.tmdb.adapters.TrendMoviesAdapter
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.movie.popular.PopularModel
+import com.nima.tmdb.models.requests.FavoriteBody
 import com.nima.tmdb.models.trend.TrendInfoModel
 import com.nima.tmdb.models.trend.TrendModel
 import com.nima.tmdb.requests.wrapper.ApiWrapper
@@ -21,6 +23,7 @@ import com.nima.tmdb.utils.Constants.DAY_MEDIA_TYPE
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.utils.Constants.DEFAULT_PAGE
 import com.nima.tmdb.utils.Constants.DEFAULT_REGION
+import com.nima.tmdb.utils.Constants.MOVIE_MEDIA_TYPE
 import com.nima.tmdb.viewModels.MainPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main_page.*
@@ -33,6 +36,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
 
     private val TAG: String = "MainPageFragment"
+    private var accountId :Int = 0
     private var sessionId :String = ""
 
     @Inject
@@ -62,7 +66,36 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         subscribeOnPopularMovies()
         subscribeOnTrendingMovies()
         subscribeOnAccountDetails()
+        subscribeOnFavoriteMovies()
+    }
 
+    private fun subscribeOnFavoriteMovies() {
+        viewModel.favoriteResponse.observe(viewLifecycleOwner){response ->
+            when (response) {
+                is ApiWrapper.Success -> {
+                    Log.d(TAG, "subscribeOnFavoriteMovies: success ${response.data}")
+                    response.data?.let {
+                        if (it.success)
+                            Toast.makeText(requireContext(),"added to your favorite list",Toast.LENGTH_SHORT).show()
+                        else{
+                            Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                is ApiWrapper.NetworkError -> {
+                    Log.d(TAG, "subscribeOnFavoriteMovies: net ${response.message}")
+                    Toast.makeText(requireContext(),"check your connection!",Toast.LENGTH_SHORT).show()
+                }
+                is ApiWrapper.ApiError -> {
+                    Log.d(TAG, "subscribeOnFavoriteMovies: api ${response.totalError}")
+                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                }
+                is ApiWrapper.UnknownError -> {
+                    Log.d(TAG, "subscribeOnFavoriteMovies: unknown ${response.message}")
+                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun subscribeOnViewButtons() {
@@ -108,6 +141,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
             when(response){
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnAccountDetails: success ${response.data}")
+                    accountId = response.data?.id ?: 0
                 }
                 is ApiWrapper.NetworkError -> {
                     Log.d(TAG, "subscribeOnAccountDetails: api ${response.message}")
@@ -155,6 +189,10 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
             }
         }
     }
+    private fun markAsFavorite(id: Int,favorite: Boolean) {
+        val favoriteBody = FavoriteBody(MOVIE_MEDIA_TYPE,id,favorite)
+        viewModel.markAsFavorite(favoriteBody,accountId, API_KEY,sessionId)
+    }
 
     override fun onPopularItemSelected(position: Int, item: PopularModel) {
         Log.d(TAG, "onTrendItemSelected: ${item.id}")
@@ -173,7 +211,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     }
 
     override fun addToFavorite(position: Int, item: PopularModel) {
-        TODO("Not yet implemented")
+        item.id?.let { markAsFavorite(it,true) }
     }
 
     override fun addToWatchList(position: Int, item: PopularModel) {
