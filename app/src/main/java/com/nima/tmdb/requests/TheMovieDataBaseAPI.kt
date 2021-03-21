@@ -6,6 +6,9 @@ import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.login.*
 import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
+import com.nima.tmdb.models.requests.FavoriteBody
+import com.nima.tmdb.models.requests.WatchlistBody
+import com.nima.tmdb.models.responses.FavoriteResponse
 import com.nima.tmdb.models.trend.TrendInfoModel
 import retrofit2.Response
 import retrofit2.http.*
@@ -35,6 +38,23 @@ interface TheMovieDataBaseAPI {
     @POST("authentication/token/validate_with_login")
     suspend fun login(@Body loginInfo : LoginInfo, @Query("api_key") key: String?) : Response<LoginResponse>
 
+    //https://developers.themoviedb.org/3/account/mark-as-favorite
+    @POST("account/{account_id}/favorite")
+    suspend fun addToFavorite(@Body favoriteBody: FavoriteBody,
+                              @Path("account_id") accountId: Int,
+                              @Query("api_key") key: String,
+                              @Query("session_id") sessionId: String,
+    ) : Response<FavoriteResponse>
+
+    //https://developers.themoviedb.org/3/account/add-to-watchlist
+    @POST("/account/{account_id}/watchlist")
+    suspend fun addToWatchlist(@Body watchlistBody: WatchlistBody,
+                              @Path("account_id") accountId: Int,
+                              @Query("api_key") key: String,
+                              @Query("session_id") sessionId: String,
+    ) : Response<FavoriteResponse>
+
+
     @POST("authentication/session/new")
     suspend fun getSessionId(@Body requestToken : RequestToken, @Query("api_key") key: String?) : Response<Session>
 
@@ -58,4 +78,6 @@ interface TheMovieDataBaseAPI {
         @Path("time_window") timeWindow: String,
         @Query("api_key") key: String
     ) : Response<TrendInfoModel>
+
+
 }

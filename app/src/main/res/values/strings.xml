@@ -42,4 +42,9 @@
     <string name="mainMenu_favorite">favorite</string>
     <string name="mainMenu_watchList">watchlist</string>
     <string name="default_search_text">The Good Bad Ugly...</string>
+
+    <string name="itemMenu_addToList">Add to list</string>
+    <string name="itemMenu_addToFavorite">Favorite</string>
+    <string name="itemMenu_addToWatchList">Watchlist</string>
+    <string name="itemMenu_YourRating">Your rating</string>
 </resources>

@@ -24,6 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_border_movie_category">
+            <Button
+                android:id="@+id/btn_mainPageF_menu"
+                android:layout_width="22dp"
+                android:layout_height="30dp"
+                android:layout_margin="@dimen/_7sdp"
+                android:background="@drawable/ic_more"
+                android:alpha="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                />
             <ImageView
                 android:id="@+id/img_mainPageF_image"
                 android:layout_width="match_parent"
