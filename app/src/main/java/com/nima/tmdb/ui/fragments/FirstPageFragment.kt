@@ -132,6 +132,7 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
     }
 
 
+
     private fun handleApiError(totalError: String?) {
         showErrorView(true)
         resources.getString(R.string.api_error_text).apply {
