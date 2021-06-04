@@ -11,6 +11,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.FragmentMovieDetailsBinding
 import com.nima.tmdb.models.Details
@@ -31,6 +34,8 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     var genres: TextView? = null
     var scrollView: ScrollView? = null
     private lateinit var viewModel: MovieDetailsViewModel
+    lateinit var mAdView : AdView
+
 
 
     private val TAG = "MovieDetailsActivity"
@@ -105,6 +110,10 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         scrollView = view.findViewById(R.id.parent)
         genres = view.findViewById(R.id.genres)
         subscribeOnObservers()
+        MobileAds.initialize(requireContext())
+        mAdView = binding.adView
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun onDestroyView() {
