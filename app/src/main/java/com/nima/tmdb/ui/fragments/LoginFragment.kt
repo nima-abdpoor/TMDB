@@ -6,7 +6,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
 import com.nima.tmdb.database.MyDao
+import com.nima.tmdb.databinding.FragmentLoginBinding
 import com.nima.tmdb.models.login.LoginInfo
 import com.nima.tmdb.models.login.LoginResponse
 import com.nima.tmdb.models.login.RequestToken
@@ -23,7 +26,6 @@ import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
 import com.nima.tmdb.viewModels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,10 +48,22 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     private var userName :String = ""
     private var password :String = ""
 
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestToken = arguments?.getString(R.string.requestToken.toString(), "null")
         Log.d(TAG, "onCreate: $requestToken")
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,16 +97,16 @@ class LoginFragment :Fragment(R.layout.fragment_login){
 
 
     private fun subscribeOnViewItems() {
-        txt_loginF_forgotPass.setOnClickListener {
+        binding.txtLoginFForgotPass.setOnClickListener {
             openWebBrowser(resources.getString(R.string.forgot_password_url))
         }
-        txt_loginF_register.setOnClickListener {
+        binding.txtLoginFRegister.setOnClickListener {
             openWebBrowser(resources.getString(R.string.signUp_url))
         }
-        btn_loginF_login.setOnClickListener {
+        binding.btnLoginFLogin.setOnClickListener {
             subscribeOnLoginButton()
         }
-        btn_loginPageF_tryAgain.setOnClickListener {
+        binding.btnLoginPageFTryAgain.setOnClickListener {
             showErrorView(false)
         }
     }
@@ -110,8 +124,8 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     }
 
     private fun subscribeOnLoginButton() {
-        userName = et_loginF_username.text.toString()
-        password = et_loginF_password.text.toString()
+        userName = binding.etLoginFUsername.text.toString()
+        password = binding.etLoginFPassword.text.toString()
         if (userName.isNotEmpty() && password.isNotEmpty()){
             login()
         }
@@ -178,10 +192,14 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     }
 
     private fun showErrorView(show: Boolean, errorText: String? = null) {
-        rtl_loginPageF_layout.isVisible = show
-        lnl_loginPageF_layout.isVisible = !show
+        binding.rtlLoginPageFLayout.isVisible = show
+        binding.lnlLoginPageFLayout.isVisible = !show
         errorText?.let {
-            txt_loginPageF_error.text = it
+            binding.txtLoginPageFError.text = it
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
