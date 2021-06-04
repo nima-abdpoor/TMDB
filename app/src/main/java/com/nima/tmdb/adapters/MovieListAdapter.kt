@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.nima.tmdb.R
 import com.nima.tmdb.models.Result
 import com.nima.tmdb.utils.Constants
-import kotlinx.android.synthetic.main.layout_movie_list_item.view.*
 
 class MovieListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

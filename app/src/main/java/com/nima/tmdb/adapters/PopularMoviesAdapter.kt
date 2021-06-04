@@ -1,7 +1,6 @@
 package com.nima.tmdb.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +11,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
+import com.nima.tmdb.databinding.ItemMovieCategoryBinding
 import com.nima.tmdb.models.movie.popular.PopularModel
 import com.nima.tmdb.utils.Constants
-import kotlinx.android.synthetic.main.item_movie_category.view.*
 
 class PopularMoviesAdapter(
     private val interaction: Interaction? = null,
@@ -77,10 +76,11 @@ class PopularMoviesAdapter(
         private val glide: RequestManager,
         private val ctx: Context
     ) : RecyclerView.ViewHolder(itemView) {
+        val binding = ItemMovieCategoryBinding.bind(itemView)
         private val TAG = "PopularMoviesViewHolder"
         fun bind(item: PopularModel) = with(itemView) {
-            itemView.btn_mainPageF_menu.setOnClickListener {
-                val menu = PopupMenu(ctx, itemView.btn_mainPageF_menu, Gravity.RIGHT)
+            binding.btnMainPageFMenu.setOnClickListener {
+                val menu = PopupMenu(ctx, binding.btnMainPageFMenu, Gravity.RIGHT)
                 menu.inflate(R.menu.main_page_item_menu)
                 menu.setOnMenuItemClickListener {
                     when(it.itemId){
@@ -109,14 +109,14 @@ class PopularMoviesAdapter(
                     item
                 )
             }
-            itemView.apply {
-                img_mainPageF_image.setOnClickListener {
+            binding.apply {
+                imgMainPageFImage.setOnClickListener {
                     interaction?.onPopularItemSelected(adapterPosition, item)
                 }
-                txt_movieCategoryI_title.text = item.title
-                txt_movieCategoryI_date.text = item.releaseDate
+                txtMovieCategoryITitle.text = item.title
+                txtMovieCategoryIDate.text = item.releaseDate
                 glide.load(Constants.IMAGE_BASE_URL + item.posterPath)
-                    .into(img_mainPageF_image)
+                    .into(imgMainPageFImage)
             }
         }
     }
