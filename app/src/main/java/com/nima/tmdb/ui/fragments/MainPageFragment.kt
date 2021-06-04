@@ -2,7 +2,9 @@ package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +13,7 @@ import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.PopularMoviesAdapter
 import com.nima.tmdb.adapters.TrendMoviesAdapter
+import com.nima.tmdb.databinding.FragmentMainPageBinding
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.movie.popular.PopularModel
 import com.nima.tmdb.models.requests.FavoriteBody
@@ -27,8 +30,6 @@ import com.nima.tmdb.utils.Constants.DEFAULT_REGION
 import com.nima.tmdb.utils.Constants.MOVIE_MEDIA_TYPE
 import com.nima.tmdb.viewModels.MainPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_main_page.*
-import kotlinx.android.synthetic.main.fragment_movie_list.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -47,11 +48,23 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
     private lateinit var trendMoviesAdapter: TrendMoviesAdapter
 
+    private var _binding: FragmentMainPageBinding? = null
+    private val binding get() = _binding!!
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionId = arguments?.getString(R.string.sessionId.toString(), "") ?: ""
         Log.d(TAG, "onCreate: $sessionId")
         getMovies()
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMainPageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     private fun getMovies() {
@@ -130,17 +143,17 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     }
 
     private fun subscribeOnViewButtons() {
-        btn_mainPageF_searchButton.setOnClickListener {
+        binding.btnMainPageFSearchButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainPageFragment_to_movieListFragment)
         }
     }
 
     private fun initRecyclerView() {
-        rv_mainPageF_popularItems.apply {
+        binding.rvMainPageFPopularItems.apply {
             popularMoviesAdapter = PopularMoviesAdapter(this@MainPageFragment, glide,requireContext())
             adapter = popularMoviesAdapter
         }
-        rv_mainPageF_trendingItems.apply {
+        binding.rvMainPageFTrendingItems.apply {
             trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment, glide,requireContext())
             adapter = trendMoviesAdapter
         }
@@ -285,5 +298,10 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     override fun addToWatchList(position: Int, item: TrendModel) {
         item.id?.let { addToWatchList(it,true) }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
