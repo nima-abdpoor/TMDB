@@ -51,10 +51,10 @@ constructor(
     val TAG = "MovieListViewHolder"
     fun bind() = with(itemView) {
         binding.errorProgress.visibility = View.INVISIBLE
-        setupView(itemView)
+        setupView()
     }
 
-    private fun setupView(itemView: View) {
+    private fun setupView() {
         binding.errorButton.setOnClickListener {
             binding.errorProgress.visibility = View.VISIBLE
             tryAgain?.onClick()
