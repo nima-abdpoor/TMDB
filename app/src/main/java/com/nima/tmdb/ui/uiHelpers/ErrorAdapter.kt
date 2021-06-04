@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
-import kotlinx.android.synthetic.main.error_in_list_movies.view.*
+import com.nima.tmdb.databinding.ErrorInListMoviesBinding
 
 class ErrorAdapter(private val tryAgain: TryAgain? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -47,15 +47,16 @@ constructor(
     itemView: View
 , private val tryAgain : ErrorAdapter.TryAgain?
 ) : RecyclerView.ViewHolder(itemView) {
+    val binding = ErrorInListMoviesBinding.bind(itemView)
     val TAG = "MovieListViewHolder"
     fun bind() = with(itemView) {
-        itemView.error_progress.visibility = View.INVISIBLE
-        setupView(itemView)
+        binding.errorProgress.visibility = View.INVISIBLE
+        setupView()
     }
 
-    private fun setupView(itemView: View) {
-        itemView.error_button.setOnClickListener {
-            itemView.error_progress.visibility = View.VISIBLE
+    private fun setupView() {
+        binding.errorButton.setOnClickListener {
+            binding.errorProgress.visibility = View.VISIBLE
             tryAgain?.onClick()
         }
     }

@@ -4,7 +4,9 @@ import android.animation.ValueAnimator
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import androidx.core.animation.doOnEnd
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
+import com.nima.tmdb.databinding.FragmentFirstPageBinding
 import com.nima.tmdb.models.login.LoginResponse
 import com.nima.tmdb.models.login.RequestToken
 import com.nima.tmdb.models.login.Session
@@ -21,7 +24,6 @@ import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
 import com.nima.tmdb.viewModels.AuthenticationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_first_page.*
 import javax.inject.Inject
 
 
@@ -37,9 +39,21 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
 
     private val viewModel: AuthenticationViewModel by viewModels()
 
+    private var _binding: FragmentFirstPageBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getToken()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentFirstPageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +67,7 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
 
     private fun subscribeOnViewItems() {
         animationButton = view?.findViewById(R.id.btn_firstPageF_animation)!!
-        btn_firstPageF_tryAgain.setOnClickListener {
+        binding.btnFirstPageFTryAgain.setOnClickListener {
             animate()
             showErrorView(false)
             getToken()
@@ -223,10 +237,15 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
     }
 
     private fun showErrorView(show: Boolean, errorText: String? = null) {
-        rtl_firstPageF_layout.isVisible = show
-        btn_firstPageF_animation.isVisible = !show
+        binding.rtlFirstPageFLayout.isVisible = show
+        binding.btnFirstPageFAnimation.isVisible = !show
         errorText?.let {
-            txt_firstPageF_error.text = it
+            binding.txtFirstPageFError.text = it
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

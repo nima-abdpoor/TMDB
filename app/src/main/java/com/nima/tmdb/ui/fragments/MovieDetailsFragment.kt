@@ -2,7 +2,9 @@ package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ScrollView
 import android.widget.TextView
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.nima.tmdb.R
+import com.nima.tmdb.databinding.FragmentMovieDetailsBinding
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants
@@ -17,7 +20,6 @@ import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.viewModels.MovieDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_movie_details.*
 
 
 @AndroidEntryPoint
@@ -33,11 +35,23 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     private val TAG = "MovieDetailsActivity"
 
+    private var _binding: FragmentMovieDetailsBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
         val movieId = requireArguments().getInt("movieID")
         setMovieID(movieId, DEFAULT_LANGUAGE)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     private fun subscribeOnObservers() {
@@ -67,7 +81,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
 
     private fun initViewItems(details: Details) {
-        card_view.animation =
+        binding.cardView.animation =
             AnimationUtils.loadAnimation(context, R.anim.card_view_anim_one)
         var genre = "genres : "
         scrollView!!.visibility = View.VISIBLE
@@ -79,7 +93,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         context?.let {
             Glide.with(it)
                 .load(Constants.IMAGE_BASE_URL + details.backdropPath)
-                .into(movie_image_detail)
+                .into(binding.movieImageDetail)
         }
     }
 
@@ -91,5 +105,10 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         scrollView = view.findViewById(R.id.parent)
         genres = view.findViewById(R.id.genres)
         subscribeOnObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

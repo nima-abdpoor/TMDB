@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nima.tmdb.R
+import com.nima.tmdb.databinding.LayoutMovieListItemBinding
 import com.nima.tmdb.models.Result
 import com.nima.tmdb.utils.Constants
-import kotlinx.android.synthetic.main.layout_movie_list_item.view.*
 
 class MovieListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -63,6 +63,7 @@ class MovieListAdapter(private val interaction: Interaction? = null) :
         itemView: View,
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
+        val binding = LayoutMovieListItemBinding.bind(itemView)
         val TAG = "MovieListViewHolder"
 
         fun bind(item: Result) = with(itemView) {
@@ -73,14 +74,16 @@ class MovieListAdapter(private val interaction: Interaction? = null) :
         }
 
         private fun setupView(itemView: View, item: Result) {
-            itemView.card_view.animation =
-                AnimationUtils.loadAnimation(itemView.context,R.anim.card_view_anim_one)
-            itemView.movie_title.text = item.title
-            itemView.movie_description.text = getOverview(item)
-            itemView.release_date.text = item.release_date.toString()
+            binding.apply {
+                cardView.animation =
+                    AnimationUtils.loadAnimation(itemView.context,R.anim.card_view_anim_one)
+                movieTitle.text = item.title
+                movieDescription.text = getOverview(item)
+                releaseDate.text = item.release_date.toString()
+            }
             Glide.with(itemView.context)
                 .load(Constants.IMAGE_BASE_URL + item.posterPath)
-                .into(itemView.movie_image)
+                .into(binding.movieImage)
         }
 
         private fun getOverview(item: Result): String {
