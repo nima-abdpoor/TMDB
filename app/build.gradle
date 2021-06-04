@@ -60,6 +60,7 @@ dependencies {
     def sdp_version = "1.0.6"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.google.android.gms:play-services-ads:20.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.1'
