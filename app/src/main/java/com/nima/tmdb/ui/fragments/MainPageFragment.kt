@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.PopularMoviesAdapter
 import com.nima.tmdb.adapters.TrendMoviesAdapter
@@ -40,6 +41,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     private val TAG: String = "MainPageFragment"
     private var accountId :Int = 0
     private var sessionId :String = ""
+    private lateinit var shimmer : ShimmerFrameLayout
 
     @Inject
     lateinit var glide: RequestManager
@@ -75,6 +77,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        shimmer = binding.shimmerViewContainer
         initRecyclerView()
         subscribeOnViewButtons()
         subscribeOnPopularMovies()
@@ -164,6 +167,8 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         viewModel.popularMovies.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiWrapper.Success -> {
+                    shimmer.stopShimmerAnimation()
+                    shimmer.visibility = View.GONE
                     Log.d(TAG, "subscribeOnPopularMovies: success ${response.data}")
                     submitPopularMoviesData(response.data)
                 }
@@ -298,6 +303,16 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     override fun addToWatchList(position: Int, item: TrendModel) {
         item.id?.let { addToWatchList(it,true) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shimmer.startShimmerAnimation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        shimmer.stopShimmerAnimation()
     }
 
     override fun onDestroyView() {
