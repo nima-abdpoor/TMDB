@@ -87,9 +87,9 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
     }
 
     private fun subscribeOnMovieListObserver() {
-        viewModel.movieList.observe(viewLifecycleOwner){response ->
-            when(response){
-                is ApiWrapper.Success ->handleSuccessData(response.data)
+        viewModel.movieList.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ApiWrapper.Success -> handleSuccessData(response.data)
                 is ApiWrapper.ApiError -> {
                     handleErrorData(response.message)
                     Log.d(TAG, "subscribeOnMovieListObserver: ${response.totalError}")
@@ -190,6 +190,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
             Log.d(TAG, "onClick: loading first page")
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
