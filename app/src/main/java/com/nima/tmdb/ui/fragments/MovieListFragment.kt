@@ -2,7 +2,9 @@ package com.nima.tmdb.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.MovieListAdapter
+import com.nima.tmdb.databinding.FragmentMovieListBinding
 import com.nima.tmdb.models.Example
 import com.nima.tmdb.models.Result
 import com.nima.tmdb.requests.wrapper.ApiWrapper
@@ -23,7 +26,6 @@ import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.utils.TopSpacingItemDecoration
 import com.nima.tmdb.viewModels.MovieListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_movie_list.*
 import java.util.*
 
 @Suppress("NAME_SHADOWING")
@@ -42,6 +44,18 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
 
     private var _query: String? = null
     private var recyclerView: RecyclerView? = null
+
+    private var _binding: FragmentMovieListBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMovieListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,7 +111,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
     }
 
     private fun handleErrorData(message: String?) {
-        recycler_view.apply {
+        binding.recyclerView.apply {
             errorAdapter = ErrorAdapter(this@MovieListFragment)
             layoutManager = LinearLayoutManager(activity)
             adapter = errorAdapter
@@ -122,7 +136,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
 
     private fun initRecyclerView() {
         val topSpacingItemDecoration = TopSpacingItemDecoration(padding = Constants.PADDING)
-        recycler_view.apply {
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(topSpacingItemDecoration)
             movieListAdapter = MovieListAdapter(this@MovieListFragment)
@@ -175,5 +189,9 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
             loadFirstPage()
             Log.d(TAG, "onClick: loading first page")
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
