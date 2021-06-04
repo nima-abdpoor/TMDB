@@ -135,6 +135,9 @@ dependencies {
     // Add for Android-Iconics support
     implementation "com.mikepenz:materialdrawer-iconics:8.3.3"
 
+    //shimmer-effect
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
