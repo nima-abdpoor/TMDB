@@ -5,6 +5,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -14,6 +16,7 @@ import com.nima.tmdb.R
 import com.nima.tmdb.databinding.ItemMovieCategoryBinding
 import com.nima.tmdb.models.movie.popular.PopularModel
 import com.nima.tmdb.utils.Constants
+
 
 class PopularMoviesAdapter(
     private val interaction: Interaction? = null,
@@ -77,31 +80,35 @@ class PopularMoviesAdapter(
         private val ctx: Context
     ) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemMovieCategoryBinding.bind(itemView)
+        private lateinit var myPopupWindow: PopupWindow
         private val TAG = "PopularMoviesViewHolder"
         fun bind(item: PopularModel) = with(itemView) {
+            setPopUpWindow()
             binding.btnMainPageFMenu.setOnClickListener {
-                val menu = PopupMenu(ctx, binding.btnMainPageFMenu, Gravity.RIGHT)
-                menu.inflate(R.menu.main_page_item_menu)
-                menu.setOnMenuItemClickListener {
-                    when(it.itemId){
-                        R.id.itemMenu_addToList -> {
-                            interaction?.addToList(adapterPosition,item)
-                            true
-                        }
-                        R.id.itemMenu_addToFavorite->{
-                            interaction?.addToFavorite(adapterPosition,item)
-                            true
-                        }
-                        R.id.itemMenu_addToWatchList ->{
-                            interaction?.addToWatchList(adapterPosition,item)
-                            true
-                        }
-                        else -> {
-                            false
-                        }
-                    }
-                }
-                menu.show()
+                myPopupWindow.showAsDropDown(it,-80,0);
+                //showAsDropDown(below which view you want to show as dropdown,horizontal position, vertical position)
+//                val menu = PopupMenu(ctx, binding.btnMainPageFMenu, Gravity.RIGHT)
+//                menu.inflate(R.menu.main_page_item_menu)
+//                menu.setOnMenuItemClickListener {
+//                    when(it.itemId){
+//                        R.id.itemMenu_addToList -> {
+//                            interaction?.addToList(adapterPosition,item)
+//                            true
+//                        }
+//                        R.id.itemMenu_addToFavorite->{
+//                            interaction?.addToFavorite(adapterPosition,item)
+//                            true
+//                        }
+//                        R.id.itemMenu_addToWatchList ->{
+//                            interaction?.addToWatchList(adapterPosition,item)
+//                            true
+//                        }
+//                        else -> {
+//                            false
+//                        }
+//                    }
+//                }
+//                menu.show()
             }
             itemView.setOnClickListener {
                 interaction?.onPopularItemSelected(
@@ -118,6 +125,12 @@ class PopularMoviesAdapter(
                 glide.load(Constants.IMAGE_BASE_URL + item.posterPath)
                     .into(imgMainPageFImage)
             }
+        }
+
+        private fun setPopUpWindow() {
+            val inflater:LayoutInflater = ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(R.layout.popupmenu, null)
+            myPopupWindow = PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
         }
     }
 
