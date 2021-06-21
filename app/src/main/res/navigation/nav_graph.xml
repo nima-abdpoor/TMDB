@@ -101,6 +101,19 @@
         <action
             android:id="@+id/action_mainPageFragment_to_movieListFragment"
             app:destination="@id/movieListFragment" />
+        <action
+            android:id="@+id/action_mainPageFragment_to_createdListsFragment"
+            app:destination="@id/createdListsFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
     </fragment>
+    <fragment
+        android:id="@+id/createdListsFragment"
+        android:name="com.nima.tmdb.ui.fragments.CreatedListsFragment"
+        android:label="fragment_created_lists"
+        tools:layout="@layout/fragment_created_lists" />
 
 </navigation>
