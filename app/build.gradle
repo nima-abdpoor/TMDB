@@ -133,6 +133,8 @@ dependencies {
     // Add for NavController support
     implementation "com.mikepenz:materialdrawer-nav:8.3.3"
 
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     // Add for Android-Iconics support
     implementation "com.mikepenz:materialdrawer-iconics:8.3.3"
 
