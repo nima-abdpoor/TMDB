@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group
-        android:checkableBehavior="single">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn ="navigation_view"
+    >
         <item
             android:id="@+id/addToList_mainPageF_item"
             android:title="@string/mainMenu_lists"
@@ -18,6 +19,25 @@
             android:title="@string/mainMenu_watchList"
             android:icon="@drawable/ic_bookmark_menu"
             />
-    </group>
+    <item
+        android:title="@string/profile">
+        <menu>
+            <item
+                android:id="@+id/logout_mainPageF_item"
+                android:icon="@drawable/ic_baseline_login_24"
+                android:title="@string/logout_loginPage"
+                />
+        </menu>
+    </item>
+    <item
+        android:title="@string/communicate">
+        <menu>
+            <item
+                android:id="@+id/share_mainPageF_item"
+                android:icon="@drawable/ic_baseline_share_24"
+                android:title="@string/share"
+                />
+        </menu>
+    </item>
 
 </menu>
