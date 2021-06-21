@@ -98,28 +98,39 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         toolbar.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
-        navigationView.setNavigationItemSelectedListener(
-            NavigationView.OnNavigationItemSelectedListener { menuItem ->
-                val id = menuItem.itemId
-                drawerLayout.closeDrawer(GravityCompat.START)
-                when(id){
-                    R.id.addToList_mainPageF_item->{toast("ADD To list")
-                    true}
-                    R.id.favorite_mainPageF_item->{toast("favorite")
-                        true}
-                    R.id.watchList_mainPageF_item ->{toast("watchList")
-                        true}
-                    R.id.logout_mainPageF_item->{toast("logout")
-                        true}
-                    R.id.share_mainPageF_item->{toast("share")
-                        true}
-                    else ->{
-                        toast("NONE")
-                        true
-                    }
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            val id = menuItem.itemId
+            drawerLayout.closeDrawer(GravityCompat.START)
+            when (id) {
+                R.id.addToList_mainPageF_item -> {
+                    val bundle = Bundle()
+                    bundle.putString(R.string.accountId.toString(),accountId.toString())
+                    bundle.putString(R.string.sessionId.toString(),sessionId)
+                    findNavController().navigate(R.id.action_mainPageFragment_to_createdListsFragment, bundle)
+                    true
+                }
+                R.id.favorite_mainPageF_item -> {
+                    toast("favorite")
+                    true
+                }
+                R.id.watchList_mainPageF_item -> {
+                    toast("watchList")
+                    true
+                }
+                R.id.logout_mainPageF_item -> {
+                    toast("logout")
+                    true
+                }
+                R.id.share_mainPageF_item -> {
+                    toast("share")
+                    true
+                }
+                else -> {
+                    toast("NONE")
+                    true
                 }
             }
-        )
+        }
     }
 
     private fun toast(message : String){
