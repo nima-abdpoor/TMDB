@@ -22,8 +22,13 @@
     <string name="enter_your_password_loginPage">Enter your Password</string>
     <string name="enter_your_username_loingPage">Enter your Username</string>
     <string name="login_loginPage">Login</string>
-    <string name="the_movie_database_loignPage">THE MOVIE DATABASE</string>
+    <string name="logout_loginPage">Logout</string>
+    <string name="the_movie_database_loginPage">THE MOVIE DATABASE</string>
     <string name="register_loginPage">Register</string>
+
+    <string name="profile">Profile</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
 
     <string name="invalid_username_password">Invalid UserName Or Password</string>
     <string name="dont_have_account_loginPage">Don\'t hava an account?</string>
@@ -38,10 +43,10 @@
     <string name="signUp_url">https://www.themoviedb.org/signup</string>
     <string name="forgot_password_url">https://www.themoviedb.org/reset-password</string>
 
-    <string name="mainMenu_lists">lists</string>
-    <string name="mainMenu_favorite">favorite</string>
-    <string name="mainMenu_watchList">watchlist</string>
-    <string name="default_search_text">The Good Bad Ugly...</string>
+    <string name="mainMenu_lists">Lists</string>
+    <string name="mainMenu_favorite">Favorite</string>
+    <string name="mainMenu_watchList">Watchlist</string>
+    <string name="default_search_text">The Good Bad Ugly…</string>
 
     <string name="itemMenu_addToList">Add to list</string>
     <string name="itemMenu_addToFavorite">Favorite</string>
