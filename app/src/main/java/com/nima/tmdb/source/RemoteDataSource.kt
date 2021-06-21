@@ -2,6 +2,7 @@ package com.nima.tmdb.source
 
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
+import com.nima.tmdb.models.account.lists.CreatedLists
 import com.nima.tmdb.models.login.*
 import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
@@ -27,4 +28,5 @@ class RemoteDataSource @Inject constructor(
     suspend fun getAccount(apiKey: String,sessionId : String): ApiWrapper<Account> =safeApi { api.getAccountDetails(apiKey,sessionId)}
     suspend fun markAsFavorite(favoriteBody: FavoriteBody,accountId:Int,apiKey: String,sessionId:String) : ApiWrapper<FavoriteResponse> =safeApi { api.addToFavorite(favoriteBody,accountId,apiKey,sessionId)}
     suspend fun addToWatchlist(watchlistBody: WatchlistBody,accountId:Int,apiKey: String,sessionId:String) : ApiWrapper<FavoriteResponse> =safeApi { api.addToWatchlist(watchlistBody,accountId,apiKey,sessionId)}
+    suspend fun getCreatedLists(accountId:String,apiKey: String,sessionId:String,language: String?,page: Int?) : ApiWrapper<CreatedLists> =safeApi { api.getCreatedLists(accountId,sessionId,apiKey,language,page)}
 }
