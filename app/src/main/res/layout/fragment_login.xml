@@ -30,7 +30,7 @@
                     android:background="@drawable/text_shape"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="@string/the_movie_database_loignPage"
+                    android:text="@string/the_movie_database_loginPage"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="#fff"
                     android:textStyle="bold" />

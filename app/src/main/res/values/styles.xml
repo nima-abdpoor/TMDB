@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="line">
+        <item name="background">@color/underLine</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="android:layout_height">@dimen/_2sdp</item>
+    </style>
 </resources>

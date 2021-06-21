@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.navigation.NavigationView
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.PopularMoviesAdapter
 import com.nima.tmdb.adapters.TrendMoviesAdapter
@@ -38,8 +42,8 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
 
     private val TAG: String = "MainPageFragment"
-    private var accountId :Int = 0
-    private var sessionId :String = ""
+    private var accountId: Int = 0
+    private var sessionId: String = ""
 
     @Inject
     lateinit var glide: RequestManager
@@ -47,6 +51,9 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     private val viewModel: MainPageViewModel by viewModels()
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
     private lateinit var trendMoviesAdapter: TrendMoviesAdapter
+    private lateinit var toolbar: MaterialToolbar
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
 
     private var _binding: FragmentMainPageBinding? = null
     private val binding get() = _binding!!
@@ -58,6 +65,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         Log.d(TAG, "onCreate: $sessionId")
         getMovies()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,13 +78,15 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     private fun getMovies() {
         viewModel.getPopularMovies(API_KEY, DEFAULT_LANGUAGE, DEFAULT_PAGE, DEFAULT_REGION)
         viewModel.getTrendingMovies(ALL_MEDIA_TYPE, DAY_MEDIA_TYPE, API_KEY)
-        viewModel.getAccount(API_KEY,sessionId)
+        viewModel.getAccount(API_KEY, sessionId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        initToolBar()
         subscribeOnViewButtons()
+        subscribeOnToolbarNavigation()
         subscribeOnPopularMovies()
         subscribeOnTrendingMovies()
         subscribeOnAccountDetails()
@@ -84,59 +94,131 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         subscribeOnWatchlistMovies()
     }
 
+    private fun subscribeOnToolbarNavigation() {
+        toolbar.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+        navigationView.setNavigationItemSelectedListener(
+            NavigationView.OnNavigationItemSelectedListener { menuItem ->
+                val id = menuItem.itemId
+                drawerLayout.closeDrawer(GravityCompat.START)
+                when(id){
+                    R.id.addToList_mainPageF_item->{toast("ADD To list")
+                    true}
+                    R.id.favorite_mainPageF_item->{toast("favorite")
+                        true}
+                    R.id.watchList_mainPageF_item ->{toast("watchList")
+                        true}
+                    R.id.logout_mainPageF_item->{toast("logout")
+                        true}
+                    R.id.share_mainPageF_item->{toast("share")
+                        true}
+                    else ->{
+                        toast("NONE")
+                        true
+                    }
+                }
+            }
+        )
+    }
+
+    private fun toast(message : String){
+        Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+    }
+
+    private fun initToolBar() {
+        toolbar = binding.toolbarMainPageFTopAppbar
+        drawerLayout = binding.root
+        navigationView = binding.navigationViewMainPageFNavigation
+    }
+
     private fun subscribeOnWatchlistMovies() {
-        viewModel.watchlistResponse.observe(viewLifecycleOwner){response ->
+        viewModel.watchlistResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnWatchlistMovies: success ${response.data}")
                     response.data?.let {
                         if (it.success)
-                            Toast.makeText(requireContext(),"added to your watchlist",Toast.LENGTH_SHORT).show()
-                        else{
-                            Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "added to your watchlist",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        else {
+                            Toast.makeText(
+                                requireContext(),
+                                "oops! something wrong happened!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
                 is ApiWrapper.NetworkError -> {
                     Log.d(TAG, "subscribeOnWatchlistMovies: net ${response.message}")
-                    Toast.makeText(requireContext(),"check your connection!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "check your connection!", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 is ApiWrapper.ApiError -> {
                     Log.d(TAG, "subscribeOnWatchlistMovies: api ${response.totalError}")
-                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "oops! something wrong happened!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 is ApiWrapper.UnknownError -> {
                     Log.d(TAG, "subscribeOnWatchlistMovies: unknown ${response.message}")
-                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "oops! something wrong happened!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
     }
 
     private fun subscribeOnFavoriteMovies() {
-        viewModel.favoriteResponse.observe(viewLifecycleOwner){response ->
+        viewModel.favoriteResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnFavoriteMovies: success ${response.data}")
                     response.data?.let {
                         if (it.success)
-                            Toast.makeText(requireContext(),"added to your favorite list",Toast.LENGTH_SHORT).show()
-                        else{
-                            Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "added to your favorite list",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        else {
+                            Toast.makeText(
+                                requireContext(),
+                                "oops! something wrong happened!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
                 is ApiWrapper.NetworkError -> {
                     Log.d(TAG, "subscribeOnFavoriteMovies: net ${response.message}")
-                    Toast.makeText(requireContext(),"check your connection!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "check your connection!", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 is ApiWrapper.ApiError -> {
                     Log.d(TAG, "subscribeOnFavoriteMovies: api ${response.totalError}")
-                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "oops! something wrong happened!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 is ApiWrapper.UnknownError -> {
                     Log.d(TAG, "subscribeOnFavoriteMovies: unknown ${response.message}")
-                    Toast.makeText(requireContext(),"oops! something wrong happened!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "oops! something wrong happened!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -150,11 +232,12 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     private fun initRecyclerView() {
         binding.rvMainPageFPopularItems.apply {
-            popularMoviesAdapter = PopularMoviesAdapter(this@MainPageFragment, glide,requireContext())
+            popularMoviesAdapter =
+                PopularMoviesAdapter(this@MainPageFragment, glide, requireContext())
             adapter = popularMoviesAdapter
         }
         binding.rvMainPageFTrendingItems.apply {
-            trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment, glide,requireContext())
+            trendMoviesAdapter = TrendMoviesAdapter(this@MainPageFragment, glide, requireContext())
             adapter = trendMoviesAdapter
         }
     }
@@ -181,8 +264,8 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     }
 
     private fun subscribeOnAccountDetails() {
-        viewModel.accountDetail.observe(viewLifecycleOwner){response ->
-            when(response){
+        viewModel.accountDetail.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnAccountDetails: success ${response.data}")
                     accountId = response.data?.id ?: 0
@@ -233,22 +316,27 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
             }
         }
     }
-    private fun markAsFavorite(id: Int,favorite: Boolean) {
-        val favoriteBody = FavoriteBody(MOVIE_MEDIA_TYPE,id,favorite)
-        Log.d(TAG, "subscribeOnFavoriteMovies:favoriteBody :" +
-                "$favoriteBody " +
-                "id : $accountId" +
-                "")
-        viewModel.markAsFavorite(favoriteBody,accountId, API_KEY,sessionId)
+
+    private fun markAsFavorite(id: Int, favorite: Boolean) {
+        val favoriteBody = FavoriteBody(MOVIE_MEDIA_TYPE, id, favorite)
+        Log.d(
+            TAG, "subscribeOnFavoriteMovies:favoriteBody :" +
+                    "$favoriteBody " +
+                    "id : $accountId" +
+                    ""
+        )
+        viewModel.markAsFavorite(favoriteBody, accountId, API_KEY, sessionId)
     }
 
     private fun addToWatchList(id: Int, watchlist: Boolean) {
-        val watchlistBody = WatchlistBody(MOVIE_MEDIA_TYPE,id,watchlist)
-        Log.d(TAG, "subscribeOnFavoriteMovies:favoriteBody :" +
-                "$watchlistBody " +
-                "id : $accountId" +
-                "")
-        viewModel.addToWatchlist(watchlistBody,accountId, API_KEY,sessionId)
+        val watchlistBody = WatchlistBody(MOVIE_MEDIA_TYPE, id, watchlist)
+        Log.d(
+            TAG, "subscribeOnFavoriteMovies:favoriteBody :" +
+                    "$watchlistBody " +
+                    "id : $accountId" +
+                    ""
+        )
+        viewModel.addToWatchlist(watchlistBody, accountId, API_KEY, sessionId)
     }
 
     override fun onPopularItemSelected(position: Int, item: PopularModel) {
@@ -268,11 +356,11 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     }
 
     override fun addToFavorite(position: Int, item: PopularModel) {
-        item.id?.let { markAsFavorite(it,true) }
+        item.id?.let { markAsFavorite(it, true) }
     }
 
     override fun addToWatchList(position: Int, item: PopularModel) {
-        item.id?.let { addToWatchList(it,true) }
+        item.id?.let { addToWatchList(it, true) }
     }
 
     override fun onTrendItemSelected(position: Int, item: TrendModel) {
@@ -293,11 +381,11 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
 
     override fun addToFavorite(position: Int, item: TrendModel) {
         Log.d(TAG, "addToFavorite: $item")
-        item.id?.let { markAsFavorite(it,true) }
+        item.id?.let { markAsFavorite(it, true) }
     }
 
     override fun addToWatchList(position: Int, item: TrendModel) {
-        item.id?.let { addToWatchList(it,true) }
+        item.id?.let { addToWatchList(it, true) }
     }
 
     override fun onDestroyView() {
