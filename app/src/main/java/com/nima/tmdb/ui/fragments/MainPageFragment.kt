@@ -114,7 +114,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
                     true
                 }
                 R.id.watchList_mainPageF_item -> {
-                    toast("watchList")
+                    navigate(R.id.action_mainPageFragment_to_createdListsFragment,null)
                     true
                 }
                 R.id.logout_mainPageF_item -> {
@@ -130,6 +130,14 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
                     true
                 }
             }
+        }
+    }
+
+    private fun navigate(actionId: Int,bundle: Bundle?) {
+        bundle?.let {
+            findNavController().navigate(actionId,bundle)
+        }?: run {
+            findNavController().navigate(actionId, bundle)
         }
     }
 
