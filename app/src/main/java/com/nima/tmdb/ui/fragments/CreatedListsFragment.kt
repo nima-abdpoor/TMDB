@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.FragmentCreatedListsBinding
+import com.nima.tmdb.models.account.lists.CreatedLists
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.viewModels.CreatedListViewModel
@@ -58,7 +59,7 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
         viewModel.createdLists.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiWrapper.ApiError -> {
-                    Log.d(TAG, "subscribeOnCreatedLists: net ${response.toString()}")
+                    Log.d(TAG, "subscribeOnCreatedLists: net ${response.message}")
                     Toast.makeText(requireContext(), "check your connection!", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -69,7 +70,7 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
                 }
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnCreatedLists: Success ${response.message}")
-                    handleCreatedListSuccess()
+                    handleCreatedListSuccess(response.data)
                 }
                 is ApiWrapper.UnknownError -> {
                     Log.d(TAG, "subscribeOnCreatedLists: UnknownError ${response.message}")
@@ -80,8 +81,10 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
         }
     }
 
-    private fun handleCreatedListSuccess() {
-        // TODO: 6/21/2021
+    private fun handleCreatedListSuccess(createdList: CreatedLists?) {
+        createdList?.let { list ->
+            Log.d(TAG, "handleCreatedListSuccess: $list")
+        }
     }
 
     private fun getCreatedLists() {
