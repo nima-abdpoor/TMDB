@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
+import com.nima.tmdb.adapters.CreatedListAdapter
 import com.nima.tmdb.databinding.FragmentCreatedListsBinding
 import com.nima.tmdb.models.account.lists.CreatedLists
+import com.nima.tmdb.models.account.lists.CreatedListsResult
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.viewModels.CreatedListViewModel
@@ -19,7 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
+class CreatedListsFragment : Fragment(R.layout.fragment_created_lists),
+    CreatedListAdapter.Interaction {
 
     @Inject
     lateinit var glide: RequestManager
@@ -29,6 +32,7 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
     private var sessionId: String = ""
 
     private val viewModel: CreatedListViewModel by viewModels()
+    private lateinit var createdListAdapter: CreatedListAdapter
 
     private var _binding: FragmentCreatedListsBinding? = null
     private val binding get() = _binding!!
@@ -41,17 +45,18 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
         getCreatedLists()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+    ): View {
+        _binding = FragmentCreatedListsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
         subscribeOnCreatedLists()
     }
 
@@ -59,7 +64,7 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
         viewModel.createdLists.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiWrapper.ApiError -> {
-                    Log.d(TAG, "subscribeOnCreatedLists: net ${response.message}")
+                    Log.d(TAG, "subscribeOnCreatedLists: net ${response.data}")
                     Toast.makeText(requireContext(), "check your connection!", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -74,7 +79,11 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
                 }
                 is ApiWrapper.UnknownError -> {
                     Log.d(TAG, "subscribeOnCreatedLists: UnknownError ${response.message}")
-                    Toast.makeText(requireContext(), "oops! something wrong happened!", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        requireContext(),
+                        "oops! something wrong happened!",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             }
@@ -83,11 +92,27 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists) {
 
     private fun handleCreatedListSuccess(createdList: CreatedLists?) {
         createdList?.let { list ->
+            list.results?.let {
+                createdListAdapter.submitList(it)
+            }
             Log.d(TAG, "handleCreatedListSuccess: $list")
         }
     }
 
     private fun getCreatedLists() {
         viewModel.getCreatedLists(accountId, API_KEY, sessionId, null, null)
+    }
+
+    private fun initRecyclerView() {
+        binding.rvCreatedListLists.apply {
+            createdListAdapter =
+                CreatedListAdapter(this@CreatedListsFragment, glide)
+            adapter = createdListAdapter
+        }
+    }
+
+    override fun onItemSelected(position: Int, item: CreatedListsResult) {
+        Log.d(TAG, "onItemSelected: $item")
+        // TODO: 6/29/2021
     }
 }
