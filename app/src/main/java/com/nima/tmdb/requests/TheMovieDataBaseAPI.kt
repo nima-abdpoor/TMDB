@@ -80,7 +80,7 @@ interface TheMovieDataBaseAPI {
         @Query("api_key") key: String
     ) : Response<TrendInfoModel>
 
-    @GET("/account/{account_id}/lists")
+    @GET("account/{account_id}/lists")
     suspend fun getCreatedLists(
         @Path("account_id") accountId: String,
         @Query("session_id") sessionId: String,
@@ -89,7 +89,7 @@ interface TheMovieDataBaseAPI {
         @Query("page") page: Int?
     ) : Response<CreatedLists>
 
-    @GET("/account/{account_id}/favorite/movies")
+    @GET("account/{account_id}/favorite/movies")
     suspend fun getFavorite(
         @Path("account_id") accountId: String,
         @Query("session_id") sessionId: String,
