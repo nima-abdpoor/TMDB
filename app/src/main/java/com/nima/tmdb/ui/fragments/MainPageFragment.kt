@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -18,6 +19,8 @@ import com.nima.tmdb.R
 import com.nima.tmdb.adapters.PopularMoviesAdapter
 import com.nima.tmdb.adapters.TrendMoviesAdapter
 import com.nima.tmdb.databinding.FragmentMainPageBinding
+import com.nima.tmdb.databinding.HeaderMainMenuBinding
+import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
 import com.nima.tmdb.models.movie.popular.PopularModel
 import com.nima.tmdb.models.requests.FavoriteBody
@@ -56,7 +59,11 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
     private lateinit var navigationView: NavigationView
 
     private var _binding: FragmentMainPageBinding? = null
+    private var _headerBinding : HeaderMainMenuBinding? =null
     private val binding get() = _binding!!
+    private val headerBinding get() = _headerBinding!!
+
+    private lateinit var headerName:TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,13 +79,13 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainPageBinding.inflate(inflater, container, false)
-        return binding.root
+       return binding.root
     }
 
     private fun getMovies() {
+        viewModel.getAccount(API_KEY, sessionId)
         viewModel.getPopularMovies(API_KEY, DEFAULT_LANGUAGE, DEFAULT_PAGE, DEFAULT_REGION)
         viewModel.getTrendingMovies(ALL_MEDIA_TYPE, DAY_MEDIA_TYPE, API_KEY)
-        viewModel.getAccount(API_KEY, sessionId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,6 +105,8 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         toolbar.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+        val header = navigationView.inflateHeaderView(R.layout.header_main_menu)
+        headerName = header.findViewById<TextView>(R.id.name_headerMain_info)
         navigationView.setNavigationItemSelectedListener { menuItem ->
             val id = menuItem.itemId
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -287,6 +296,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
             when (response) {
                 is ApiWrapper.Success -> {
                     Log.d(TAG, "subscribeOnAccountDetails: success ${response.data}")
+                    setAccountInfo(response.data)
                     accountId = response.data?.id ?: 0
                 }
                 is ApiWrapper.NetworkError -> {
@@ -299,6 +309,13 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
                     Log.d(TAG, "subscribeOnAccountDetails: api ${response.totalError}")
                 }
             }
+        }
+    }
+
+    private fun setAccountInfo(account: Account?) {
+        account?.let {
+            Log.d(TAG, "setAccountInfo: $it")
+            headerName.text = it.username
         }
     }
 
