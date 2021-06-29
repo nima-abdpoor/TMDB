@@ -10,7 +10,7 @@ class CreatedLists {
 
     @SerializedName("results")
     @Expose
-    private val results: List<CreatedListsResult>? = null
+    val results: List<CreatedListsResult>? = null
 
     @SerializedName("total_pages")
     @Expose

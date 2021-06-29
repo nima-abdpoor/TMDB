@@ -8,35 +8,35 @@ import com.google.gson.annotations.SerializedName
 class CreatedListsResult {
     @SerializedName("description")
     @Expose
-    private val description: String? = null
+    val description: String? = null
 
     @SerializedName("favorite_count")
     @Expose
-    private val favoriteCount: Int? = null
+    val favoriteCount: Int? = null
 
     @SerializedName("id")
     @Expose
-    private val id: Int? = null
+    val id: Int? = null
 
     @SerializedName("item_count")
     @Expose
-    private val itemCount: Int? = null
+    val itemCount: Int? = null
 
     @SerializedName("iso_639_1")
     @Expose
-    private val iso6391: String? = null
+    val iso6391: String? = null
 
     @SerializedName("list_type")
     @Expose
-    private val listType: String? = null
+    val listType: String? = null
 
     @SerializedName("name")
     @Expose
-    private val name: String? = null
+    val name: String? = null
 
     @SerializedName("poster_path")
     @Expose
-    private val posterPath: Any? = null
+    val posterPath: Any? = null
     override fun toString(): String {
         return "CreatedListsResult(description=$description," +
                 " favoriteCount=$favoriteCount," +
