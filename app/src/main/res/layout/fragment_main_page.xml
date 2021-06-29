@@ -11,30 +11,36 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lnr_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar_MainPageF_topAppbar"
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FAFAFA">
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar_MainPageF_topAppbar"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@drawable/white_searchbar_background"
+                    app:navigationIcon="@drawable/ic_baseline_menu_24"
+                    />
+            </com.google.android.material.appbar.AppBarLayout>
+            <Button
+                android:id="@+id/btn_mainPageF_searchButton"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_baseline_menu_24"
-                android:background="@color/colorPrimary"
-
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/white_searchbar_background"
+                android:layout_margin="@dimen/_5sdp"
+                android:hint="@string/default_search_text"
+                android:gravity="center"
                 />
-        </com.google.android.material.appbar.AppBarLayout>
-        <Button
-            android:id="@+id/btn_mainPageF_searchButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/white_searchbar_background"
-            android:layout_margin="@dimen/_5sdp"
-            android:hint="@string/default_search_text"
-            android:gravity="center"
-            />
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
         <ScrollView
-            android:layout_below="@+id/btn_mainPageF_searchButton"
+            android:layout_below="@+id/lnr_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

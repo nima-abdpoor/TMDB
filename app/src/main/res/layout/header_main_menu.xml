@@ -2,12 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_200sdp">
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_headerMain_image"
-        android:layout_width="@dimen/_45sdp"
-        android:layout_height="@dimen/_45sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/_4sdp"
         android:layout_marginStart="@dimen/_5sdp"/>
 
@@ -16,12 +16,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_headerMain_image"
-        android:text="alkf asldkfj"
-        android:layout_marginLeft="@dimen/_5sdp"
         android:textSize="@dimen/_15sdp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_15sdp"
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/black"
-        android:layout_margin="@dimen/_4sdp"
+        android:layout_margin="@dimen/_10sdp"
         android:textStyle="bold"/>
     <View
         android:layout_width="match_parent"

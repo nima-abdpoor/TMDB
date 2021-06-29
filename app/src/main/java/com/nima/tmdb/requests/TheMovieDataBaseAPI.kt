@@ -3,6 +3,7 @@ package com.nima.tmdb.requests
 
 import com.nima.tmdb.models.Details
 import com.nima.tmdb.models.Example
+import com.nima.tmdb.models.account.lists.CreatedLists
 import com.nima.tmdb.models.login.*
 import com.nima.tmdb.models.login.account.Account
 import com.nima.tmdb.models.movie.popular.PopularInfoModel
@@ -79,5 +80,22 @@ interface TheMovieDataBaseAPI {
         @Query("api_key") key: String
     ) : Response<TrendInfoModel>
 
+    @GET("account/{account_id}/lists")
+    suspend fun getCreatedLists(
+        @Path("account_id") accountId: String,
+        @Query("session_id") sessionId: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String?,
+        @Query("page") page: Int?
+    ) : Response<CreatedLists>
 
+    @GET("account/{account_id}/favorite/movies")
+    suspend fun getFavorite(
+        @Path("account_id") accountId: String,
+        @Query("session_id") sessionId: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String?,
+        @Query("sort_by") created_at: String?,
+        @Query("page") page: Int?
+    ) : Response<Example>
 }
