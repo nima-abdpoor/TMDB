@@ -19,5 +19,10 @@ class CreatedLists {
     @SerializedName("total_results")
     @Expose
     private val totalResults: Int? = null
+    override fun toString(): String {
+        return "CreatedLists(page=$page, results=$results" +
+                ", totalPages=$totalPages, totalResults=$totalResults)"
+    }
+
 
 }

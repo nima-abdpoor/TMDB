@@ -37,4 +37,15 @@ class CreatedListsResult {
     @SerializedName("poster_path")
     @Expose
     private val posterPath: Any? = null
+    override fun toString(): String {
+        return "CreatedListsResult(description=$description," +
+                " favoriteCount=$favoriteCount," +
+                " id=$id, itemCount=$itemCount," +
+                " iso6391=$iso6391," +
+                " listType=$listType, " +
+                "name=$name, " +
+                "posterPath=$posterPath)\n\n"
+    }
+
+
 }
