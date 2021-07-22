@@ -1,4 +1,4 @@
-package com.nima.tmdb.application
+package com.nima.tmdb.framewrok.presentation.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

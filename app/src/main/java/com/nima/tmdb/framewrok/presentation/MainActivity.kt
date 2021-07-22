@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui.activity
+package com.nima.tmdb.framewrok.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
