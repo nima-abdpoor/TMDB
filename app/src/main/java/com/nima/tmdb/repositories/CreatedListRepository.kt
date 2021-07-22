@@ -1,6 +1,6 @@
 package com.nima.tmdb.repositories
 
-import com.nima.tmdb.models.account.lists.CreatedLists
+import com.nima.tmdb.business.domain.model.account.lists.CreatedLists
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.source.RemoteDataSource
 import javax.inject.Inject

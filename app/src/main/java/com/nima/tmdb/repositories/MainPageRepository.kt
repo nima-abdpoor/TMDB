@@ -1,11 +1,11 @@
 package com.nima.tmdb.repositories
 
-import com.nima.tmdb.models.login.account.Account
-import com.nima.tmdb.models.movie.popular.PopularInfoModel
-import com.nima.tmdb.models.requests.FavoriteBody
-import com.nima.tmdb.models.requests.WatchlistBody
-import com.nima.tmdb.models.responses.FavoriteResponse
-import com.nima.tmdb.models.trend.TrendInfoModel
+import com.nima.tmdb.business.domain.model.login.account.Account
+import com.nima.tmdb.business.domain.model.movie.popular.PopularInfoModel
+import com.nima.tmdb.business.domain.model.requests.FavoriteBody
+import com.nima.tmdb.business.domain.model.requests.WatchlistBody
+import com.nima.tmdb.business.domain.model.responses.FavoriteResponse
+import com.nima.tmdb.business.domain.model.trend.TrendInfoModel
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.source.RemoteDataSource
 import javax.inject.Inject

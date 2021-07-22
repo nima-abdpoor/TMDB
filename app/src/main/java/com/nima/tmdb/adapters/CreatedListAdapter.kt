@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.ItemCreatedListBinding
-import com.nima.tmdb.models.account.lists.CreatedListsResult
+import com.nima.tmdb.business.domain.model.account.lists.CreatedListsResult
 import com.nima.tmdb.utils.Constants
 
 

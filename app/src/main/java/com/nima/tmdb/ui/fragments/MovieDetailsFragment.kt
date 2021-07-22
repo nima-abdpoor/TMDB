@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.FragmentMovieDetailsBinding
-import com.nima.tmdb.models.Details
+import com.nima.tmdb.business.domain.model.Details
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.utils.Constants.API_KEY

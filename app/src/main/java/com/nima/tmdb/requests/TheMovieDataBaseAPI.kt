@@ -1,16 +1,16 @@
 package com.nima.tmdb.requests
 
 
-import com.nima.tmdb.models.Details
-import com.nima.tmdb.models.Example
-import com.nima.tmdb.models.account.lists.CreatedLists
-import com.nima.tmdb.models.login.*
-import com.nima.tmdb.models.login.account.Account
-import com.nima.tmdb.models.movie.popular.PopularInfoModel
-import com.nima.tmdb.models.requests.FavoriteBody
-import com.nima.tmdb.models.requests.WatchlistBody
-import com.nima.tmdb.models.responses.FavoriteResponse
-import com.nima.tmdb.models.trend.TrendInfoModel
+import com.nima.tmdb.business.domain.model.Details
+import com.nima.tmdb.business.domain.model.Example
+import com.nima.tmdb.business.domain.model.account.lists.CreatedLists
+import com.nima.tmdb.business.domain.model.login.*
+import com.nima.tmdb.business.domain.model.login.account.Account
+import com.nima.tmdb.business.domain.model.movie.popular.PopularInfoModel
+import com.nima.tmdb.business.domain.model.requests.FavoriteBody
+import com.nima.tmdb.business.domain.model.requests.WatchlistBody
+import com.nima.tmdb.business.domain.model.responses.FavoriteResponse
+import com.nima.tmdb.business.domain.model.trend.TrendInfoModel
 import retrofit2.Response
 import retrofit2.http.*
 

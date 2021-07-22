@@ -12,8 +12,8 @@ import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.CreatedListAdapter
 import com.nima.tmdb.databinding.FragmentCreatedListsBinding
-import com.nima.tmdb.models.account.lists.CreatedLists
-import com.nima.tmdb.models.account.lists.CreatedListsResult
+import com.nima.tmdb.business.domain.model.account.lists.CreatedLists
+import com.nima.tmdb.business.domain.model.account.lists.CreatedListsResult
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.viewModels.CreatedListViewModel

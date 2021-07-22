@@ -16,9 +16,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.FragmentFirstPageBinding
-import com.nima.tmdb.models.login.LoginResponse
-import com.nima.tmdb.models.login.RequestToken
-import com.nima.tmdb.models.login.Session
+import com.nima.tmdb.business.domain.model.login.LoginResponse
+import com.nima.tmdb.business.domain.model.login.RequestToken
+import com.nima.tmdb.business.domain.model.login.Session
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast

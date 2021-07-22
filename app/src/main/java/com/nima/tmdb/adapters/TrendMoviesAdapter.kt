@@ -1,13 +1,11 @@
 package com.nima.tmdb.adapters
 
 import android.content.Context
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
-import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +13,7 @@ import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.ItemMovieCategoryBinding
 import com.nima.tmdb.databinding.PopupmenuBinding
-import com.nima.tmdb.models.trend.TrendModel
+import com.nima.tmdb.business.domain.model.trend.TrendModel
 import com.nima.tmdb.utils.Constants
 
 class TrendMoviesAdapter(

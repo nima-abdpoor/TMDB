@@ -13,7 +13,7 @@ import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.ItemMovieCategoryBinding
 import com.nima.tmdb.databinding.PopupmenuBinding
-import com.nima.tmdb.models.movie.popular.PopularModel
+import com.nima.tmdb.business.domain.model.movie.popular.PopularModel
 import com.nima.tmdb.utils.Constants
 
 

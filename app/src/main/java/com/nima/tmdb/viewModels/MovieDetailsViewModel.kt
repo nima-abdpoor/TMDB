@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nima.tmdb.models.Details
+import com.nima.tmdb.business.domain.model.Details
 import com.nima.tmdb.repositories.MovieDetailsRepository
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch

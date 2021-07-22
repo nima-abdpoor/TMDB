@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nima.tmdb.models.login.LoginInfo
-import com.nima.tmdb.models.login.LoginResponse
-import com.nima.tmdb.models.login.RequestToken
-import com.nima.tmdb.models.login.Session
+import com.nima.tmdb.business.domain.model.login.LoginInfo
+import com.nima.tmdb.business.domain.model.login.LoginResponse
+import com.nima.tmdb.business.domain.model.login.RequestToken
+import com.nima.tmdb.business.domain.model.login.Session
 import com.nima.tmdb.repositories.LoginRepository
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.LayoutMovieListItemBinding
-import com.nima.tmdb.models.Result
+import com.nima.tmdb.business.domain.model.Result
 import com.nima.tmdb.utils.Constants
 
 class MovieListAdapter(private val interaction: Interaction? = null) :

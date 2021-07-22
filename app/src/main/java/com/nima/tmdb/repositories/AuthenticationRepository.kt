@@ -1,7 +1,7 @@
 package com.nima.tmdb.repositories
 
 import com.nima.tmdb.database.MyDao
-import com.nima.tmdb.models.login.*
+import com.nima.tmdb.business.domain.model.login.*
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.requests.wrapper.SafeApi
 import com.nima.tmdb.source.RemoteDataSource

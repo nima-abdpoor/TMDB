@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
 import com.nima.tmdb.adapters.MovieListAdapter
 import com.nima.tmdb.databinding.FragmentMovieListBinding
-import com.nima.tmdb.models.Example
-import com.nima.tmdb.models.Result
+import com.nima.tmdb.business.domain.model.Example
+import com.nima.tmdb.business.domain.model.Result
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.ui.uiHelpers.ErrorAdapter
 import com.nima.tmdb.utils.Constants
