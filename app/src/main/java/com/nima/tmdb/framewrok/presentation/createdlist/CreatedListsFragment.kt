@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui.fragments
+package com.nima.tmdb.framewrok.presentation.createdlist
 
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +16,6 @@ import com.nima.tmdb.business.domain.model.account.lists.CreatedLists
 import com.nima.tmdb.business.domain.model.account.lists.CreatedListsResult
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
-import com.nima.tmdb.viewModels.CreatedListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

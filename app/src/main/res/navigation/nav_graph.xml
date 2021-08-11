@@ -112,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/createdListsFragment"
-        android:name="com.nima.tmdb.ui.fragments.CreatedListsFragment"
+        android:name="com.nima.tmdb.framewrok.presentation.createdlist.CreatedListsFragment"
         android:label="fragment_created_lists"
         tools:layout="@layout/fragment_created_lists" />
 
