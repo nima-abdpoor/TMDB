@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.business.domain.model.Example
-import com.nima.tmdb.repositories.MovieListRepository
+import com.nima.tmdb.business.interactors.list.ListInteractors
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 
 class MovieListViewModel @ViewModelInject constructor(
-    private val repository: MovieListRepository
+    private val repository: ListInteractors
 ) : ViewModel() {
 
     private val _movieList = MutableLiveData<ApiWrapper<Example>>()
@@ -22,6 +22,7 @@ class MovieListViewModel @ViewModelInject constructor(
 
     fun setMovie(key: String, language: String?, query: String, page: Int, include_adult: Boolean) =
         viewModelScope.launch {
-            _movieList.value = repository.searchMovieAPI(key, language, query, page, include_adult)
+            _movieList.value =
+                repository.searchMovie.searchMovieAPI(key, language, query, page, include_adult)
         }
 }
