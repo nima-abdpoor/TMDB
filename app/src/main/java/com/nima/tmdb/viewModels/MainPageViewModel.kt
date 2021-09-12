@@ -11,12 +11,12 @@ import com.nima.tmdb.business.domain.model.requests.FavoriteBody
 import com.nima.tmdb.business.domain.model.requests.WatchlistBody
 import com.nima.tmdb.business.domain.model.responses.FavoriteResponse
 import com.nima.tmdb.business.domain.model.trend.TrendInfoModel
-import com.nima.tmdb.repositories.MainPageRepository
+import com.nima.tmdb.business.interactors.mainPage.MainPageInteractors
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class MainPageViewModel @ViewModelInject constructor(
-    private val repository: MainPageRepository
+    private val repository: MainPageInteractors
 ) : ViewModel() {
 
     private val _popularMovies = MutableLiveData<ApiWrapper<PopularInfoModel>>()
@@ -40,26 +40,46 @@ class MainPageViewModel @ViewModelInject constructor(
         get() = _watchlist
 
 
-    fun getPopularMovies(apiKey: String,language: String,page: Int,region : String) =
+    fun getPopularMovies(apiKey: String, language: String, page: Int, region: String) =
         viewModelScope.launch {
-            _popularMovies.value = repository.getPopularMovies(apiKey,language,page,region)
+            _popularMovies.value =
+                repository.getPopularMovie.getPopularMovies(apiKey, language, page, region)
         }
 
-    fun getTrendingMovies(mediaType : String , timeWindow : String , apiKey: String) =
+    fun getTrendingMovies(mediaType: String, timeWindow: String, apiKey: String) =
         viewModelScope.launch {
-            _trendingMovies.value = repository.getTrending(mediaType,timeWindow,apiKey)
-        }
-    fun getAccount(apiKey: String,sessionId : String) =
-        viewModelScope.launch {
-            _account.value = repository.getAccount(apiKey,sessionId)
-        }
-    fun markAsFavorite(favoriteBody: FavoriteBody, accountId:Int, apiKey: String, sessionId:String) =
-        viewModelScope.launch {
-            _favorite.value = repository.markAsFavorite(favoriteBody,accountId,apiKey,sessionId)
+            _trendingMovies.value =
+                repository.getTrendingMovie.getTrendingMovies(mediaType, timeWindow, apiKey)
         }
 
-    fun addToWatchlist(watchlistBody: WatchlistBody, accountId:Int, apiKey: String, sessionId:String) =
+    fun getAccount(apiKey: String, sessionId: String) =
         viewModelScope.launch {
-            _watchlist.value = repository.addToWatchlist(watchlistBody,accountId,apiKey,sessionId)
+            _account.value = repository.getAccount.getAccount(apiKey, sessionId)
+        }
+
+    fun markAsFavorite(
+        favoriteBody: FavoriteBody,
+        accountId: Int,
+        apiKey: String,
+        sessionId: String
+    ) =
+        viewModelScope.launch {
+            _favorite.value =
+                repository.markAsFavorite.markAsFavorite(favoriteBody, accountId, apiKey, sessionId)
+        }
+
+    fun addToWatchlist(
+        watchlistBody: WatchlistBody,
+        accountId: Int,
+        apiKey: String,
+        sessionId: String
+    ) =
+        viewModelScope.launch {
+            _watchlist.value = repository.addToWatchList.addToWatchlist(
+                watchlistBody,
+                accountId,
+                apiKey,
+                sessionId
+            )
         }
 }
