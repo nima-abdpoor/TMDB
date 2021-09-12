@@ -9,13 +9,13 @@ import com.nima.tmdb.business.domain.model.login.LoginInfo
 import com.nima.tmdb.business.domain.model.login.LoginResponse
 import com.nima.tmdb.business.domain.model.login.RequestToken
 import com.nima.tmdb.business.domain.model.login.Session
-import com.nima.tmdb.repositories.LoginRepository
+import com.nima.tmdb.business.interactors.login.LoginInteractors
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class LoginViewModel @ViewModelInject constructor(
-    private val repository : LoginRepository
-):ViewModel() {
+    private val repository: LoginInteractors
+) : ViewModel() {
 
     private val _login = MutableLiveData<ApiWrapper<LoginResponse>>()
     val login: LiveData<ApiWrapper<LoginResponse>>
@@ -27,11 +27,11 @@ class LoginViewModel @ViewModelInject constructor(
 
     fun login(loginInfo: LoginInfo, apiKey: String) =
         viewModelScope.launch {
-            _login.value = repository.login(loginInfo, apiKey)
+            _login.value = repository.login.login(loginInfo, apiKey)
         }
 
-    fun getSessionId(requestToken : RequestToken, apiKey: String) =
+    fun getSessionId(requestToken: RequestToken, apiKey: String) =
         viewModelScope.launch {
-            _sessionId.value = repository.getSessionId(requestToken,apiKey)
+            _sessionId.value = repository.getSessionId.getSessionId(requestToken, apiKey)
         }
 }
