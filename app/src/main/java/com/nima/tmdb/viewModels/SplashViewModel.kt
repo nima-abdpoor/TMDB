@@ -14,7 +14,7 @@ import com.nima.tmdb.repositories.AuthenticationRepository
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
-class AuthenticationViewModel @ViewModelInject constructor(
+class SplashViewModel @ViewModelInject constructor(
     private val repository: AuthenticationRepository
 ) : ViewModel() {
     private val _token = MutableLiveData<ApiWrapper<Token>>()

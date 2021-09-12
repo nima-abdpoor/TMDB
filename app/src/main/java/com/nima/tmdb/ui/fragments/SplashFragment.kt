@@ -22,7 +22,7 @@ import com.nima.tmdb.databinding.FragmentSplashBinding
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
-import com.nima.tmdb.viewModels.AuthenticationViewModel
+import com.nima.tmdb.viewModels.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -37,7 +37,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     lateinit var animationButton: Button
     var duration = 1000L
 
-    private val viewModel: AuthenticationViewModel by viewModels()
+    private val viewModel: SplashViewModel by viewModels()
 
     private var _binding: FragmentSplashBinding? = null
     private val binding get() = _binding!!
