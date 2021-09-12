@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/firstPageFragment"
-        android:name="com.nima.tmdb.ui.fragments.FirstPageFragment"
+        android:name="com.nima.tmdb.ui.fragments.SplashFragment"
         android:label="firstPageFragment" >
         <action
             android:id="@+id/action_firstPageFragment_to_loginFragment"

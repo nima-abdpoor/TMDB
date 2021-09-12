@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
-import com.nima.tmdb.databinding.FragmentFirstPageBinding
 import com.nima.tmdb.business.domain.model.login.LoginResponse
 import com.nima.tmdb.business.domain.model.login.RequestToken
 import com.nima.tmdb.business.domain.model.login.Session
+import com.nima.tmdb.databinding.FragmentSplashBinding
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
@@ -28,18 +28,18 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
+class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     @Inject
     lateinit var pref: SharedPreferences
 
     private val TAG: String = "MainPageFragment"
-    lateinit var animationButton : Button
+    lateinit var animationButton: Button
     var duration = 1000L
 
     private val viewModel: AuthenticationViewModel by viewModels()
 
-    private var _binding: FragmentFirstPageBinding? = null
+    private var _binding: FragmentSplashBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +52,7 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstPageBinding.inflate(inflater, container, false)
+        _binding = FragmentSplashBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -146,7 +146,6 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
     }
 
 
-
     private fun handleApiError(totalError: String?) {
         showErrorView(true)
         resources.getString(R.string.api_error_text).apply {
@@ -155,6 +154,7 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
         }
         Log.d(TAG, "subscribeOnTokenObserver:api $totalError")
     }
+
     private fun handleNetError(message: String?) {
         resources.getString(R.string.check_your_connection).apply {
             showErrorView(true, this)
@@ -162,6 +162,7 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
         }
         Log.d(TAG, "subscribeOnTokenObserver:net $message")
     }
+
     private fun handleUnKnowError(message: String?) {
         resources.getString(R.string.check_your_connection).apply {
             showErrorView(true, this)
@@ -178,7 +179,14 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
         val valueAnimator4 = ValueAnimator.ofFloat(0f, 2 * 180f)
         val valueAnimator5 = ValueAnimator.ofFloat(0f, 2 * 180f)
         val valueAnimator6 = ValueAnimator.ofFloat(0f, 1 * 180f)
-        val valueAnimators = listOf<ValueAnimator>(valueAnimator1, valueAnimator2, valueAnimator3, valueAnimator4, valueAnimator5, valueAnimator6)
+        val valueAnimators = listOf<ValueAnimator>(
+            valueAnimator1,
+            valueAnimator2,
+            valueAnimator3,
+            valueAnimator4,
+            valueAnimator5,
+            valueAnimator6
+        )
         valueAnimator0.addUpdateListener {
             val value = it.animatedValue as Float
             animationButton.rotation = value
