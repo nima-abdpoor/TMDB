@@ -5,17 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nima.tmdb.business.domain.model.login.*
+import com.nima.tmdb.business.interactors.splash.SplashInteractors
 import com.nima.tmdb.database.entities.UserInfo
-import com.nima.tmdb.business.domain.model.login.LoginResponse
-import com.nima.tmdb.business.domain.model.login.RequestToken
-import com.nima.tmdb.business.domain.model.login.Session
-import com.nima.tmdb.business.domain.model.login.Token
-import com.nima.tmdb.repositories.AuthenticationRepository
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class SplashViewModel @ViewModelInject constructor(
-    private val repository: AuthenticationRepository
+    private val repository: SplashInteractors
 ) : ViewModel() {
     private val _token = MutableLiveData<ApiWrapper<Token>>()
     val getToken: LiveData<ApiWrapper<Token>>
@@ -35,16 +32,16 @@ class SplashViewModel @ViewModelInject constructor(
 
     fun getToken(apiKey: String) =
         viewModelScope.launch {
-            _token.value = repository.requestToken(apiKey)
+            _token.value = repository.token.getToken(apiKey)
         }
 
-    fun login(username :String ,password :String,requestToken: String , apiKey: String) =
+    fun login(loginInfo: LoginInfo, apiKey: String) =
         viewModelScope.launch {
-            _login.value = repository.login(username,password ,requestToken , apiKey)
+            _login.value = repository.login.login(loginInfo, apiKey)
         }
 
-    fun getSessionId(requestToken : RequestToken, apiKey: String) =
+    fun getSessionId(requestToken: RequestToken, apiKey: String) =
         viewModelScope.launch {
-            _sessionId.value = repository.getSessionId(requestToken,apiKey)
+            _sessionId.value = repository.getSessionId.getSessionId(requestToken, apiKey)
         }
 }

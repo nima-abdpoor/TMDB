@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
+import com.nima.tmdb.business.domain.model.login.LoginInfo
 import com.nima.tmdb.business.domain.model.login.LoginResponse
 import com.nima.tmdb.business.domain.model.login.RequestToken
 import com.nima.tmdb.business.domain.model.login.Session
@@ -123,7 +124,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             val userName = pref.getString(R.string.username.toString(), "")
             val password = pref.getString(R.string.password.toString(), "")
             if (userName?.isNotEmpty() == true && password?.isNotEmpty() == true) {
-                viewModel.login(userName, password, requestToken, API_KEY)
+                val loginInfo = LoginInfo(userName, password, requestToken)
+                viewModel.login(loginInfo, API_KEY)
             } else {
                 val bundle = Bundle()
                 bundle.putString(R.string.requestToken.toString(), requestToken)
