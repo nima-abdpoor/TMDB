@@ -3,14 +3,6 @@ package com.nima.tmdb.di
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.nima.tmdb.business.data.cache.abstraction.CacheDataSource
-import com.nima.tmdb.business.data.cache.implementation.CacheDataSourceImpl
-import com.nima.tmdb.business.data.network.abstraction.RemoteDataSource
-import com.nima.tmdb.business.data.network.implementation.RemoteDataSourceImp
-import com.nima.tmdb.framewrok.datasource.cache.abstraction.DaoService
-import com.nima.tmdb.framewrok.datasource.cache.implementation.DaoServiceImpl
-import com.nima.tmdb.framewrok.datasource.network.abstraction.RemoteService
-import com.nima.tmdb.framewrok.datasource.network.implementation.RemoteServiceImpl
 import com.nima.tmdb.requests.TheMovieDataBaseAPI
 import com.nima.tmdb.requests.wrapper.Connectivity
 import com.nima.tmdb.utils.Constants.BASE_URL
@@ -67,30 +59,6 @@ object ApiModule {
     @Provides
     fun provideApiService(retrofit: Retrofit.Builder): TheMovieDataBaseAPI {
         return retrofit.build().create(TheMovieDataBaseAPI::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideRemoteService(api: TheMovieDataBaseAPI): RemoteService {
-        return RemoteServiceImpl(api)
-    }
-
-    @Singleton
-    @Provides
-    fun provideRemoteDataSource(remote: RemoteService): RemoteDataSource {
-        return RemoteDataSourceImp(remote)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDaoService(): DaoService {
-        return DaoServiceImpl()
-    }
-
-    @Singleton
-    @Provides
-    fun provideCacheDataSource(cacheService: DaoService): CacheDataSource {
-        return CacheDataSourceImpl(cacheService)
     }
 
 }
