@@ -4,6 +4,10 @@ import com.nima.tmdb.business.data.cache.abstraction.CacheDataSource
 import com.nima.tmdb.business.data.cache.implementation.CacheDataSourceImpl
 import com.nima.tmdb.business.data.network.abstraction.RemoteDataSource
 import com.nima.tmdb.business.data.network.implementation.RemoteDataSourceImp
+import com.nima.tmdb.business.interactors.details.DetailsInteractors
+import com.nima.tmdb.business.interactors.details.GetMovieById
+import com.nima.tmdb.business.interactors.list.ListInteractors
+import com.nima.tmdb.business.interactors.list.SearchMovie
 import com.nima.tmdb.business.interactors.login.GetSessionId
 import com.nima.tmdb.business.interactors.login.Login
 import com.nima.tmdb.business.interactors.login.LoginInteractors
@@ -86,5 +90,23 @@ object DataSourceModule {
             Login(cacheDataSource, remoteDataSource),
             GetToken(cacheDataSource, remoteDataSource)
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideDetailsInteractors(
+        cacheDataSource: CacheDataSource,
+        remoteDataSource: RemoteDataSource
+    ): DetailsInteractors {
+        return DetailsInteractors(GetMovieById(cacheDataSource, remoteDataSource))
+    }
+
+    @Singleton
+    @Provides
+    fun provideListInteractors(
+        cacheDataSource: CacheDataSource,
+        remoteDataSource: RemoteDataSource
+    ): ListInteractors {
+        return ListInteractors(SearchMovie(cacheDataSource, remoteDataSource))
     }
 }
