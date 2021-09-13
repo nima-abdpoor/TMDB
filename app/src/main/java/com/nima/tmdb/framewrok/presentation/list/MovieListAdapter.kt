@@ -68,7 +68,7 @@ class MovieListAdapter(private val interaction: Interaction? = null) :
 
         fun bind(item: Result) = with(itemView) {
             itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
+                interaction?.onItemSelected(bindingAdapterPosition, item)
             }
             setupView(itemView,item)
         }

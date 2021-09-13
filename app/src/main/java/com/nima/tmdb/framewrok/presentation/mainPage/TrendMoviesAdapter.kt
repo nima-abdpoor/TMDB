@@ -95,7 +95,7 @@ class TrendMoviesAdapter(
             itemView.setOnClickListener { interaction?.onTrendItemSelected(adapterPosition, item) }
             binding.apply {
                 imgMainPageFImage.setOnClickListener {
-                    interaction?.onTrendItemSelected(adapterPosition, item)
+                    interaction?.onTrendItemSelected(bindingAdapterPosition, item)
                 }
                 txtMovieCategoryITitle.text = item.title
                 txtMovieCategoryIDate.text = item.releaseDate
