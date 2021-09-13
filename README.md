@@ -6,12 +6,14 @@
 # Features
  - Search Movie name 
  - Show Details Of Selected Movie
+ - login to your account
  
 # Technologies
  - kotlin
+ - clean architecture
  - MVVM pattern
  - HILT dependency Injection
- - Coroutines
+ - Coroutines & Live data
  - Retrofit2
  - Navigation Components with animation
  - Room Database
@@ -25,4 +27,4 @@
 
 # Future
  - getting and saving recommendations of selected movie(details of movies) to show theme when onResume Called.
- -getting user information that was set in website of TMDB.
+ - getting user information that was set in website of TMDB.
