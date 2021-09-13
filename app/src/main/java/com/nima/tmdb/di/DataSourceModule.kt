@@ -4,6 +4,8 @@ import com.nima.tmdb.business.data.cache.abstraction.CacheDataSource
 import com.nima.tmdb.business.data.cache.implementation.CacheDataSourceImpl
 import com.nima.tmdb.business.data.network.abstraction.RemoteDataSource
 import com.nima.tmdb.business.data.network.implementation.RemoteDataSourceImp
+import com.nima.tmdb.business.interactors.createdList.CreatedListInteractors
+import com.nima.tmdb.business.interactors.createdList.GetCreatedList
 import com.nima.tmdb.business.interactors.details.DetailsInteractors
 import com.nima.tmdb.business.interactors.details.GetMovieById
 import com.nima.tmdb.business.interactors.list.ListInteractors
@@ -108,5 +110,14 @@ object DataSourceModule {
         remoteDataSource: RemoteDataSource
     ): ListInteractors {
         return ListInteractors(SearchMovie(cacheDataSource, remoteDataSource))
+    }
+
+    @Singleton
+    @Provides
+    fun provideCreatedListInteractors(
+        cacheDataSource: CacheDataSource,
+        remoteDataSource: RemoteDataSource
+    ): CreatedListInteractors {
+        return CreatedListInteractors(GetCreatedList(cacheDataSource, remoteDataSource))
     }
 }
