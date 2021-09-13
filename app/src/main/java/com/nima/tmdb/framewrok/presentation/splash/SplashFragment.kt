@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui.fragments
+package com.nima.tmdb.framewrok.presentation.splash
 
 import android.animation.ValueAnimator
 import android.content.SharedPreferences
@@ -23,7 +23,6 @@ import com.nima.tmdb.databinding.FragmentSplashBinding
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
-import com.nima.tmdb.viewModels.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

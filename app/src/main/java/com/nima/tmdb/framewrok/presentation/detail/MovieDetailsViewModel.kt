@@ -1,4 +1,4 @@
-package com.nima.tmdb.viewModels
+package com.nima.tmdb.framewrok.presentation.detail
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData

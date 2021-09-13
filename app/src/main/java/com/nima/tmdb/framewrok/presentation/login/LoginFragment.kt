@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui.fragments
+package com.nima.tmdb.framewrok.presentation.login
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -24,7 +24,6 @@ import com.nima.tmdb.business.domain.model.login.Session
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
-import com.nima.tmdb.viewModels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui.fragments
+package com.nima.tmdb.framewrok.presentation.list
 
 import android.os.Bundle
 import android.util.Log
@@ -24,7 +24,6 @@ import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DEFAULT_ADULT
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.utils.TopSpacingItemDecoration
-import com.nima.tmdb.viewModels.MovieListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

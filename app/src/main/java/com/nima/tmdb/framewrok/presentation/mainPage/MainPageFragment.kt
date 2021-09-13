@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui.fragments
+package com.nima.tmdb.framewrok.presentation.mainPage
 
 import android.os.Bundle
 import android.util.Log
@@ -35,7 +35,6 @@ import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.utils.Constants.DEFAULT_PAGE
 import com.nima.tmdb.utils.Constants.DEFAULT_REGION
 import com.nima.tmdb.utils.Constants.MOVIE_MEDIA_TYPE
-import com.nima.tmdb.viewModels.MainPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

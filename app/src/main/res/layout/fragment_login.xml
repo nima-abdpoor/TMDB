@@ -7,7 +7,7 @@
     <ScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragments.LoginFragment">
+        tools:context=".framewrok.presentation.login.LoginFragment">
 
         <LinearLayout
             android:id="@+id/lnl_loginPageF_layout"

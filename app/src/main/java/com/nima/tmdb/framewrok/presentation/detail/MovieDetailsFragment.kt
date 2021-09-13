@@ -1,4 +1,4 @@
-package com.nima.tmdb.ui.fragments
+package com.nima.tmdb.framewrok.presentation.detail
 
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +18,6 @@ import com.nima.tmdb.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
-import com.nima.tmdb.viewModels.MovieDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

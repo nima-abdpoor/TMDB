@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/firstPageFragment"
-        android:name="com.nima.tmdb.ui.fragments.SplashFragment"
+        android:name="com.nima.tmdb.framewrok.presentation.splash.SplashFragment"
         android:label="firstPageFragment" >
         <action
             android:id="@+id/action_firstPageFragment_to_loginFragment"
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/movieListFragment"
-        android:name="com.nima.tmdb.ui.fragments.MovieListFragment"
+        android:name="com.nima.tmdb.framewrok.presentation.list.MovieListFragment"
         android:label="MovieListFragment" >
         <action
             android:id="@+id/action_movieListFragment_to_movieDetailsFragment"
@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.nima.tmdb.ui.fragments.MovieDetailsFragment"
+        android:name="com.nima.tmdb.framewrok.presentation.detail.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
         >
         <argument
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.nima.tmdb.ui.fragments.LoginFragment"
+        android:name="com.nima.tmdb.framewrok.presentation.login.LoginFragment"
         android:label="loginFragment"
         tools:layout="@layout/fragment_login">
         <argument
@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainPageFragment"
-        android:name="com.nima.tmdb.ui.fragments.MainPageFragment"
+        android:name="com.nima.tmdb.framewrok.presentation.mainPage.MainPageFragment"
         android:label="fragment_main_page"
         tools:layout="@layout/fragment_main_page" >
         <action
