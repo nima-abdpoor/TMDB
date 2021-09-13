@@ -1,4 +1,4 @@
-package com.nima.tmdb.adapters
+package com.nima.tmdb.framewrok.presentation.mainPage
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,33 +13,38 @@ import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.ItemMovieCategoryBinding
 import com.nima.tmdb.databinding.PopupmenuBinding
-import com.nima.tmdb.business.domain.model.trend.TrendModel
+import com.nima.tmdb.business.domain.model.movie.popular.PopularModel
 import com.nima.tmdb.utils.Constants
 
-class TrendMoviesAdapter(
+
+class PopularMoviesAdapter(
     private val interaction: Interaction? = null,
     private val glide: RequestManager,
     private val ctx: Context
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TrendModel>() {
+
+
+    private val diffCallBack = object : DiffUtil.ItemCallback<PopularModel>() {
 
         override fun areItemsTheSame(
-            oldItem: TrendModel,
-            newItem: TrendModel
+            oldItem: PopularModel,
+            newItem: PopularModel
         ): Boolean = oldItem.id == newItem.id
 
 
         override fun areContentsTheSame(
-            oldItem: TrendModel,
-            newItem: TrendModel
+            oldItem: PopularModel,
+            newItem: PopularModel
         ): Boolean = oldItem.equals(newItem)
 
     }
-    private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
+    private val differ = AsyncListDiffer(this, diffCallBack)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return TrendMovieViewHolder(
+
+        return PopularMoviesViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_movie_category,
                 parent,
@@ -53,7 +58,7 @@ class TrendMoviesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is TrendMovieViewHolder -> {
+            is PopularMoviesViewHolder -> {
                 holder.bind(differ.currentList[position])
             }
         }
@@ -63,11 +68,11 @@ class TrendMoviesAdapter(
         return differ.currentList.size
     }
 
-    fun submitList(list: List<TrendModel?>) {
+    fun submitList(list: List<PopularModel?>) {
         differ.submitList(list)
     }
 
-    class TrendMovieViewHolder(
+    class PopularMoviesViewHolder(
         itemView: View,
         private val interaction: Interaction?,
         private val glide: RequestManager,
@@ -75,7 +80,8 @@ class TrendMoviesAdapter(
     ) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemMovieCategoryBinding.bind(itemView)
         private lateinit var myPopupWindow: PopupWindow
-        fun bind(item: TrendModel) = with(itemView) {
+        //private val TAG = "PopularMoviesViewHolder"
+        fun bind(item: PopularModel) = with(itemView) {
             val view = setPopUpWindow()
             val popBinding = PopupmenuBinding.bind(view)
             binding.btnMainPageFMenu.setOnClickListener {
@@ -92,10 +98,15 @@ class TrendMoviesAdapter(
                     }
                 }
             }
-            itemView.setOnClickListener { interaction?.onTrendItemSelected(adapterPosition, item) }
+            itemView.setOnClickListener {
+                interaction?.onPopularItemSelected(
+                    bindingAdapterPosition,
+                    item
+                )
+            }
             binding.apply {
                 imgMainPageFImage.setOnClickListener {
-                    interaction?.onTrendItemSelected(adapterPosition, item)
+                    interaction?.onPopularItemSelected(bindingAdapterPosition, item)
                 }
                 txtMovieCategoryITitle.text = item.title
                 txtMovieCategoryIDate.text = item.releaseDate
@@ -103,6 +114,7 @@ class TrendMoviesAdapter(
                     .into(imgMainPageFImage)
             }
         }
+
         private fun setPopUpWindow(): View {
             val inflater: LayoutInflater =
                 ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -118,10 +130,9 @@ class TrendMoviesAdapter(
     }
 
     interface Interaction {
-        fun onTrendItemSelected(position: Int, item: TrendModel)
-        fun addToList(position: Int, item: TrendModel)
-        fun addToFavorite(position: Int, item: TrendModel)
-        fun addToWatchList(position: Int, item: TrendModel)
+        fun onPopularItemSelected(position: Int, item: PopularModel)
+        fun addToList(position: Int, item: PopularModel)
+        fun addToFavorite(position: Int, item: PopularModel)
+        fun addToWatchList(position: Int, item: PopularModel)
     }
-
 }

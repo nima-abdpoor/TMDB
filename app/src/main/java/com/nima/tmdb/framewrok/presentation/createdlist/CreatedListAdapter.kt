@@ -1,4 +1,4 @@
-package com.nima.tmdb.adapters
+package com.nima.tmdb.framewrok.presentation.createdlist
 
 import android.view.LayoutInflater
 import android.view.View

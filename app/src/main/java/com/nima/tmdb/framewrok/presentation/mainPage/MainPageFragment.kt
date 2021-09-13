@@ -16,8 +16,6 @@ import com.bumptech.glide.RequestManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import com.nima.tmdb.R
-import com.nima.tmdb.adapters.PopularMoviesAdapter
-import com.nima.tmdb.adapters.TrendMoviesAdapter
 import com.nima.tmdb.databinding.FragmentMainPageBinding
 import com.nima.tmdb.databinding.HeaderMainMenuBinding
 import com.nima.tmdb.business.domain.model.login.account.Account

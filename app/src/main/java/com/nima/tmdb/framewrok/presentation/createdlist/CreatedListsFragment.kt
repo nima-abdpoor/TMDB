@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.RequestManager
 import com.nima.tmdb.R
-import com.nima.tmdb.adapters.CreatedListAdapter
 import com.nima.tmdb.databinding.FragmentCreatedListsBinding
 import com.nima.tmdb.business.domain.model.account.lists.CreatedLists
 import com.nima.tmdb.business.domain.model.account.lists.CreatedListsResult

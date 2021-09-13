@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
-import com.nima.tmdb.adapters.MovieListAdapter
 import com.nima.tmdb.databinding.FragmentMovieListBinding
 import com.nima.tmdb.business.domain.model.Example
 import com.nima.tmdb.business.domain.model.Result
