@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.business.domain.model.login.*
 import com.nima.tmdb.business.interactors.splash.SplashInteractors
-import com.nima.tmdb.database.entities.UserInfo
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.framewrok.datasource.cache.entities.UserInfo
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class SplashViewModel @ViewModelInject constructor(

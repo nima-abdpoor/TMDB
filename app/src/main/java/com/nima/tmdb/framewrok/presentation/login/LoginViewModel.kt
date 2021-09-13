@@ -10,7 +10,7 @@ import com.nima.tmdb.business.domain.model.login.LoginResponse
 import com.nima.tmdb.business.domain.model.login.RequestToken
 import com.nima.tmdb.business.domain.model.login.Session
 import com.nima.tmdb.business.interactors.login.LoginInteractors
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class LoginViewModel @ViewModelInject constructor(

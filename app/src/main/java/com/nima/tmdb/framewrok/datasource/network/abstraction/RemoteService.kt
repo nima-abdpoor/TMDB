@@ -10,7 +10,7 @@ import com.nima.tmdb.business.domain.model.requests.FavoriteBody
 import com.nima.tmdb.business.domain.model.requests.WatchlistBody
 import com.nima.tmdb.business.domain.model.responses.FavoriteResponse
 import com.nima.tmdb.business.domain.model.trend.TrendInfoModel
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 
 interface RemoteService {
     suspend fun searchMovieAPI(key : String ,language: String?, query: String, page: Int,include_adult : Boolean): ApiWrapper<Example>

@@ -13,7 +13,7 @@ import com.nima.tmdb.R
 import com.nima.tmdb.databinding.FragmentCreatedListsBinding
 import com.nima.tmdb.business.domain.model.account.lists.CreatedLists
 import com.nima.tmdb.business.domain.model.account.lists.CreatedListsResult
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.API_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

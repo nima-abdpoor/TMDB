@@ -16,8 +16,8 @@ import com.nima.tmdb.R
 import com.nima.tmdb.databinding.FragmentMovieListBinding
 import com.nima.tmdb.business.domain.model.Example
 import com.nima.tmdb.business.domain.model.Result
-import com.nima.tmdb.requests.wrapper.ApiWrapper
-import com.nima.tmdb.ui.uiHelpers.ErrorAdapter
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
+import com.nima.tmdb.framewrok.presentation.common.ErrorAdapter
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DEFAULT_ADULT

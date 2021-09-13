@@ -1,4 +1,4 @@
-package com.nima.tmdb.requests.wrapper
+package com.nima.tmdb.business.data.network.requests.wrapper
 
 import okhttp3.Headers
 

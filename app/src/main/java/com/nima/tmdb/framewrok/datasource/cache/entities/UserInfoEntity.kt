@@ -1,4 +1,4 @@
-package com.nima.tmdb.database.entities
+package com.nima.tmdb.framewrok.datasource.cache.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

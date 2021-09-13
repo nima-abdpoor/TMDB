@@ -1,4 +1,4 @@
-package com.nima.tmdb.requests.wrapper
+package com.nima.tmdb.business.data.network.requests.wrapper
 
 import com.nima.tmdb.utils.NoInternetException
 import retrofit2.Response

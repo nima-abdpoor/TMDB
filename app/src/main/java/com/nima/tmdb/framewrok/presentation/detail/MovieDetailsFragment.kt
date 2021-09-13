@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.nima.tmdb.R
 import com.nima.tmdb.databinding.FragmentMovieDetailsBinding
 import com.nima.tmdb.business.domain.model.Details
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE

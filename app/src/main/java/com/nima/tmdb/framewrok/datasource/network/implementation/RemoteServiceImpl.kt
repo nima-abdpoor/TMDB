@@ -11,9 +11,9 @@ import com.nima.tmdb.business.domain.model.requests.WatchlistBody
 import com.nima.tmdb.business.domain.model.responses.FavoriteResponse
 import com.nima.tmdb.business.domain.model.trend.TrendInfoModel
 import com.nima.tmdb.framewrok.datasource.network.abstraction.RemoteService
-import com.nima.tmdb.requests.TheMovieDataBaseAPI
-import com.nima.tmdb.requests.wrapper.ApiWrapper
-import com.nima.tmdb.requests.wrapper.SafeApi
+import com.nima.tmdb.business.data.network.requests.TheMovieDataBaseAPI
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.SafeApi
 
 class RemoteServiceImpl(
     private val api: TheMovieDataBaseAPI

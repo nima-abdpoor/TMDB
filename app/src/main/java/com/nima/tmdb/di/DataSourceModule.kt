@@ -20,7 +20,7 @@ import com.nima.tmdb.framewrok.datasource.cache.abstraction.DaoService
 import com.nima.tmdb.framewrok.datasource.cache.implementation.DaoServiceImpl
 import com.nima.tmdb.framewrok.datasource.network.abstraction.RemoteService
 import com.nima.tmdb.framewrok.datasource.network.implementation.RemoteServiceImpl
-import com.nima.tmdb.requests.TheMovieDataBaseAPI
+import com.nima.tmdb.business.data.network.requests.TheMovieDataBaseAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

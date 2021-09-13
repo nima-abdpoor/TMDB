@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.business.domain.model.Details
 import com.nima.tmdb.business.interactors.details.DetailsInteractors
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel @ViewModelInject constructor(

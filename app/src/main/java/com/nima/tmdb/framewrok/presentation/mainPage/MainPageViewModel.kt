@@ -12,7 +12,7 @@ import com.nima.tmdb.business.domain.model.requests.WatchlistBody
 import com.nima.tmdb.business.domain.model.responses.FavoriteResponse
 import com.nima.tmdb.business.domain.model.trend.TrendInfoModel
 import com.nima.tmdb.business.interactors.mainPage.MainPageInteractors
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class MainPageViewModel @ViewModelInject constructor(

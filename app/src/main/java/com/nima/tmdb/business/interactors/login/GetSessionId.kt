@@ -2,11 +2,9 @@ package com.nima.tmdb.business.interactors.login
 
 import com.nima.tmdb.business.data.cache.abstraction.CacheDataSource
 import com.nima.tmdb.business.data.network.abstraction.RemoteDataSource
-import com.nima.tmdb.business.domain.model.login.LoginInfo
-import com.nima.tmdb.business.domain.model.login.LoginResponse
 import com.nima.tmdb.business.domain.model.login.RequestToken
 import com.nima.tmdb.business.domain.model.login.Session
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 
 class GetSessionId(
     private val cache: CacheDataSource,

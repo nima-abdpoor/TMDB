@@ -1,4 +1,4 @@
-package com.nima.tmdb.requests
+package com.nima.tmdb.business.data.network.requests
 
 
 import com.nima.tmdb.business.domain.model.Details

@@ -25,7 +25,7 @@ import com.nima.tmdb.business.domain.model.requests.FavoriteBody
 import com.nima.tmdb.business.domain.model.requests.WatchlistBody
 import com.nima.tmdb.business.domain.model.trend.TrendInfoModel
 import com.nima.tmdb.business.domain.model.trend.TrendModel
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import com.nima.tmdb.utils.Constants.ALL_MEDIA_TYPE
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DAY_MEDIA_TYPE

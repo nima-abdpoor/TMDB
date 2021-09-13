@@ -3,7 +3,7 @@ package com.nima.tmdb.business.interactors.mainPage
 import com.nima.tmdb.business.data.cache.abstraction.CacheDataSource
 import com.nima.tmdb.business.data.network.abstraction.RemoteDataSource
 import com.nima.tmdb.business.domain.model.movie.popular.PopularInfoModel
-import com.nima.tmdb.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 
 class GetPopularMovie(
     private val cache: CacheDataSource,

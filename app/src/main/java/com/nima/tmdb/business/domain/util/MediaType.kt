@@ -1,4 +1,4 @@
-package com.nima.tmdb.business.domain.util.helper
+package com.nima.tmdb.business.domain.util
 
 sealed class MediaType {
     data class All(val type : String = "all") : MediaType()
