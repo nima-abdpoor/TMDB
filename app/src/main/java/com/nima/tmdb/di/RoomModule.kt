@@ -2,8 +2,8 @@ package com.nima.tmdb.di
 
 import android.content.Context
 import androidx.room.Room
-import com.nima.tmdb.database.MyDao
-import com.nima.tmdb.database.TMDBDatabase
+import com.nima.tmdb.framewrok.datasource.cache.database.MyDao
+import com.nima.tmdb.framewrok.datasource.cache.database.TMDBDatabase
 import com.nima.tmdb.utils.Constants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides

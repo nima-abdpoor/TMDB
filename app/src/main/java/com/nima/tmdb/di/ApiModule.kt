@@ -3,8 +3,8 @@ package com.nima.tmdb.di
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.nima.tmdb.requests.TheMovieDataBaseAPI
-import com.nima.tmdb.requests.wrapper.Connectivity
+import com.nima.tmdb.business.data.network.requests.TheMovieDataBaseAPI
+import com.nima.tmdb.business.data.network.requests.wrapper.Connectivity
 import com.nima.tmdb.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
