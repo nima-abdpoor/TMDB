@@ -6,12 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nima.tmdb.business.domain.model.account.lists.CreatedLists
-import com.nima.tmdb.repositories.CreatedListRepository
+import com.nima.tmdb.business.interactors.createdList.CreatedListInteractors
 import com.nima.tmdb.requests.wrapper.ApiWrapper
 import kotlinx.coroutines.launch
 
 class CreatedListViewModel @ViewModelInject constructor(
-    private val repository: CreatedListRepository
+    private val repository: CreatedListInteractors
 ) : ViewModel() {
     private val _createdLists = MutableLiveData<ApiWrapper<CreatedLists>>()
     val createdLists: LiveData<ApiWrapper<CreatedLists>>
@@ -26,6 +26,12 @@ class CreatedListViewModel @ViewModelInject constructor(
     ) =
         viewModelScope.launch {
             _createdLists.value =
-                repository.getCreatedLists(accountId, sessionId, apiKey, language, page)
+                repository.getCreatedList.getCreatedLists(
+                    accountId,
+                    sessionId,
+                    apiKey,
+                    language,
+                    page
+                )
         }
 }
