@@ -13,39 +13,45 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
-import com.nima.tmdb.framewrok.datasource.cache.database.MyDao
-import com.nima.tmdb.databinding.FragmentLoginBinding
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import com.nima.tmdb.business.domain.model.login.LoginInfo
 import com.nima.tmdb.business.domain.model.login.LoginResponse
 import com.nima.tmdb.business.domain.model.login.RequestToken
 import com.nima.tmdb.business.domain.model.login.Session
-import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
+import com.nima.tmdb.databinding.FragmentLoginBinding
+import com.nima.tmdb.framewrok.datasource.cache.database.MyDao
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class LoginFragment :Fragment(R.layout.fragment_login){
+class LoginFragment : Fragment(R.layout.fragment_login) {
 
     @Inject
-    lateinit var dao :MyDao
+    lateinit var dao: MyDao
+
     @Inject
-    lateinit var pref : SharedPreferences
+    lateinit var pref: SharedPreferences
 
     private val viewModel: LoginViewModel by viewModels()
 
 
     private val TAG = "LoginFragment"
     private var requestToken: String? = null
-    private var userName :String = ""
-    private var password :String = ""
+    private var userName: String = ""
+    private var password: String = ""
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
@@ -68,31 +74,43 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeOnViewItems()
-        subscribeOnLoginOnObserver()
-        subscribeOnSessionId()
     }
 
-    private fun subscribeOnLoginOnObserver() {
-        viewModel.login.observe(viewLifecycleOwner){ response ->
-            when (response) {
-                is ApiWrapper.Success -> handleSuccessLogin(response.data)
-                is ApiWrapper.ApiError -> handleApiError(response.totalError)
-                is ApiWrapper.NetworkError -> handleNetError(response.message)
-                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
-            }
-        }
-    }
-    private fun subscribeOnSessionId() {
-        viewModel.sessionId.observe(viewLifecycleOwner){ response ->
-            when (response) {
-                is ApiWrapper.Success -> handelSuccessSession(response.data)
-                is ApiWrapper.ApiError -> handleApiError(response.totalError)
-                is ApiWrapper.NetworkError -> handleNetError(response.message)
-                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+    private fun subscribeOnLoginOnObserver(result: StateFlow<ApiWrapper<LoginResponse>>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                result.collect { response ->
+                    when (response) {
+                        is ApiWrapper.Success -> handleSuccessLogin(response.data)
+                        is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                        is ApiWrapper.NetworkError -> handleNetError(response.message)
+                        is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+                        is ApiWrapper.Loading -> {
+                            Log.d(TAG, "subscribeOnSessionId: Loading")
+                        }
+                    }
+                }
             }
         }
     }
 
+    private fun subscribeOnSessionId(result: StateFlow<ApiWrapper<Session>>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                result.collect { response ->
+                    when (response) {
+                        is ApiWrapper.Success -> handelSuccessSession(response.data)
+                        is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                        is ApiWrapper.NetworkError -> handleNetError(response.message)
+                        is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+                        is ApiWrapper.Loading -> {
+                            Log.d(TAG, "subscribeOnSessionId: Loading")
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
     private fun subscribeOnViewItems() {
@@ -125,10 +143,9 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     private fun subscribeOnLoginButton() {
         userName = binding.etLoginFUsername.text.toString()
         password = binding.etLoginFPassword.text.toString()
-        if (userName.isNotEmpty() && password.isNotEmpty()){
+        if (userName.isNotEmpty() && password.isNotEmpty()) {
             login()
-        }
-        else{
+        } else {
             Toast.makeText(
                 requireContext(),
                 "UserName or Password must have value",
@@ -136,10 +153,14 @@ class LoginFragment :Fragment(R.layout.fragment_login){
             ).show()
         }
     }
+
     private fun handleSuccessLogin(data: LoginResponse?) {
         data?.let {
             val requestToken = it.requestToken?.let { it1 -> RequestToken(it1) }
-            requestToken?.let { it1 -> viewModel.getSessionId(it1, API_KEY) }
+            requestToken?.let { it1 ->
+                val result = viewModel.getSessionId(it1, API_KEY)
+                subscribeOnSessionId(result)
+            }
             saveUserData()
         }
     }
@@ -155,7 +176,7 @@ class LoginFragment :Fragment(R.layout.fragment_login){
 
     private fun handelSuccessSession(data: Session?) {
         data?.sessionId?.let {
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 val bundle = Bundle()
                 bundle.putString(R.string.sessionId.toString(), it)
                 findNavController().navigate(R.id.action_loginFragment_to_mainPageFragment, bundle)
@@ -166,15 +187,18 @@ class LoginFragment :Fragment(R.layout.fragment_login){
     private fun login() {
         requestToken?.let { token ->
             val loginInfo = LoginInfo(userName, password, token)
-            viewModel.login(loginInfo, API_KEY)
+            val result = viewModel.login(loginInfo, API_KEY)
+            subscribeOnLoginOnObserver(result)
         }
     }
+
     private fun handleApiError(totalError: String?) {
         resources.getString(R.string.invalid_username_password).apply {
             this.toast(requireContext())
         }
         Log.d(TAG, "handleApiError:api $totalError")
     }
+
     private fun handleNetError(message: String?) {
         resources.getString(R.string.check_your_connection).apply {
             showErrorView(true, this)
@@ -182,6 +206,7 @@ class LoginFragment :Fragment(R.layout.fragment_login){
         }
         Log.d(TAG, "subscribeOnTokenObserver:net $message")
     }
+
     private fun handleUnKnowError(message: String?) {
         resources.getString(R.string.check_your_connection).apply {
             showErrorView(true, this)
@@ -197,6 +222,7 @@ class LoginFragment :Fragment(R.layout.fragment_login){
             binding.txtLoginPageFError.text = it
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
