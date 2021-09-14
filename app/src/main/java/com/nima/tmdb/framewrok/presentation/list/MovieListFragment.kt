@@ -9,14 +9,17 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nima.tmdb.R
-import com.nima.tmdb.databinding.FragmentMovieListBinding
+import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
 import com.nima.tmdb.business.domain.model.Example
 import com.nima.tmdb.business.domain.model.Result
-import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
+import com.nima.tmdb.databinding.FragmentMovieListBinding
 import com.nima.tmdb.framewrok.presentation.common.ErrorAdapter
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.utils.Constants.API_KEY
@@ -24,6 +27,8 @@ import com.nima.tmdb.utils.Constants.DEFAULT_ADULT
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import com.nima.tmdb.utils.TopSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.*
 
 @Suppress("NAME_SHADOWING")
@@ -32,7 +37,6 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
     ErrorAdapter.TryAgain {
 
     private val TAG = "MovieListFragment"
-    private var firstTime = true
 
     private val viewModel: MovieListViewModel by viewModels()
 
@@ -61,7 +65,6 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
         initViewItems()
         initRecyclerView()
         subscribeOnSearchView()
-        subscribeOnMovieListObserver()
         loadFirstPage()
     }
 
@@ -82,26 +85,6 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
                 return false
             }
         })
-    }
-
-    private fun subscribeOnMovieListObserver() {
-        viewModel.movieList.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiWrapper.Success -> handleSuccessData(response.data)
-                is ApiWrapper.ApiError -> {
-                    handleErrorData(response.message)
-                    Log.d(TAG, "subscribeOnMovieListObserver: ${response.totalError}")
-                }
-                is ApiWrapper.NetworkError -> {
-                    handleErrorData(response.message)
-                    Log.d(TAG, "subscribeOnMovieListObserver: ${response.message}")
-                }
-                is ApiWrapper.UnknownError -> {
-                    handleErrorData(response.message)
-                    Log.d(TAG, "subscribeOnMovieListObserver: ${response.message}")
-                }
-            }
-        }
     }
 
     private fun handleLoadingData() {
@@ -144,27 +127,49 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapt
 
     private fun searchMovieAPI(query: String = "", page: Int = 1, onResume: Boolean) {
         if (onResume) loadFirstPage() else {
-            viewModel.setMovie(
-                API_KEY,
-                DEFAULT_LANGUAGE,
-                query,
-                page,
-                DEFAULT_ADULT
-            )
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.setMovie(
+                        API_KEY,
+                        DEFAULT_LANGUAGE,
+                        query,
+                        page,
+                        DEFAULT_ADULT
+                    ).collect { response ->
+                        when (response) {
+                            is ApiWrapper.Success -> handleSuccessData(response.data)
+                            is ApiWrapper.ApiError -> {
+                                handleErrorData(response.message)
+                                Log.d(
+                                    TAG,
+                                    "subscribeOnMovieListObserver: API ${response.totalError}"
+                                )
+                            }
+                            is ApiWrapper.NetworkError -> {
+                                handleErrorData(response.message)
+                                Log.d(TAG, "subscribeOnMovieListObserver: Net ${response.message}")
+                            }
+                            is ApiWrapper.UnknownError -> {
+                                handleErrorData(response.message)
+                                Log.d(
+                                    TAG,
+                                    "subscribeOnMovieListObserver: Unknown ${response.message}"
+                                )
+                            }
+                            is ApiWrapper.Loading -> {
+                                handleLoadingData()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     private fun loadFirstPage() {
         val random = Random()
         val number = random.nextInt(9)
-        Log.d(TAG, "RandomNumber: $number")
-        viewModel.setMovie(
-            API_KEY,
-            DEFAULT_LANGUAGE,
-            Constants.DEFAULT_MOVIE_LIST_NAME[number],
-            Constants.DEFAULT_PAGE,
-            DEFAULT_ADULT
-        )
+        searchMovieAPI(Constants.DEFAULT_MOVIE_LIST_NAME[number], Constants.DEFAULT_PAGE, false)
     }
 
     override fun onItemSelected(position: Int, item: Result) {
