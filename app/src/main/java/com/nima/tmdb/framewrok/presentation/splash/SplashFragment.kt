@@ -47,7 +47,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getToken()
     }
 
     override fun onCreateView(
@@ -62,6 +61,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeOnViewItems()
+        getToken()
         animate()
     }
 

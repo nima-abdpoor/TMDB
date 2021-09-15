@@ -35,6 +35,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     var rank: TextView? = null
     var genres: TextView? = null
     var scrollView: ScrollView? = null
+    private var movieId : Int = 0
     private lateinit var viewModel: MovieDetailsViewModel
 
 
@@ -46,8 +47,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
-        val movieId = requireArguments().getInt("movieID")
-        setMovieID(movieId, DEFAULT_LANGUAGE)
+        movieId = requireArguments().getInt("movieID")
     }
 
     override fun onCreateView(
@@ -110,6 +110,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setMovieID(movieId, DEFAULT_LANGUAGE)
         title = view.findViewById(R.id.movie_title_detail)
         overview = view.findViewById(R.id.overview_title)
         rank = view.findViewById(R.id.movie_vote)

@@ -74,7 +74,6 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         super.onCreate(savedInstanceState)
         sessionId = arguments?.getString(R.string.sessionId.toString(), "") ?: ""
         Log.d(TAG, "onCreate: $sessionId")
-        getMovies()
     }
 
     override fun onCreateView(
@@ -100,6 +99,7 @@ class MainPageFragment : Fragment(R.layout.fragment_main_page), PopularMoviesAda
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initToolBar()
+        getMovies()
         subscribeOnViewButtons()
         subscribeOnToolbarNavigation()
     }

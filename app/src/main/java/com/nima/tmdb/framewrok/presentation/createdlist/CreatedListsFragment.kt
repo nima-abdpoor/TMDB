@@ -46,7 +46,6 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists),
         sessionId = arguments?.getString(R.string.sessionId.toString(), "") ?: ""
         accountId = arguments?.getString(R.string.accountId.toString(), "") ?: ""
         Log.d(TAG, "onCreate: sessionId: $sessionId || accountId: $accountId")
-        getCreatedLists()
     }
 
     override fun onCreateView(
@@ -60,6 +59,7 @@ class CreatedListsFragment : Fragment(R.layout.fragment_created_lists),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getCreatedLists()
         initRecyclerView()
     }
 
