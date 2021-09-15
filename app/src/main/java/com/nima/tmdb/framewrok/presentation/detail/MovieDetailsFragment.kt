@@ -9,16 +9,22 @@ import android.view.animation.AnimationUtils
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.nima.tmdb.R
-import com.nima.tmdb.databinding.FragmentMovieDetailsBinding
-import com.nima.tmdb.business.domain.model.Details
 import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.domain.model.Details
+import com.nima.tmdb.databinding.FragmentMovieDetailsBinding
 import com.nima.tmdb.utils.Constants
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.Constants.DEFAULT_LANGUAGE
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -29,6 +35,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     var rank: TextView? = null
     var genres: TextView? = null
     var scrollView: ScrollView? = null
+    private var movieId : Int = 0
     private lateinit var viewModel: MovieDetailsViewModel
 
 
@@ -40,8 +47,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
-        val movieId = requireArguments().getInt("movieID")
-        setMovieID(movieId, DEFAULT_LANGUAGE)
+        movieId = requireArguments().getInt("movieID")
     }
 
     override fun onCreateView(
@@ -53,29 +59,35 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         return binding.root
     }
 
-    private fun subscribeOnObservers() {
-        viewModel.movieDetails.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiWrapper.Success -> {
-                    response.data?.let {
-                        initViewItems(it)
+    private fun subscribeOnObservers(result: StateFlow<ApiWrapper<Details>>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                result.collect { response ->
+                    when (response) {
+                        is ApiWrapper.Success -> {
+                            response.data?.let {
+                                initViewItems(it)
+                            }
+                        }
+                        is ApiWrapper.ApiError -> {
+                            Log.d(TAG, "subscribeOnObservers api: ${response.totalError}")
+                        }
+                        is ApiWrapper.NetworkError -> {
+                            Log.d(TAG, "subscribeOnObservers net: ${response.totalError}")
+                        }
+                        is ApiWrapper.UnknownError -> {
+                            Log.d(TAG, "subscribeOnObservers unKnown: ${response.totalError}")
+                        }
+                        is ApiWrapper.Loading -> Log.d(TAG, "subscribeOnObservers: Loading")
                     }
-                }
-                is ApiWrapper.ApiError -> {
-                    Log.d(TAG, "subscribeOnObservers api: ${response.totalError}")
-                }
-                is ApiWrapper.NetworkError -> {
-                    Log.d(TAG, "subscribeOnObservers net: ${response.totalError}")
-                }
-                is ApiWrapper.UnknownError -> {
-                    Log.d(TAG, "subscribeOnObservers unKnown: ${response.totalError}")
                 }
             }
         }
     }
 
-    private fun setMovieID(movieId: Int,language: String) {
-        viewModel.setMovieID(movieId, API_KEY, language)
+    private fun setMovieID(movieId: Int, language: String) {
+        val result = viewModel.setMovieID(movieId, API_KEY, language)
+        subscribeOnObservers(result)
     }
 
 
@@ -98,12 +110,12 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setMovieID(movieId, DEFAULT_LANGUAGE)
         title = view.findViewById(R.id.movie_title_detail)
         overview = view.findViewById(R.id.overview_title)
         rank = view.findViewById(R.id.movie_vote)
         scrollView = view.findViewById(R.id.parent)
         genres = view.findViewById(R.id.genres)
-        subscribeOnObservers()
     }
 
     override fun onDestroyView() {

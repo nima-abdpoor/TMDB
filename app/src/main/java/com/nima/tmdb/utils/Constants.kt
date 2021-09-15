@@ -10,6 +10,8 @@ object Constants {
     const val API_KEY = "602e06820fbac2f033f50027e0fe5277"
     const val TIME_OUT  : Long = 5
     const val TIME_OUT_SHORT  : Long = 3000L
+    const val TIME_OUT_MEDIUM  : Long = 5000L
+    const val TIME_OUT_LONG  : Long = 8000L
     const val PADDING  : Int = 10
     const val DEFAULT_LANGUAGE = "en-US"
     const val DEFAULT_REGION = ""

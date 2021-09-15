@@ -13,17 +13,20 @@ import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.nima.tmdb.R
-import com.nima.tmdb.business.domain.model.login.LoginInfo
-import com.nima.tmdb.business.domain.model.login.LoginResponse
-import com.nima.tmdb.business.domain.model.login.RequestToken
-import com.nima.tmdb.business.domain.model.login.Session
-import com.nima.tmdb.databinding.FragmentSplashBinding
 import com.nima.tmdb.business.data.network.requests.wrapper.ApiWrapper
+import com.nima.tmdb.business.domain.model.login.*
+import com.nima.tmdb.databinding.FragmentSplashBinding
 import com.nima.tmdb.utils.Constants.API_KEY
 import com.nima.tmdb.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -44,7 +47,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getToken()
     }
 
     override fun onCreateView(
@@ -59,10 +61,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeOnViewItems()
+        getToken()
         animate()
-        subscribeOnTokenObserver()
-        subscribeOnLoginObserver()
-        subscribeOnSessionId()
     }
 
     private fun subscribeOnViewItems() {
@@ -75,38 +75,54 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     }
 
     private fun getToken() {
-        viewModel.getToken(API_KEY)
+        val result = viewModel.getToken(API_KEY)
+        subscribeOnTokenObserver(result)
     }
 
-    private fun subscribeOnTokenObserver() {
-        viewModel.getToken.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiWrapper.Success -> handleLogin(response.data?.requestToken)
-                is ApiWrapper.ApiError -> handleApiError(response.totalError)
-                is ApiWrapper.NetworkError -> handleNetError(response.message)
-                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+    private fun subscribeOnTokenObserver(result: StateFlow<ApiWrapper<Token>>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                result.collect { response ->
+                    when (response) {
+                        is ApiWrapper.Success -> handleLogin(response.data?.requestToken)
+                        is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                        is ApiWrapper.NetworkError -> handleNetError(response.message)
+                        is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+                        is ApiWrapper.Loading -> Log.d(TAG, "subscribeOnTokenObserver: Loading")
+                    }
+                }
             }
         }
     }
 
-    private fun subscribeOnLoginObserver() {
-        viewModel.login.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiWrapper.Success -> handleSuccessLogin(response.data)
-                is ApiWrapper.ApiError -> handleApiError(response.message)
-                is ApiWrapper.NetworkError -> handleNetError(response.message)
-                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+    private fun subscribeOnLoginObserver(result: StateFlow<ApiWrapper<LoginResponse>>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                result.collect { response ->
+                    when (response) {
+                        is ApiWrapper.Success -> handleSuccessLogin(response.data)
+                        is ApiWrapper.ApiError -> handleApiError(response.message)
+                        is ApiWrapper.NetworkError -> handleNetError(response.message)
+                        is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+                        is ApiWrapper.Loading -> Log.d(TAG, "subscribeOnLoginObserver: Loading")
+                    }
+                }
             }
         }
     }
 
-    private fun subscribeOnSessionId() {
-        viewModel.sessionId.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiWrapper.Success -> handelSuccessSession(response.data)
-                is ApiWrapper.ApiError -> handleApiError(response.totalError)
-                is ApiWrapper.NetworkError -> handleNetError(response.message)
-                is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+    private fun subscribeOnSessionId(result: StateFlow<ApiWrapper<Session>>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                result.collect { response ->
+                    when (response) {
+                        is ApiWrapper.Success -> handelSuccessSession(response.data)
+                        is ApiWrapper.ApiError -> handleApiError(response.totalError)
+                        is ApiWrapper.NetworkError -> handleNetError(response.message)
+                        is ApiWrapper.UnknownError -> handleUnKnowError(response.message)
+                        is ApiWrapper.Loading -> Log.d(TAG, "subscribeOnSessionId: Loading")
+                    }
+                }
             }
         }
     }
@@ -114,7 +130,10 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     private fun handleSuccessLogin(data: LoginResponse?) {
         data?.let {
             val requestToken = it.requestToken?.let { it1 -> RequestToken(it1) }
-            requestToken?.let { it1 -> viewModel.getSessionId(it1, API_KEY) }
+            requestToken?.let { it1 ->
+                val result = viewModel.getSessionId(it1, API_KEY)
+                subscribeOnSessionId(result)
+            }
         }
     }
 
@@ -124,7 +143,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             val password = pref.getString(R.string.password.toString(), "")
             if (userName?.isNotEmpty() == true && password?.isNotEmpty() == true) {
                 val loginInfo = LoginInfo(userName, password, requestToken)
-                viewModel.login(loginInfo, API_KEY)
+                val result = viewModel.login(loginInfo, API_KEY)
+                subscribeOnLoginObserver(result)
             } else {
                 val bundle = Bundle()
                 bundle.putString(R.string.requestToken.toString(), requestToken)

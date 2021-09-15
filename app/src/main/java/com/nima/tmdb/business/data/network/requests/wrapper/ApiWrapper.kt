@@ -14,4 +14,5 @@ sealed class ApiWrapper<T>(
     class ApiError<T> (message: String,error: String,code: Int ,totalError: String): ApiWrapper<T>(null,null,message,error,code,totalError)
     class NetworkError<T>(message: String): ApiWrapper<T>(null,null,message)
     class UnknownError<T>(message: String): ApiWrapper<T>(null,null,message)
+    class Loading<T>(message: String): ApiWrapper<T>(null,null,message)
 }
