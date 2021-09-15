@@ -13,7 +13,8 @@
  - clean architecture
  - MVVM pattern
  - HILT dependency Injection
- - Coroutines & Live data
+ - Coroutines
+ - Live data and stateFlow
  - Retrofit2
  - Navigation Components with animation
  - Room Database
