@@ -59,6 +59,7 @@ dependencies {
     def hilt_viewModel_version = "1.0.0-alpha03"
     def sdp_version = "1.0.6"
     def paging_version = "3.0.0"
+    def firebaseMessaging = '20.2.3'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -142,6 +143,7 @@ dependencies {
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation "com.google.firebase:firebase-messaging:$firebaseMessaging"
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:26.6.0')

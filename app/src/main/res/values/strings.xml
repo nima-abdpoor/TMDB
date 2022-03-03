@@ -53,4 +53,6 @@
     <string name="itemMenu_addToFavorite">Favorite</string>
     <string name="itemMenu_addToWatchList">Watchlist</string>
     <string name="itemMenu_YourRating">Your rating</string>
+
+    <string name="deeplink_start">tedu://start</string>
 </resources>
